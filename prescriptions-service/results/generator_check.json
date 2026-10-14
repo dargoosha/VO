@@ -1,0 +1,38 @@
+{
+  "timestamp_utc": "2026-10-14T18:37:39.797218+00:00",
+  "base_url": "http://localhost:8080",
+  "path_template": "/healthz",
+  "target_rps": 500,
+  "warmup_seconds": 10,
+  "measurement_seconds": 30,
+  "scheduled_measurement_requests": 15000,
+  "measurement_requests_completed_eventually": 15000,
+  "completions_within_measurement_window": 15249,
+  "achieved_rps_within_window": 508.3,
+  "non_2xx_percent": 88.16,
+  "latency_ms_p50": 375.0,
+  "latency_ms_p95": 10927.0,
+  "latency_ms_p99": 10998.01,
+  "latency_success_ms_p50": 10153.0,
+  "latency_success_ms_p95": 10783.0,
+  "latency_success_ms_p99": 10915.25,
+  "latency_avg_ms": 4071.196,
+  "peak_inflight": 2367,
+  "http_status_counts": {
+    "exception": 13224,
+    "200": 1776
+  },
+  "error_samples": [
+    "ServerDisconnectedError: Server disconnected",
+    "ServerDisconnectedError: Server disconnected",
+    "ServerDisconnectedError: Server disconnected",
+    "ServerDisconnectedError: Server disconnected",
+    "ServerDisconnectedError: Server disconnected",
+    "ServerDisconnectedError: Server disconnected",
+    "ServerDisconnectedError: Server disconnected",
+    "ServerDisconnectedError: Server disconnected",
+    "ServerDisconnectedError: Server disconnected",
+    "ServerDisconnectedError: Server disconnected"
+  ],
+  "notes": "Latency measured from scheduled arrival to completion; phase selected by scheduled arrival. Achieved RPS counts completions inside the fixed 30s measurement window. Percentiles include all completed measurement-phase requests, including those finishing afterward."
+}

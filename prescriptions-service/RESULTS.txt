@@ -1,0 +1,5 @@
+Підсумок результатів: 1/2 інстанси при 10,100,500 RPS у REPORT.md.
+Холодний запуск: 8.45; 8.44; 8.11 секунд.
+Розмір Docker образу: 257.19 MiB.
+Open 500: achieved success RPS 39.5, p95 10959ms, non-2xx 98.54%, peak 5491.
+Closed 5491 clients: achieved success RPS 176.633, p95 11296ms, non-2xx 73.343%.
