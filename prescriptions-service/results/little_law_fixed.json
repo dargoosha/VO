@@ -1,0 +1,31 @@
+{
+  "mode": "open",
+  "target_rps": 100,
+  "clients": null,
+  "warmup_seconds": 10.0,
+  "measurement_seconds": 30.0,
+  "planned_measurement_requests": 3000,
+  "measurement_samples": 3000,
+  "completed_in_window": 3001,
+  "successful_completions_in_window": 3001,
+  "achieved_success_rps": 100.033,
+  "p50_ms": 0.0,
+  "p95_ms": 20.0,
+  "p99_ms": 30.0,
+  "p95_success_ms": 16.0,
+  "non_2xx_percent": 0.0,
+  "mean_latency_success_ms": 5.26,
+  "mean_inflight": 0.526,
+  "mean_inflight_sampled": 1.2287,
+  "sampling_interval_ms": 10,
+  "sampling_count": 6612,
+  "peak_inflight": 8,
+  "little_lambda_W": 0.5261,
+  "little_deviation_percent": 0.033,
+  "little_deviation_sampled_percent": 133.525,
+  "status_counts": {
+    "200": 3000
+  },
+  "error_samples": [],
+  "notes": "Little approximation compares measurement-window mean concurrency with achieved successful completions/sec times mean latency for measurement-phase arrivals. Boundary discrepancies and exceptions may affect equality."
+}

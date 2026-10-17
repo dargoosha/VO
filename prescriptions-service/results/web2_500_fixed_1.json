@@ -1,0 +1,40 @@
+{
+  "successful_completions_in_window": 5690,
+  "achieved_success_rps": 189.667,
+  "timestamp_utc": "2026-10-17T20:12:43.317441+00:00",
+  "base_url": "http://localhost:8080",
+  "path_template": "/prescriptions/{id}",
+  "target_rps": 500,
+  "warmup_seconds": 10,
+  "measurement_seconds": 30,
+  "scheduled_measurement_requests": 15000,
+  "measurement_requests_completed_eventually": 15000,
+  "completions_within_measurement_window": 12821,
+  "achieved_rps_within_window": 427.37,
+  "non_2xx_percent": 48.673,
+  "latency_ms_p50": 5312.5,
+  "latency_ms_p95": 8505.0,
+  "latency_ms_p99": 8825.01,
+  "latency_success_ms_p50": 7706.0,
+  "latency_success_ms_p95": 8621.0,
+  "latency_success_ms_p99": 8969.04,
+  "latency_avg_ms": 4210.669,
+  "peak_inflight": 2519,
+  "http_status_counts": {
+    "exception": 7301,
+    "200": 7699
+  },
+  "error_samples": [
+    "ServerDisconnectedError: Server disconnected",
+    "ServerDisconnectedError: Server disconnected",
+    "ServerDisconnectedError: Server disconnected",
+    "ServerDisconnectedError: Server disconnected",
+    "ServerDisconnectedError: Server disconnected",
+    "ServerDisconnectedError: Server disconnected",
+    "ServerDisconnectedError: Server disconnected",
+    "ServerDisconnectedError: Server disconnected",
+    "ServerDisconnectedError: Server disconnected",
+    "ServerDisconnectedError: Server disconnected"
+  ],
+  "notes": "Latency measured from scheduled arrival to completion; phase selected by scheduled arrival. Achieved RPS counts completions inside the fixed 30s measurement window. Percentiles include all completed measurement-phase requests, including those finishing afterward."
+}

@@ -26,6 +26,7 @@ services:
   web:
     build: .
     image: prescriptions-web:lab1
+    pull_policy: build
     environment:
       POSTGRES_USER: ${POSTGRES_USER:?required}
       POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:?required}

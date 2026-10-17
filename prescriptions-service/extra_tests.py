@@ -31,7 +31,6 @@ async def run(cfg):
     end = measure_start + cfg.duration
     active = 0
     peak = 0
-    # Integral of instantaneous concurrent request count over measurement window
     active_area = 0.
     last_change = measure_start
     measurements = []
@@ -43,6 +42,12 @@ async def run(cfg):
     tasks = []
     next_id = 0
     timeout = aiohttp.ClientTimeout(total=cfg.timeout)
+    async def sample_inflight():
+        await asyncio.sleep(max(0, measure_start - loop.time()))
+
+        while loop.time() < end:
+            inflight_samples.append(active)
+            await asyncio.sleep(0.01)
 
     def update_area(now):
         nonlocal active_area, last_change
@@ -51,7 +56,14 @@ async def run(cfg):
             active_area += active * (stop-last_change)
             last_change = stop
 
-    async with aiohttp.ClientSession(timeout=timeout, connector=aiohttp.TCPConnector(limit=256, limit_per_host=256)) as sess:
+    connector = aiohttp.TCPConnector(
+        limit=cfg.connector_limit,
+        limit_per_host=cfg.connector_limit
+    )
+    async with aiohttp.ClientSession(
+            timeout=timeout,
+            connector=connector
+    ) as sess:
         async def request(idx, scheduled=None):
             nonlocal active, peak, completed_in_window, successes_in_window
             begin = loop.time()
@@ -118,12 +130,9 @@ async def run(cfg):
         else:
             await asyncio.gather(*(closed_worker(i) for i in range(cfg.clients)))
     update_area(loop.time())
-    # Derive operational metrics. Mean response time includes only measured-phase arrivals.
     latencies = [lat*1000 for lat,_,_ in measurements]
     succeeded = [elapsed*1000 for _,elapsed,status in measurements if status.startswith('2')]
     mean_inflight = active_area / cfg.duration
-    # The measurement-window departure rate includes warmup requests finishing in window;
-    # with warmup=10 s and 100 RPS, warmup remnants should be negligible.
     achieved = successes_in_window / cfg.duration
     mean_w = statistics.mean(succeeded)/1000 if succeeded else 0
     little_calc = achieved * mean_w
@@ -162,11 +171,10 @@ def main():
     a.add_argument('--base-url',default='http://localhost:8080')
     a.add_argument('--ids',default='results/ids.json')
     a.add_argument('--output',required=True)
+    a.add_argument("--connector-limit",type=int,default=0)
     c=a.parse_args()
     if c.rps<=0 or c.clients<=0 or c.duration<=0 or c.warmup<0:
         a.error('Bad numeric arguments')
-    # Python 3.12 uses ProactorEventLoop on Windows by default.
-    # Do not select WindowsSelectorEventLoopPolicy: select() has a socket count limit.
     asyncio.run(run(c))
 
 if __name__=='__main__':

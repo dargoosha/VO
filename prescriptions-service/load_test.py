@@ -1,4 +1,3 @@
-"""Open-loop HTTP load generator. Use on a local service only."""
 import argparse
 import asyncio
 import json
@@ -21,6 +20,7 @@ def percentile(values, percent):
 
 
 async def run(args):
+    successful_completions_in_window = 0
     ids = None
     if args.path_template == '/prescriptions/{id}':
         ids = json.loads(Path(args.ids).read_text(encoding='utf-8'))
@@ -47,7 +47,9 @@ async def run(args):
     connector = aiohttp.TCPConnector(limit=0)
     async with aiohttp.ClientSession(timeout=timeout, connector=connector) as session:
         async def one_request(i, scheduled_at):
-            nonlocal inflight, peak_inflight, requests_started, completions_during_measurement
+            nonlocal inflight, peak_inflight, requests_started
+            nonlocal completions_during_measurement
+            nonlocal successful_completions_in_window
             phase = 'measurement' if scheduled_at >= measurement_start else 'warmup'
             path = args.path_template.replace('{id}', str(ids[i % len(ids)])) if ids else args.path_template
             url = args.base_url.rstrip('/') + path
@@ -71,9 +73,10 @@ async def run(args):
                         and measurement_start <= finished < measurement_end
                 ):
                     completions_during_measurement += 1
+                    if status.startswith("2"):
+                        successful_completions_in_window += 1
                 if phase == 'measurement':
                     statuses[status] += 1
-                    # Latency includes lateness after the scheduled arrival time.
                     results.append({
                         'status': status,
                         'latency_ms': (finished - scheduled_at) * 1000,
@@ -96,7 +99,6 @@ async def run(args):
             pending.add(task)
             task.add_done_callback(pending.discard)
 
-        # Allow requests to finish; if overloaded, this will extend wall-clock time.
         if pending:
             await asyncio.gather(*pending)
 
@@ -104,6 +106,10 @@ async def run(args):
     success_values = [r['latency_ms'] for r in results if r['status'].startswith('2')]
     bad = sum(n for status, n in statuses.items() if not status.startswith('2'))
     report = {
+        "successful_completions_in_window": successful_completions_in_window,
+        "achieved_success_rps": round(
+            successful_completions_in_window / args.duration, 3
+        ),
         'timestamp_utc': datetime.now(timezone.utc).isoformat(),
         'base_url': args.base_url,
         'path_template': args.path_template,

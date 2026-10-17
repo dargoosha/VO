@@ -1,0 +1,37 @@
+{
+  "mode": "closed",
+  "target_rps": null,
+  "clients": 5029,
+  "warmup_seconds": 10.0,
+  "measurement_seconds": 30.0,
+  "planned_measurement_requests": null,
+  "measurement_samples": 13286,
+  "completed_in_window": 13286,
+  "successful_completions_in_window": 49,
+  "achieved_success_rps": 1.633,
+  "p50_ms": 11531.5,
+  "p95_ms": 12515.0,
+  "p99_ms": 12828.0,
+  "p95_success_ms": 10563.0,
+  "non_2xx_percent": 99.699,
+  "mean_latency_success_ms": 9010.8,
+  "mean_inflight": 5028.9974,
+  "peak_inflight": 5029,
+  "little_lambda_W": 14.7176,
+  "little_deviation_percent": 34069.863,
+  "status_counts": {
+    "200": 40,
+    "exception": 13246
+  },
+  "error_samples": [
+    "ServerDisconnectedError: Server disconnected",
+    "ServerDisconnectedError: Server disconnected",
+    "ServerDisconnectedError: Server disconnected",
+    "ServerDisconnectedError: Server disconnected",
+    "ServerDisconnectedError: Server disconnected",
+    "ServerDisconnectedError: Server disconnected",
+    "ServerDisconnectedError: Server disconnected",
+    "ServerDisconnectedError: Server disconnected"
+  ],
+  "notes": "Little approximation compares measurement-window mean concurrency with achieved successful completions/sec times mean latency for measurement-phase arrivals. Boundary discrepancies and exceptions may affect equality."
+}

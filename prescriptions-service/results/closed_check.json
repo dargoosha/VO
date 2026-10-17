@@ -1,0 +1,27 @@
+{
+  "mode": "closed",
+  "target_rps": null,
+  "clients": 100,
+  "warmup_seconds": 2.0,
+  "measurement_seconds": 5.0,
+  "planned_measurement_requests": null,
+  "measurement_samples": 927,
+  "completed_in_window": 927,
+  "successful_completions_in_window": 927,
+  "achieved_success_rps": 185.4,
+  "p50_ms": 531.0,
+  "p95_ms": 594.0,
+  "p99_ms": 594.0,
+  "p95_success_ms": 594.0,
+  "non_2xx_percent": 0.0,
+  "mean_latency_success_ms": 531.379,
+  "mean_inflight": 99.9938,
+  "peak_inflight": 100,
+  "little_lambda_W": 98.5176,
+  "little_deviation_percent": 1.498,
+  "status_counts": {
+    "200": 927
+  },
+  "error_samples": [],
+  "notes": "Little approximation compares measurement-window mean concurrency with achieved successful completions/sec times mean latency for measurement-phase arrivals. Boundary discrepancies and exceptions may affect equality."
+}

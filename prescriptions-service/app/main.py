@@ -3,11 +3,11 @@ from contextlib import asynccontextmanager
 from datetime import date
 from decimal import Decimal
 from fastapi.encoders import jsonable_encoder
+from pydantic import BaseModel, Field, ConfigDict, field_validator
 
 from fastapi import FastAPI, HTTPException, Query, Request
 from fastapi.exceptions import RequestValidationError
 from fastapi.responses import JSONResponse
-from pydantic import BaseModel, Field, ConfigDict
 from sqlalchemy import (
     create_engine, text, select, func, String,
     Integer, Date, Numeric, BigInteger
@@ -51,6 +51,14 @@ class PrescriptionInput(BaseModel):
     frequency_per_day: int = Field(ge=1, le=6, strict=True)
     start_date: date
     duration_days: int = Field(ge=1, le=180, strict=True)
+    @field_validator("patient_code", "drug", "unit")
+    @classmethod
+    def validate_text(cls, value: str) -> str:
+        if any(ord(char) < 32 or ord(char) == 127 for char in value):
+            raise ValueError(
+                "Control characters are not allowed"
+            )
+        return value
 
 
 class PrescriptionOutput(PrescriptionInput):
@@ -93,12 +101,20 @@ async def validation_error(
     request: Request,
     exc: RequestValidationError
 ):
+    errors = exc.errors()
+
+    for error in errors:
+        error.pop("ctx", None)
+
     return JSONResponse(
         status_code=400,
         content={
-            "detail": jsonable_encoder(exc.errors())
+            "detail": jsonable_encoder(errors)
         }
     )
+@app.get("/noop")
+async def noop():
+    return None
 
 @app.get("/healthz")
 def healthz():
