@@ -26,7 +26,7 @@
     "random": 3000
   },
   "deviation_1ms_pct": 0.03256,
-  "deviation_random_phase_pct": 1.32583,
+  "deviation_random_phase_pct": 1.5258,
   "status_counts": {
     "200": 2998
   },
