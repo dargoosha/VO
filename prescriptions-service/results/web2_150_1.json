@@ -1,0 +1,28 @@
+{
+  "successful_completions_in_window": 4499,
+  "achieved_success_rps": 149.967,
+  "timestamp_utc": "2026-10-17T21:56:32.220661+00:00",
+  "base_url": "http://localhost:8080",
+  "path_template": "/prescriptions/{id}",
+  "target_rps": 150,
+  "warmup_seconds": 10,
+  "measurement_seconds": 30,
+  "scheduled_measurement_requests": 4500,
+  "measurement_requests_completed_eventually": 4500,
+  "completions_within_measurement_window": 4499,
+  "achieved_rps_within_window": 149.97,
+  "non_2xx_percent": 0.0,
+  "latency_ms_p50": 3.0,
+  "latency_ms_p95": 30.0,
+  "latency_ms_p99": 43.0,
+  "latency_success_ms_p50": 3.0,
+  "latency_success_ms_p95": 30.0,
+  "latency_success_ms_p99": 43.0,
+  "latency_avg_ms": 4.816,
+  "peak_inflight": 10,
+  "http_status_counts": {
+    "200": 4500
+  },
+  "error_samples": [],
+  "notes": "Latency measured from scheduled arrival to completion; phase selected by scheduled arrival. Achieved RPS counts completions inside the fixed 30s measurement window. Percentiles include all completed measurement-phase requests, including those finishing afterward."
+}

@@ -43,12 +43,21 @@ async def run(cfg):
     tasks = []
     next_id = 0
     timeout = aiohttp.ClientTimeout(total=cfg.timeout)
-    async def sample_inflight():
-        await asyncio.sleep(max(0, measure_start - loop.time()))
 
-        while loop.time() < end:
+    async def sample_inflight():
+        interval = 0.01
+        sample_time = measure_start
+
+        while sample_time < end:
+            await asyncio.sleep(
+                max(0.0, sample_time - loop.time())
+            )
+
+            if loop.time() >= end:
+                break
+
             inflight_samples.append(active)
-            await asyncio.sleep(0.01)
+            sample_time += interval
 
     def update_area(now):
         nonlocal active_area, last_change

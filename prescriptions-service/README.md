@@ -7,6 +7,8 @@
 
 **PowerShell:**
 
+    Copy-Item .env.example .env
+
 У файлі .env задайте значення POSTGRES_USER, POSTGRES_PASSWORD і POSTGRES_DB. Пароль замініть на власний. Файл .env не слід додавати до Git.
 
 Запустити 

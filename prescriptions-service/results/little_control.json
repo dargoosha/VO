@@ -1,0 +1,34 @@
+{
+  "config": {
+    "rps": 100,
+    "warmup_s": 10.0,
+    "duration_s": 30.0,
+    "timeout_s": 10,
+    "connector_limit": 0,
+    "base_url": "http://localhost:8080"
+  },
+  "measurement_requests_started": 2998,
+  "measurement_successes_eventually": 2998,
+  "measurement_successes_within_window": 2997,
+  "departures_any_phase_within_window": 3001,
+  "error_fraction_percent": 0.0,
+  "lambda_success_per_s": 99.9,
+  "mean_W_success_ms_actual_start_to_finish": 8.0547,
+  "lambda_times_W": 0.80466,
+  "L_regular_10ms_phase_0": 0.83433,
+  "L_regular_10ms_phase_5ms": 0.78426,
+  "L_regular_1ms": 0.80493,
+  "L_stratified_10ms_random_phase": 0.81533,
+  "sample_counts": {
+    "phase0": 3000,
+    "phase5": 2999,
+    "1ms": 29999,
+    "random": 3000
+  },
+  "deviation_1ms_pct": 0.03256,
+  "deviation_random_phase_pct": 1.32583,
+  "status_counts": {
+    "200": 2998
+  },
+  "interpretation": "L counts actual started-minus-finished requests at fixed times; W measures actual start-to-finish elapsed time. Window edges, client scheduling, timing jitter and errors can affect equality."
+}
