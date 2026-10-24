@@ -1,0 +1,7 @@
+STEP {'step': 1, 'target_rps': 200, 'success_rps': 200.0, 'std_rps': 3.246, 'send_rps': 199.8, 'p50_ms': 2.0, 'p95_ms': 27.0, 'p99_ms': 31.0, 'non2xx': 0, 'connection_errors': 0, 'timeouts': 0}
+STEP {'step': 2, 'target_rps': 400, 'success_rps': 399.733, 'std_rps': 9.546, 'send_rps': 399.6, 'p50_ms': 7.0, 'p95_ms': 36.5, 'p99_ms': 57.5, 'non2xx': 0, 'connection_errors': 0, 'timeouts': 0}
+STEP {'step': 3, 'target_rps': 600, 'success_rps': 466.867, 'std_rps': 49.538, 'send_rps': 600.0, 'p50_ms': 3558.667, 'p95_ms': 4467.0, 'p99_ms': 4634.653, 'non2xx': 0, 'connection_errors': 0, 'timeouts': 0}
+STEP {'step': 4, 'target_rps': 800, 'success_rps': 386.933, 'std_rps': 36.221, 'send_rps': 560.733, 'p50_ms': 5257.25, 'p95_ms': 5448.75, 'p99_ms': 5544.165, 'non2xx': 0, 'connection_errors': 0, 'timeouts': 2864}
+STOP: two consecutive steps below 90% target
+Draining pending tasks (<= timeout)
+SAVED: results\lab2\web4_sync_seconds.csv results\lab2\web4_sync_steps.csv results\lab2\web4_sync_meta.json

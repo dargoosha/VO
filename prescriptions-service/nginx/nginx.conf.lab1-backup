@@ -1,0 +1,26 @@
+events {
+    worker_connections 4096;
+}
+
+http {
+    log_format upstream_log
+        '$remote_addr $status $upstream_addr '
+        '$request_time "$request"';
+
+    access_log /var/log/nginx/access.log upstream_log;
+
+    resolver 127.0.0.11 valid=5s ipv6=off;
+
+    server {
+        listen 80;
+
+        location / {
+            set $backend "web:8000";
+            proxy_pass http://$backend;
+
+            proxy_http_version 1.1;
+            proxy_set_header Host $host;
+            proxy_set_header Connection "close";
+        }
+    }
+}

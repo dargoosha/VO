@@ -1,4 +1,6 @@
 import os
+import socket
+import time
 from contextlib import asynccontextmanager
 from datetime import date
 from decimal import Decimal
@@ -7,7 +9,8 @@ from pydantic import BaseModel, Field, ConfigDict, field_validator
 
 from fastapi import FastAPI, HTTPException, Query, Request
 from fastapi.exceptions import RequestValidationError
-from fastapi.responses import JSONResponse
+from fastapi.responses import JSONResponse, Response
+from prometheus_client import Counter, Gauge, Histogram, generate_latest, CONTENT_TYPE_LATEST
 from sqlalchemy import (
     create_engine, text, select, func, String,
     Integer, Date, Numeric, BigInteger
@@ -79,7 +82,7 @@ db_url = URL.create(
 engine = create_engine(
     db_url,
     pool_pre_ping=True,
-    pool_size=5,
+    pool_size=int(os.getenv("DB_POOL_SIZE", "15")),
     max_overflow=0,
 )
 
@@ -94,6 +97,44 @@ app = FastAPI(
     title="Prescriptions CRUD API",
     lifespan=lifespan
 )
+
+
+# Lab 2: metrics use route templates, never literal patient IDs.
+HTTP_REQUESTS_TOTAL = Counter(
+    "http_requests_total", "Completed HTTP requests", ["method", "path", "code"]
+)
+HTTP_REQUEST_DURATION = Histogram(
+    "http_request_duration_seconds", "Server-side HTTP processing duration",
+    ["method", "path"], buckets=(.002,.005,.01,.02,.05,.1,.2,.5,1,2)
+)
+HTTP_IN_FLIGHT = Gauge("http_requests_in_progress", "Requests in progress")
+POD_NAME = os.getenv("POD_NAME") or socket.gethostname()
+
+@app.middleware("http")
+async def lab2_metrics(request: Request, call_next):
+    started = time.perf_counter()
+    HTTP_IN_FLIGHT.inc()
+    code = 500
+    try:
+        response = await call_next(request)
+        code = response.status_code
+        response.headers["X-Pod"] = POD_NAME
+        return response
+    finally:
+        route = request.scope.get("route")
+        path = getattr(route, "path", "__unmatched__")
+        if request.url.path != "/metrics":
+            HTTP_REQUESTS_TOTAL.labels(request.method, path, str(code)).inc()
+            HTTP_REQUEST_DURATION.labels(request.method, path).observe(time.perf_counter()-started)
+        HTTP_IN_FLIGHT.dec()
+
+@app.get("/metrics", include_in_schema=False)
+def metrics_endpoint():
+    return Response(generate_latest(), media_type=CONTENT_TYPE_LATEST, headers={"X-Pod": POD_NAME})
+
+@app.get("/livez")
+def livez():
+    return {"status": "alive"}
 
 
 @app.exception_handler(RequestValidationError)

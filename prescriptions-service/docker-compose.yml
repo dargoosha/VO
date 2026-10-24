@@ -32,6 +32,7 @@ services:
       POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:?required}
       POSTGRES_DB: ${POSTGRES_DB:?required}
       DB_HOST: db
+      DB_POOL_SIZE: "15"
     depends_on:
       db:
         condition: service_healthy
@@ -39,6 +40,7 @@ services:
       - "8000"
     cpus: 1.0
     mem_limit: 512m
+    stop_grace_period: 35s
     networks:
       - internal
     logging:
@@ -63,7 +65,21 @@ services:
         max-size: "10m"
         max-file: "3"
 
+  prometheus:
+    image: prom/prometheus:v3.2.1
+    ports:
+      - "9090:9090"
+    volumes:
+      - ./prometheus/prometheus.yml:/etc/prometheus/prometheus.yml:ro
+      - prometheus_data:/prometheus
+    command:
+      - --config.file=/etc/prometheus/prometheus.yml
+      - --storage.tsdb.path=/prometheus
+    networks:
+      - internal
+
 volumes:
+  prometheus_data:
   postgres_data:
 
 networks:
