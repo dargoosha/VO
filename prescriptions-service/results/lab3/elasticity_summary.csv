@@ -1,3 +1,3 @@
-mode,T_seconds,theta_U,theta_O,a_U,a_O,W_replica_seconds,p99_violation_seconds,http_non2xx
-fixed,180,0.0,0.6666666666666666,0.0,1.3333333333333333,540.0,37,0
-hpa,180,0.2777777777777778,0.5,0.5,1.0,390.0,87,0
+mode,T_seconds,theta_U,theta_O,a_U,a_O,W_replica_seconds,p99_violation_seconds,p99_observed_seconds,p99_missing_seconds,scheduled,completed_2xx,http_non2xx,connection_errors,timeouts,queue_rejected,cancelled,served_2xx_fraction
+fixed,180,0.0,0.6666666666666666,0.0,1.3333333333333333,540.0,37,180,0,11949,11949,0,0,0,0,0,1.0
+hpa,180,0.2777777777777778,0.5,0.5,1.0,390.0,87,180,0,11949,9256,0,0,0,2693,0,0.7746254916729434

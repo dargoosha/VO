@@ -1,0 +1,8 @@
+run,completed_rows,early_start_rows,early_start_fraction,max_early_start_ms,future_generator_fix
+fixed_n1_run1,6107,12,0.0019649582446373015,15.0,repeat_sleep_until_planned
+fixed_n2_run1,11931,24,0.0020115665074176515,15.0,repeat_sleep_until_planned
+fixed_n3_run1,15758,2537,0.16099758852646276,15.0,repeat_sleep_until_planned
+fixed_n3_run2,22816,3845,0.16852208976157082,15.0,repeat_sleep_until_planned
+fixed_n3_run3,22651,3888,0.17164805085868173,15.5,repeat_sleep_until_planned
+elasticity_fixed,11949,3303,0.276424805423048,15.350000000000001,repeat_sleep_until_planned
+elasticity_hpa,9256,461,0.049805531547104584,15.573,repeat_sleep_until_planned

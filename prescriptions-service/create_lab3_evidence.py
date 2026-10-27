@@ -100,9 +100,17 @@ def main() -> None:
     IMAGES.mkdir(parents=True, exist_ok=True)
     snapshots = {
         "nodes": command("kubectl", "get", "nodes", "-o", "wide"),
-        "workloads": command(
-            "kubectl", "-n", "prescriptions-lab3", "get",
-            "pods,services,deployments,statefulsets,jobs", "-o", "wide"
+        "workloads": (
+            "PODS\n" + command(
+                "kubectl", "-n", "prescriptions-lab3", "get", "pods", "-o",
+                "custom-columns=NAME:.metadata.name,READY:.status.containerStatuses[*].ready,"
+                "STATUS:.status.phase,NODE:.spec.nodeName,"
+                "RESTARTS:.status.containerStatuses[*].restartCount",
+            )
+            + "\n\nSERVICES / CONTROLLERS / JOBS\n" + command(
+                "kubectl", "-n", "prescriptions-lab3", "get",
+                "services,deployments,statefulsets,jobs", "-o", "wide",
+            )
         ),
         "top_nodes": command("kubectl", "top", "nodes"),
         "top_pods": command("kubectl", "-n", "prescriptions-lab3", "top", "pods"),
@@ -136,15 +144,24 @@ def main() -> None:
 
     analysis = load_json("analysis_summary.json")
     hpa = analysis["hpa_timings"]
+    scale_down = (f"{hpa['scale_down_ready_seconds']} с"
+                  if hpa["scale_down_ready_seconds"] is not None
+                  else "не досягнуто у межах 180-секундного профілю")
+    p99_recovery = (f"{hpa['p99_recovery_seconds']} с"
+                    if hpa["p99_recovery_seconds"] is not None
+                    else "не досягнуто протягом spike")
     render_terminal(
         "07_hpa_status.png",
         "HPA: фактичні часові характеристики з Prometheus",
-        "Стартовий стан: current=desired=ready=1 протягом 60 с\n"
+        "За збереженими рядами: desired=ready=1 протягом перших 60 с\n"
         f"Перша зміна desired після початку spike: {hpa['desired_change_seconds']} с\n"
         f"Максимум готових реплік: {hpa['max_ready_replicas']:.0f}\n"
         f"Досягнення максимуму ready: {hpa['max_ready_seconds']} с\n"
-        f"Перше зменшення ready після кінця spike: {hpa['scale_down_ready_seconds']} с\n"
-        "Під час контрольної вибірки: cpu=200%/70%, replicas=3",
+        f"Максимум CPU/request за рядом: {hpa['hpa_max_cpu_request_percent']:.2f}%\n"
+        f"Відновлення p99: {p99_recovery}\n"
+        f"Перше зменшення ready після кінця spike: {scale_down}\n"
+        f"Післяпрофільне спостереження: зменшення через "
+        f"{hpa['scale_down_post_profile_seconds']} с після spike",
     )
 
     starved = d2_status_counts("d2_starved_n3_requests.csv")
@@ -153,6 +170,11 @@ def main() -> None:
         encoding="utf-8-sig", errors="replace"
     )
     fatal_count = postgres_log.count("too many clients already")
+    fatal_line = next(
+        (line.strip() for line in postgres_log.splitlines()
+         if "too many clients already" in line),
+        "У журналі не знайдено рядка FATAL",
+    )
     render_terminal(
         "08_d2_errors.png",
         "Д2: дефіцит з'єднань відтворено при N=3",
@@ -161,7 +183,13 @@ def main() -> None:
         f"HTTP 500: {starved.get('500', 0)}\n"
         f"PostgreSQL FATAL 'too many clients already': {fatal_count}\n\n"
         "Фрагмент фактичного журналу:\n"
-        "FATAL: sorry, too many clients already",
+        f"{fatal_line}",
+    )
+    fixed_meta = load_json("d2_fixed_n3_meta.json")
+    fixed_totals = fixed_meta["totals"]
+    restored_config = "\n".join(
+        line.strip() for line in snapshots["base_config"].splitlines()
+        if line.strip().startswith(("POSTGRES_MAX_CONNECTIONS:", "DB_POOL_SIZE:"))
     )
     render_terminal(
         "09_d2_fixed.png",
@@ -169,8 +197,10 @@ def main() -> None:
         "max_connections=35; DB_POOL_SIZE=floor((35-4)/3)=10; N=3\n"
         f"HTTP 200: {fixed.get('200', 0)}\n"
         f"HTTP 500: {fixed.get('500', 0)}\n"
-        "connection_errors: 0\ntimeouts: 0\n"
-        "Після експерименту відновлено: max_connections=100, DB_POOL_SIZE=15",
+        f"connection_errors: {fixed_totals['connection_errors']}\n"
+        f"timeouts: {fixed_totals['timeouts']}\n"
+        "Поточну базову конфігурацію підтверджено через Kubernetes API:\n"
+        f"{restored_config}",
     )
 
     with (RESULTS / "d2_summary.csv").open(newline="", encoding="utf-8") as handle:

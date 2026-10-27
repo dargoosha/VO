@@ -1,6 +1,6 @@
-run,replicas,eligible_for_usl,x_rps,within_run_sd_rps,target_rps,client_p99_ms,server_p99_ms_mean,throttling_mean,throttling_max,pod_count_observed
-fixed_n1_run1,1,True,76.6,4.176,200.0,24482.69,496.0582191780822,1.0,1.0,1
-fixed_n2_run1,2,True,150.3,6.427,400.0,20042.5,334.2858751062023,1.0,1.0,2
-fixed_n3_run1,3,True,197.6,38.424,400.0,15895.99,336.65328502415457,0.8378378378378378,1.0,3
-fixed_n3_run2,3,True,216.6,14.702,600.0,15102.793,206.22600549355784,0.9403973509933775,1.0,3
-fixed_n3_run3,3,True,218.45,26.312,400.0,13516.82,272.89942141332443,1.0,1.0,3
+run,replicas,eligible_for_usl,final_attainment_ratio,x_rps,within_run_sd_rps,target_rps,window_start_second,window_end_second,window_seconds,client_p99_ms,server_p99_ms,server_p99_ms_mean_by_pod,server_p99_pods_complete,throttling_mean,throttling_max,throttling_pods_observed,throttling_pods_complete,pod_count_observed
+fixed_n1_run1,1,True,0.188,76.6,4.176,200.0,20,40,20,24482.69,496.0582191780822,496.0582191780822,True,,,0,False,1
+fixed_n2_run1,2,True,0.37575,150.3,6.427,400.0,50,70,20,20042.5,440.780850057225,334.2858751062023,True,1.0,1.0,2,True,2
+fixed_n3_run1,3,True,0.494,197.6,38.424,400.0,50,70,20,15895.99,460.7931693054731,336.65328502415457,True,0.8378378378378378,1.0,3,True,3
+fixed_n3_run2,3,True,0.361,216.6,14.702,600.0,80,100,20,15102.793,198.9876450655392,206.22600549355784,True,,1.0,1,False,3
+fixed_n3_run3,3,True,0.357417,218.45,26.312,400.0,50,70,20,13516.82,320.2222222222225,272.89942141332443,True,,1.0,2,False,3

@@ -20,6 +20,10 @@ QUERIES = {
         'histogram_quantile(0.99, sum by (pod,le) '
         '(rate(http_request_duration_seconds_bucket{path="/prescriptions/{id}"}[20s])))'
     ),
+    "server_p99_overall": (
+        'histogram_quantile(0.99, sum by (le) '
+        '(rate(http_request_duration_seconds_bucket{path="/prescriptions/{id}"}[20s])))'
+    ),
     "throttling_by_pod": (
         'sum by (pod) (rate(container_cpu_cfs_throttled_periods_total{'
         'namespace="prescriptions-lab3",container="web"}[20s])) / '
@@ -45,6 +49,7 @@ QUERIES = {
 BASE_REQUIRED = {
     "web_rps_by_pod",
     "server_p99_by_pod",
+    "server_p99_overall",
     "throttling_by_pod",
     "cpu_request_percent_by_pod",
     "ready_replicas",

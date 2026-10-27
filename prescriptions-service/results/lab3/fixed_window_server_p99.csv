@@ -1,0 +1,6 @@
+run,window_end_unix,window_seconds,server_p99_seconds,promql
+fixed_n1_run1,1793040353.341,20,0.4960582191780822,"histogram_quantile(0.99, sum by (le) (rate(http_request_duration_seconds_bucket{path=""/prescriptions/{id}""}[20s])))"
+fixed_n2_run1,1793040512.172,20,0.440780850057225,"histogram_quantile(0.99, sum by (le) (rate(http_request_duration_seconds_bucket{path=""/prescriptions/{id}""}[20s])))"
+fixed_n3_run1,1793040641.530,20,0.4607931693054731,"histogram_quantile(0.99, sum by (le) (rate(http_request_duration_seconds_bucket{path=""/prescriptions/{id}""}[20s])))"
+fixed_n3_run2,1793040809.385,20,0.1989876450655392,"histogram_quantile(0.99, sum by (le) (rate(http_request_duration_seconds_bucket{path=""/prescriptions/{id}""}[20s])))"
+fixed_n3_run3,1793040947.249,20,0.3202222222222225,"histogram_quantile(0.99, sum by (le) (rate(http_request_duration_seconds_bucket{path=""/prescriptions/{id}""}[20s])))"

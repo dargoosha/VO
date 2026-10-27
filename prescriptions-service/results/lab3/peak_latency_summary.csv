@@ -1,0 +1,6 @@
+run,replicas,peak_segment,window_start_second,window_end_second,completed_in_window,completed_2xx_in_window,x_from_requests_rps,x_steps_rps,client_p50_ms,client_p99_ms,queue_p50_ms,queue_p99_ms,request_p50_ms,request_p99_ms,same_planned_segment_completed,same_planned_segment_fraction,planned_segment_counts_json,max_latency_identity_error_ms
+fixed_n1_run1,1,step_1,20,40,1532,1532,76.6,76.6,18468.5,24482.69,18121.0,24198.760000000002,297.0,469.0,1059,0.6912532637075718,"{""step_1"": 1059, ""warmup"": 473}",0.0
+fixed_n2_run1,2,step_2,50,70,3006,3006,150.3,150.3,17715.75,20042.5,17532.0,19822.5,171.0,297.0,2384,0.7930805056553559,"{""step_1"": 622, ""step_2"": 2384}",0.0
+fixed_n3_run1,3,step_2,50,70,3952,3952,197.6,197.6,11289.5,15895.99,11128.25,15725.99,110.0,297.0,3952,1.0,"{""step_2"": 3952}",0.0
+fixed_n3_run2,3,step_3,80,100,4332,4332,216.6,216.6,14287.25,15102.79323,14188.25,14979.333,109.0,235.0,3360,0.775623268698061,"{""step_2"": 972, ""step_3"": 3360}",0.0
+fixed_n3_run3,3,step_2,50,70,4369,4369,218.45,218.45,8987.0,13516.82,8887.0,13397.16,109.0,265.0,4369,1.0,"{""step_2"": 4369}",0.0

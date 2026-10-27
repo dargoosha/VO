@@ -1,0 +1,8 @@
+run,scheduled,enqueued,started,completed,completed_2xx,http_non2xx,connection_errors,timeouts,queue_rejected,cancelled,served_2xx_fraction,scheduled_equals_enqueued_plus_rejected,enqueued_equals_completed_plus_cancelled,completed_outcomes_balance
+fixed_n1_run1,20000,8331,6107,6107,6107,0,0,0,11669,2224,0.30535,True,True,True
+fixed_n2_run1,20000,13384,11931,11931,11931,0,0,0,6616,1453,0.59655,True,True,True
+fixed_n3_run1,20000,16446,15758,15758,15758,0,0,0,3554,688,0.7879,True,True,True
+fixed_n3_run2,38000,23641,22816,22816,22816,0,0,0,14359,825,0.600421052631579,True,True,True
+fixed_n3_run3,38000,23656,22651,22651,22651,0,0,0,14344,1005,0.596078947368421,True,True,True
+elasticity_fixed,11949,11949,11949,11949,11949,0,0,0,0,0,1.0,True,True,True
+elasticity_hpa,11949,9256,9256,9256,9256,0,0,0,2693,0,0.7746254916729434,True,True,True

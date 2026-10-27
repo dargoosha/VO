@@ -91,6 +91,30 @@ def prometheus_rows(path: Path, metric: str) -> list[tuple[float, float, dict[st
     return result
 
 
+def percentile(values: list[float], q: float) -> float | None:
+    """Use the same linear percentile definition as the load generator."""
+    if not values:
+        return None
+    ordered = sorted(values)
+    position = q * (len(ordered) - 1)
+    low = int(position)
+    high = min(low + 1, len(ordered) - 1)
+    return ordered[low] + (ordered[high] - ordered[low]) * (position - low)
+
+
+def endpoint_by_pod(
+        rows: list[tuple[float, float, dict[str, str]]],
+        end: float,
+        tolerance: float = 0.001,
+) -> dict[str, float]:
+    """Read a rolling 20-second PromQL value at the exact window endpoint."""
+    result: dict[str, float] = {}
+    for timestamp, value, labels in rows:
+        if abs(timestamp - end) <= tolerance:
+            result[labels.get("pod", "unknown")] = value
+    return result
+
+
 def hold_series(points: list[tuple[float, float]], unix_start: float,
                 length: int, name: str) -> list[float]:
     points = sorted(points)
@@ -114,6 +138,8 @@ def hold_series(points: list[tuple[float, float]], unix_start: float,
 def load_fixed_runs(results: Path) -> tuple[list[dict[str, Any]], dict[int, float], list[dict[str, Any]]]:
     runs: list[dict[str, Any]] = []
     imbalance: list[dict[str, Any]] = []
+    overall_path = results / "fixed_window_server_p99.csv"
+    overall_p99 = {row["run"]: row for row in read_csv(overall_path)} if overall_path.exists() else {}
     for meta_path in sorted(results.glob("fixed_n*_run*_meta.json")):
         meta = read_json(meta_path)
         stem = meta_path.name.removesuffix("_meta.json")
@@ -125,48 +151,88 @@ def load_fixed_runs(results: Path) -> tuple[list[dict[str, Any]], dict[int, floa
         measured = [row for row in steps if row["segment_name"] != "warmup"]
         peak = max(measured, key=lambda row: float(row["success_rps"]))
         n = int(meta["replicas"])
-        start = float(meta["unix_start"]) + float(peak["window_start_second"])
-        end = float(meta["unix_start"]) + float(peak["window_end_second"])
+        derived_eligible = (
+            meta.get("stop_reason") == "two_below_90"
+            and len(measured) >= 2
+            and all(float(row["attainment_ratio"]) < 0.9 for row in measured[-2:])
+        )
+        if bool(meta.get("eligible_for_usl")) != derived_eligible:
+            raise ValueError(f"{stem}: meta.json містить некоректний критерій придатності USL")
+        peak_segment = next(item for item in meta["segments"]
+                            if int(item["index"]) == int(peak["segment_index"]))
+        expected_end = int(peak_segment["begin_second"]) + int(peak_segment["duration_seconds"])
+        expected_start = expected_end - int(peak_segment["summary_window_seconds"])
+        if (int(peak["window_start_second"]), int(peak["window_end_second"])) != (
+                expected_start, expected_end):
+            raise ValueError(f"{steps_path}: вікно X(N) не збігається з meta.json")
+        if expected_end - expected_start != 20:
+            raise ValueError(f"{stem}: для X(N) очікувалося точне 20-секундне вікно")
+        start = float(meta["unix_start"]) + expected_start
+        end = float(meta["unix_start"]) + expected_end
         server = prometheus_rows(prom_path, "server_p99_by_pod")
         throttle = prometheus_rows(prom_path, "throttling_by_pod")
         if not server or not throttle:
             raise ValueError(f"{prom_path} не містить server p99 або throttling для {stem}")
 
-        def grouped_last(rows: list[tuple[float, float, dict[str, str]]]) -> dict[str, float]:
-            grouped: defaultdict[str, list[tuple[float, float]]] = defaultdict(list)
-            for timestamp, value, labels in rows:
-                # Prometheus samples are piecewise constant between scrapes. Keep the
-                # latest point from at most one 20-second query window before the
-                # aggregation interval so a scrape a few milliseconds before the
-                # boundary is not incorrectly treated as missing.
-                if start - 20 <= timestamp <= end + 1:
-                    grouped[labels.get("pod", "unknown")].append((timestamp, value))
-            return {pod: sorted(values)[-1][1] for pod, values in grouped.items()}
-
-        server_by_pod = grouped_last(server)
-        throttle_by_pod = grouped_last(throttle)
-        if not server_by_pod or not throttle_by_pod:
-            raise ValueError(f"Немає Prometheus-точок у вікні X(N) для {stem}")
+        # Both PromQL expressions already use a 20-second rolling range. Their
+        # value at `end` therefore represents exactly [start, end]. Averaging
+        # several such samples would mix data from before the X(N) window.
+        server_by_pod = endpoint_by_pod(server, end)
+        throttle_by_pod = endpoint_by_pod(throttle, end)
+        if not server_by_pod:
+            raise ValueError(f"Немає server p99 на межі вікна X(N) для {stem}")
         pod_counts = json.loads(peak.get("pod_2xx_json", "{}"))
         pod_rps = {pod: count / max(1, int(peak["window_end_second"]) - int(peak["window_start_second"]))
                    for pod, count in pod_counts.items()}
-        all_pods = set(pod_rps) | set(server_by_pod) | set(throttle_by_pod)
+        all_pods = set(pod_rps) | set(server_by_pod)
         if len(all_pods) != n:
             raise ValueError(
                 f"Для {stem} знайдено {len(all_pods)} pod замість {n}; дисбаланс недостовірний"
             )
         pod_rps = {pod: pod_rps.get(pod, 0.0) for pod in sorted(all_pods)}
+        server_complete = set(server_by_pod) == all_pods
+        throttling_complete = set(throttle_by_pod) == all_pods
+        observed_throttling_max = max(throttle_by_pod.values()) if throttle_by_pod else None
+        throttling_max = (
+            observed_throttling_max
+            if throttling_complete
+            or (observed_throttling_max is not None
+                and math.isclose(observed_throttling_max, 1.0, abs_tol=1e-12))
+            else None
+        )
+        if not server_complete:
+            raise ValueError(f"{stem}: server p99 відсутній для частини pod-ів")
+        overall_endpoint = endpoint_by_pod(
+            prometheus_rows(prom_path, "server_p99_overall"), end)
+        if overall_endpoint:
+            overall_server_p99 = next(iter(overall_endpoint.values()))
+        else:
+            overall = overall_p99.get(stem)
+            if not overall or abs(float(overall["window_end_unix"]) - end) > 0.001:
+                raise ValueError(f"{stem}: відсутній глобальний server p99 на точній межі X(N)")
+            if int(overall["window_seconds"]) != expected_end - expected_start:
+                raise ValueError(f"{stem}: глобальний server p99 має неправильне вікно")
+            overall_server_p99 = float(overall["server_p99_seconds"])
         run_row = {
             "run": stem,
             "replicas": n,
-            "eligible_for_usl": bool(meta.get("eligible_for_usl")),
+            "eligible_for_usl": derived_eligible,
+            "final_attainment_ratio": float(measured[-1]["attainment_ratio"]),
             "x_rps": float(peak["success_rps"]),
             "within_run_sd_rps": float(peak["std_rps"]),
             "target_rps": float(peak["target_rps"]),
+            "window_start_second": expected_start,
+            "window_end_second": expected_end,
+            "window_seconds": expected_end - expected_start,
             "client_p99_ms": finite(peak["p99_client_ms"]),
-            "server_p99_ms_mean": statistics.fmean(server_by_pod.values()) * 1000 if server_by_pod else None,
-            "throttling_mean": statistics.fmean(throttle_by_pod.values()) if throttle_by_pod else None,
-            "throttling_max": max(throttle_by_pod.values()) if throttle_by_pod else None,
+            "server_p99_ms": overall_server_p99 * 1000,
+            "server_p99_ms_mean_by_pod": statistics.fmean(server_by_pod.values()) * 1000,
+            "server_p99_pods_complete": server_complete,
+            "throttling_mean": statistics.fmean(throttle_by_pod.values())
+            if throttling_complete else None,
+            "throttling_max": throttling_max,
+            "throttling_pods_observed": len(throttle_by_pod),
+            "throttling_pods_complete": throttling_complete,
             "pod_count_observed": len(pod_rps),
         }
         runs.append(run_row)
@@ -183,11 +249,11 @@ def load_fixed_runs(results: Path) -> tuple[list[dict[str, Any]], dict[int, floa
                 "busiest_pod": busiest,
                 "busiest_rps": pod_rps[busiest],
                 "busiest_server_p99_ms": server_by_pod.get(busiest, float("nan")) * 1000,
-                "busiest_throttling": throttle_by_pod.get(busiest, float("nan")),
+                "busiest_throttling": throttle_by_pod.get(busiest),
                 "least_pod": least,
                 "least_rps": pod_rps[least],
                 "least_server_p99_ms": server_by_pod.get(least, float("nan")) * 1000,
-                "least_throttling": throttle_by_pod.get(least, float("nan")),
+                "least_throttling": throttle_by_pod.get(least),
             })
     capacity: dict[int, float] = {}
     for n in sorted({row["replicas"] for row in runs}):
@@ -196,6 +262,149 @@ def load_fixed_runs(results: Path) -> tuple[list[dict[str, Any]], dict[int, floa
         if eligible:
             capacity[n] = statistics.fmean(eligible)
     return runs, capacity, imbalance
+
+
+def audit_peak_latencies(results: Path) -> list[dict[str, Any]]:
+    """Rebuild latency components and segment provenance for every fixed X(N) window."""
+    audit_rows: list[dict[str, Any]] = []
+    for meta_path in sorted(results.glob("fixed_n*_run*_meta.json")):
+        stem = meta_path.name.removesuffix("_meta.json")
+        steps_path = results / f"{stem}_steps.csv"
+        requests_path = results / f"{stem}_requests.csv"
+        if not steps_path.exists() or not requests_path.exists():
+            continue
+        meta = read_json(meta_path)
+        measured = [row for row in read_csv(steps_path) if row["segment_name"] != "warmup"]
+        peak = max(measured, key=lambda row: float(row["success_rps"]))
+        start_second = int(peak["window_start_second"])
+        end_second = int(peak["window_end_second"])
+        unix_start = float(meta["unix_start"])
+        completed_rows = []
+        for row in read_csv(requests_path):
+            # planned_unix encodes the planned monotonic offset from unix_start;
+            # adding client_ms therefore reconstructs the generator's completion
+            # bucket without depending on wall-clock drift during the run.
+            elapsed = (float(row["planned_unix"]) - unix_start
+                       + float(row["client_ms"]) / 1000)
+            # CSV rounding can place an exact integer boundary a few nanoseconds
+            # below it; 0.1 ms is smaller than the stored latency precision.
+            completed_second = int(elapsed + 0.0001)
+            if start_second <= completed_second < end_second:
+                completed_rows.append(row)
+        client = [float(row["client_ms"]) for row in completed_rows]
+        queue = [float(row["queue_ms"]) for row in completed_rows]
+        request = [float(row["request_ms"]) for row in completed_rows]
+        planned_counts: defaultdict[str, int] = defaultdict(int)
+        for row in completed_rows:
+            planned_counts[row["segment_name"]] += 1
+        same_segment = planned_counts.get(peak["segment_name"], 0)
+        ok = sum(row["outcome"] == "ok" for row in completed_rows)
+        seconds_rows = read_csv(results / f"{stem}_seconds.csv")
+        expected_completed = sum(
+            int(row["completed_rps"]) for row in seconds_rows
+            if start_second <= int(row["elapsed_second"]) < end_second
+        )
+        expected_ok = sum(
+            int(row["success_rps"]) for row in seconds_rows
+            if start_second <= int(row["elapsed_second"]) < end_second
+        )
+        if len(completed_rows) != expected_completed or ok != expected_ok:
+            raise ValueError(
+                f"{stem}: requests.csv не відтворює лічильники точного вікна "
+                f"({len(completed_rows)}/{expected_completed}, {ok}/{expected_ok})"
+            )
+        identity_error = max(
+            (abs(float(row["client_ms"]) - float(row["queue_ms"])
+                 - float(row["request_ms"])) for row in completed_rows),
+            default=0.0,
+        )
+        audit_rows.append({
+            "run": stem,
+            "replicas": int(meta["replicas"]),
+            "peak_segment": peak["segment_name"],
+            "window_start_second": start_second,
+            "window_end_second": end_second,
+            "completed_in_window": len(completed_rows),
+            "completed_2xx_in_window": ok,
+            "x_from_requests_rps": ok / (end_second - start_second),
+            "x_steps_rps": float(peak["success_rps"]),
+            "client_p50_ms": percentile(client, 0.50),
+            "client_p99_ms": percentile(client, 0.99),
+            "queue_p50_ms": percentile(queue, 0.50),
+            "queue_p99_ms": percentile(queue, 0.99),
+            "request_p50_ms": percentile(request, 0.50),
+            "request_p99_ms": percentile(request, 0.99),
+            "same_planned_segment_completed": same_segment,
+            "same_planned_segment_fraction": same_segment / len(completed_rows)
+            if completed_rows else None,
+            "planned_segment_counts_json": json.dumps(
+                dict(sorted(planned_counts.items())), ensure_ascii=False),
+            "max_latency_identity_error_ms": identity_error,
+        })
+    return audit_rows
+
+
+def audit_run_totals(results: Path) -> list[dict[str, Any]]:
+    """Expose generator accounting invariants without changing primary result files."""
+    rows: list[dict[str, Any]] = []
+    patterns = ["fixed_n*_run*_meta.json", "elasticity_fixed_meta.json",
+                "elasticity_hpa_meta.json"]
+    for pattern in patterns:
+        for meta_path in sorted(results.glob(pattern)):
+            meta = read_json(meta_path)
+            totals = meta.get("totals", {})
+            scheduled = int(totals.get("scheduled", 0))
+            enqueued = int(totals.get("enqueued", 0))
+            completed = int(totals.get("completed", 0))
+            ok = int(totals.get("ok", 0))
+            non2xx = int(totals.get("non2xx", 0))
+            connection_errors = int(totals.get("connection_errors", 0))
+            timeouts = int(totals.get("timeouts", 0))
+            queue_rejected = int(totals.get("queue_rejected", 0))
+            cancelled = int(totals.get("cancelled", 0))
+            rows.append({
+                "run": meta_path.name.removesuffix("_meta.json"),
+                "scheduled": scheduled,
+                "enqueued": enqueued,
+                "started": int(totals.get("started", 0)),
+                "completed": completed,
+                "completed_2xx": ok,
+                "http_non2xx": non2xx,
+                "connection_errors": connection_errors,
+                "timeouts": timeouts,
+                "queue_rejected": queue_rejected,
+                "cancelled": cancelled,
+                "served_2xx_fraction": ok / scheduled if scheduled else None,
+                "scheduled_equals_enqueued_plus_rejected": scheduled == enqueued + queue_rejected,
+                "enqueued_equals_completed_plus_cancelled": enqueued == completed + cancelled,
+                "completed_outcomes_balance": completed == (
+                    ok + non2xx + connection_errors + timeouts),
+            })
+    return rows
+
+
+def audit_scheduler_timing(results: Path) -> list[dict[str, Any]]:
+    """Quantify legacy rows where the Windows timer woke before planned time."""
+    rows: list[dict[str, Any]] = []
+    patterns = ["fixed_n*_run*_requests.csv", "elasticity_fixed_requests.csv",
+                "elasticity_hpa_requests.csv"]
+    for pattern in patterns:
+        for path in sorted(results.glob(pattern)):
+            requests = read_csv(path)
+            advances = [
+                float(row["request_ms"]) - float(row["client_ms"])
+                for row in requests
+                if float(row["client_ms"]) + 0.001 < float(row["request_ms"])
+            ]
+            rows.append({
+                "run": path.name.removesuffix("_requests.csv"),
+                "completed_rows": len(requests),
+                "early_start_rows": len(advances),
+                "early_start_fraction": len(advances) / len(requests) if requests else None,
+                "max_early_start_ms": max(advances, default=0.0),
+                "future_generator_fix": "repeat_sleep_until_planned",
+            })
+    return rows
 
 
 def compose_capacity(results: Path) -> dict[int, float]:
@@ -226,7 +435,9 @@ def profile_analysis(results: Path, capacity: dict[int, float]) -> tuple[list[di
     fixed_meta = read_json(results / "elasticity_fixed_meta.json")
     hpa_meta = read_json(results / "elasticity_hpa_meta.json")
     fixed_steps = read_csv(results / "elasticity_fixed_steps.csv")
-    fixed_p99_0 = finite(fixed_steps[0]["p99_client_ms"])
+    fixed_low_before = next(row for row in fixed_steps
+                            if row["segment_name"] == "low_before")
+    fixed_p99_0 = finite(fixed_low_before["p99_client_ms"])
     fixed_spike = next(row for row in fixed_steps if row["segment_name"] == "spike")
     fixed_spike_p99 = finite(fixed_spike["p99_client_ms"])
     nominal_length = sum(int(item["duration_seconds"]) for item in fixed_meta["segments"])
@@ -255,9 +466,12 @@ def profile_analysis(results: Path, capacity: dict[int, float]) -> tuple[list[di
                           f"cpu_request_percent_by_pod ({name})")
         under = [s < d for s, d in zip(ready, demand)]
         over = [s > d for s, d in zip(ready, demand)]
+        observed_p99 = sum(1 for value in p99 if math.isfinite(value))
         violations = sum(1 for value in p99 if math.isfinite(value) and
                          fixed_p99_0 is not None and value > 2 * fixed_p99_0)
-        non2xx = sum(int(row["http_non2xx"]) for row in seconds)
+        totals = meta.get("totals", {})
+        scheduled = int(totals.get("scheduled", 0))
+        ok = int(totals.get("ok", 0))
         result = {
             "mode": name,
             "T_seconds": nominal_length,
@@ -267,7 +481,16 @@ def profile_analysis(results: Path, capacity: dict[int, float]) -> tuple[list[di
             "a_O": sum(max(s - d, 0) for s, d in zip(ready, demand)) / nominal_length,
             "W_replica_seconds": sum(ready),
             "p99_violation_seconds": violations,
-            "http_non2xx": non2xx,
+            "p99_observed_seconds": observed_p99,
+            "p99_missing_seconds": nominal_length - observed_p99,
+            "scheduled": scheduled,
+            "completed_2xx": ok,
+            "http_non2xx": int(totals.get("non2xx", 0)),
+            "connection_errors": int(totals.get("connection_errors", 0)),
+            "timeouts": int(totals.get("timeouts", 0)),
+            "queue_rejected": int(totals.get("queue_rejected", 0)),
+            "cancelled": int(totals.get("cancelled", 0)),
+            "served_2xx_fraction": ok / scheduled if scheduled else None,
         }
         return result, {"target": target, "success": success, "p99": p99,
                         "demand": demand, "ready": ready, "cpu": cpu}
@@ -308,7 +531,7 @@ def profile_analysis(results: Path, capacity: dict[int, float]) -> tuple[list[di
                 return second - start
         return None
 
-    max_ready = max(hpa_series["ready"])
+    max_ready = max(hpa_series["ready"][spike_start:spike_end])
     recovery = None
     if fixed_spike_p99 is not None:
         limit = 1.2 * fixed_spike_p99
@@ -317,17 +540,26 @@ def profile_analysis(results: Path, capacity: dict[int, float]) -> tuple[list[di
             if len(window) == 10 and all(math.isfinite(value) and value < limit for value in window):
                 recovery = second - spike_start
                 break
+    scale_down_within_profile = next(
+        (second - spike_end for second in range(max(spike_end, 1), nominal_length)
+         if hpa_series["ready"][second] < hpa_series["ready"][second - 1]),
+        None,
+    )
+    scale_down_post_profile = next(
+        (second - spike_end for second in range(max(nominal_length, spike_end, 1), timing_length)
+         if ready_for_timings[second] < ready_for_timings[second - 1]),
+        None,
+    )
     timings = {
         "desired_change_seconds": first_offset(desired, spike_start, lambda value: value > 1, spike_end),
         "max_ready_replicas": max_ready,
         "max_ready_seconds": first_offset(hpa_series["ready"], spike_start,
                                           lambda value: value >= max_ready, spike_end),
         "p99_recovery_seconds": recovery,
-        "scale_down_ready_seconds": next(
-            (second - spike_end for second in range(max(spike_end, 1), timing_length)
-             if ready_for_timings[second] < ready_for_timings[second - 1]),
-            None,
-        ),
+        "scale_down_ready_seconds": scale_down_within_profile,
+        "scale_down_post_profile_seconds": scale_down_post_profile,
+        "scale_down_profile_end_second": nominal_length,
+        "hpa_max_cpu_request_percent": max(hpa_series["cpu"]),
         "fixed_p99_0_ms": fixed_p99_0,
         "fixed_spike_p99_ms": fixed_spike_p99,
         "series": {"fixed": fixed_series, "hpa": hpa_series},
@@ -523,9 +755,15 @@ def main() -> None:
     compose_model = fit_usl(compose)
     elasticity, timings = profile_analysis(results, capacity)
     d2_rows, d2_first_error_n = analyze_d2(results)
+    peak_latency_rows = audit_peak_latencies(results)
+    run_total_rows = audit_run_totals(results)
+    scheduler_timing_rows = audit_scheduler_timing(results)
     write_csv(results / "fixed_capacity_runs.csv", runs)
     write_csv(results / "fixed_capacity_summary.csv", aggregate_rows)
     write_csv(results / "imbalance_summary.csv", imbalance)
+    write_csv(results / "peak_latency_summary.csv", peak_latency_rows)
+    write_csv(results / "run_totals_summary.csv", run_total_rows)
+    write_csv(results / "scheduler_timing_audit.csv", scheduler_timing_rows)
     write_csv(results / "elasticity_summary.csv", elasticity)
     write_csv(results / "d2_summary.csv", d2_rows)
     created_images = create_plots(results, images, capacity, k8s_model, k8s_spread,
@@ -542,8 +780,9 @@ def main() -> None:
         "d2_first_replica_count_with_errors": d2_first_error_n,
         "created_images": created_images,
         "limitations": [
-            "USL includes only points whose final step was below 90% of target.",
-            "Prometheus values use the configured rolling windows and 5-second scrape cadence.",
+            "USL includes only runs whose final two steps were below 90% of target.",
+            "Throttling mean requires every pod at the exact X(N) endpoint; an observed value of 1 still determines the maximum because the ratio is bounded by 1.",
+            "Peak client latency is grouped by completion time; peak_latency_summary.csv exposes the planned-segment composition of that window.",
             "Compose and Kubernetes have different CPU limits and are compared as separate stands.",
         ],
     }

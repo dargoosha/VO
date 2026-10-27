@@ -311,8 +311,9 @@ async def execute(args: argparse.Namespace) -> None:
         count = int(segment.duration_seconds * segment.target_rps)
         for index in range(count):
             planned = start_monotonic + segment.begin_second + index / segment.target_rps
-            delay = planned - time.monotonic()
-            if delay > 0:
+            # Windows' event loop can wake a short sleep slightly early. Keep
+            # waiting until the planned open-loop arrival.
+            while (delay := planned - time.monotonic()) > 0:
                 await asyncio.sleep(delay)
             planned_second = max(0, int(planned - start_monotonic))
             stats[planned_second]["scheduled"] += 1

@@ -38,7 +38,10 @@
     "max_ready_replicas": 3.0,
     "max_ready_seconds": 50,
     "p99_recovery_seconds": null,
-    "scale_down_ready_seconds": 90,
+    "scale_down_ready_seconds": null,
+    "scale_down_post_profile_seconds": 90,
+    "scale_down_profile_end_second": 180,
+    "hpa_max_cpu_request_percent": 200.67324746829217,
     "fixed_p99_0_ms": 30.476,
     "fixed_spike_p99_ms": 1437.164
   },
@@ -51,8 +54,9 @@
     "images\\lab3\\14_elasticity_hpa.png"
   ],
   "limitations": [
-    "USL includes only points whose final step was below 90% of target.",
-    "Prometheus values use the configured rolling windows and 5-second scrape cadence.",
+    "USL includes only runs whose final two steps were below 90% of target.",
+    "Throttling mean requires every pod at the exact X(N) endpoint; an observed value of 1 still determines the maximum because the ratio is bounded by 1.",
+    "Peak client latency is grouped by completion time; peak_latency_summary.csv exposes the planned-segment composition of that window.",
     "Compose and Kubernetes have different CPU limits and are compared as separate stands."
   ]
 }
