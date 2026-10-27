@@ -3,6 +3,7 @@ __pycache__/
 *.pyc
 *.pyo
 .pytest_cache/
+README_LAB3.md
 
 # Virtual environments
 Lib/
