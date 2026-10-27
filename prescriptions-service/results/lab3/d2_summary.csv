@@ -1,0 +1,11 @@
+phase,replicas,x_peak_rps,client_p99_ms,http_non2xx,connection_errors,timeouts,queue_rejected,cancelled,pg_stat_activity
+fixed,3,146.4,10275.73,0,0,0,7062,1705,"active|1
+idle|29
+|5"
+starved,1,62.4,49914.12,0,0,0,13015,2325,"active|1
+idle|16
+|5"
+starved,2,101.95,30326.24,0,0,0,10118,2065,"active|1
+idle|31
+|5"
+starved,3,161.45,18587.55,20,0,0,6260,1434,

@@ -1,0 +1,55 @@
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: postgres-migration
+  namespace: prescriptions-lab3
+spec:
+  backoffLimit: 6
+  ttlSecondsAfterFinished: 3600
+  template:
+    metadata:
+      labels:
+        app: postgres-migration
+    spec:
+      restartPolicy: OnFailure
+      nodeSelector:
+        role: infra
+      tolerations:
+        - key: node-role.kubernetes.io/control-plane
+          operator: Exists
+          effect: NoSchedule
+      containers:
+        - name: migrate
+          image: postgres:16.10
+          imagePullPolicy: IfNotPresent
+          env:
+            - name: PGHOST
+              value: postgres
+            - name: PGUSER
+              valueFrom:
+                secretKeyRef:
+                  name: postgres-secret
+                  key: POSTGRES_USER
+            - name: PGPASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: postgres-secret
+                  key: POSTGRES_PASSWORD
+            - name: PGDATABASE
+              valueFrom:
+                secretKeyRef:
+                  name: postgres-secret
+                  key: POSTGRES_DB
+          command:
+            - psql
+          args:
+            - --set=ON_ERROR_STOP=1
+            - --file=/schema/init.sql
+          volumeMounts:
+            - name: schema
+              mountPath: /schema
+              readOnly: true
+      volumes:
+        - name: schema
+          configMap:
+            name: postgres-schema

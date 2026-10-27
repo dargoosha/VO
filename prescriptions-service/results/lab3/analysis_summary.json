@@ -1,0 +1,58 @@
+{
+  "kubernetes_capacity": {
+    "1": 76.6,
+    "2": 150.3,
+    "3": 210.88333333333333
+  },
+  "kubernetes_usl": {
+    "lambda": 76.6,
+    "sigma": 0.0,
+    "kappa": 0.014420044234090356,
+    "n_star": 8.327539544923544
+  },
+  "kubernetes_spread_rps": {
+    "1": 4.176,
+    "2": 6.427,
+    "3": 9.423050933157947
+  },
+  "compose_capacity": {
+    "1": 171.133,
+    "2": 328.2,
+    "3": 424.933,
+    "4": 539.667
+  },
+  "compose_spread_rps": {
+    "1": 8.853,
+    "2": 9.786,
+    "3": 37.385,
+    "4": 17.906
+  },
+  "compose_usl": {
+    "lambda": 171.133,
+    "sigma": 0.06410566270888558,
+    "kappa": 0.00734114245517017,
+    "n_star": 11.290978591387516
+  },
+  "hpa_timings": {
+    "desired_change_seconds": 30,
+    "max_ready_replicas": 3.0,
+    "max_ready_seconds": 50,
+    "p99_recovery_seconds": null,
+    "scale_down_ready_seconds": 90,
+    "fixed_p99_0_ms": 30.476,
+    "fixed_spike_p99_ms": 1437.164
+  },
+  "d2_first_replica_count_with_errors": 3,
+  "created_images": [
+    "images\\lab3\\10_usl_comparison.png",
+    "images\\lab3\\11_pod_rps_r3.png",
+    "images\\lab3\\12_imbalance_r3.png",
+    "images\\lab3\\13_elasticity_fixed.png",
+    "images\\lab3\\14_elasticity_hpa.png"
+  ],
+  "limitations": [
+    "USL includes only points whose final step was below 90% of target.",
+    "Prometheus values use the configured rolling windows and 5-second scrape cadence.",
+    "Compose and Kubernetes have different CPU limits and are compared as separate stands."
+  ]
+}

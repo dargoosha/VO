@@ -1,0 +1,86 @@
+
+PostgreSQL Database directory appears to contain a database; Skipping initialization
+
+2026-10-26 19:08:22.163 UTC [1] LOG:  starting PostgreSQL 16.10 (Debian 16.10-1.pgdg13+1) on x86_64-pc-linux-gnu, compiled by gcc (Debian 14.2.0-19) 14.2.0, 64-bit
+2026-10-26 19:08:22.166 UTC [1] LOG:  listening on IPv4 address "0.0.0.0", port 5432
+2026-10-26 19:08:22.166 UTC [1] LOG:  listening on IPv6 address "::", port 5432
+2026-10-26 19:08:22.174 UTC [1] LOG:  listening on Unix socket "/var/run/postgresql/.s.PGSQL.5432"
+2026-10-26 19:08:22.188 UTC [33] LOG:  database system was shut down at 2026-10-26 19:08:20 UTC
+2026-10-26 19:08:22.205 UTC [1] LOG:  database system is ready to accept connections
+2026-10-26 19:12:57.476 UTC [811] FATAL:  sorry, too many clients already
+2026-10-26 19:12:57.503 UTC [812] FATAL:  sorry, too many clients already
+2026-10-26 19:12:57.504 UTC [814] FATAL:  sorry, too many clients already
+2026-10-26 19:12:57.505 UTC [813] FATAL:  sorry, too many clients already
+2026-10-26 19:12:57.801 UTC [815] FATAL:  sorry, too many clients already
+2026-10-26 19:12:57.804 UTC [816] FATAL:  sorry, too many clients already
+2026-10-26 19:12:57.807 UTC [817] FATAL:  sorry, too many clients already
+2026-10-26 19:12:58.279 UTC [818] FATAL:  sorry, too many clients already
+2026-10-26 19:12:58.647 UTC [819] FATAL:  sorry, too many clients already
+2026-10-26 19:13:01.506 UTC [827] FATAL:  sorry, too many clients already
+2026-10-26 19:13:02.086 UTC [835] FATAL:  sorry, too many clients already
+2026-10-26 19:13:03.649 UTC [837] FATAL:  sorry, too many clients already
+2026-10-26 19:13:07.076 UTC [845] FATAL:  sorry, too many clients already
+2026-10-26 19:13:08.647 UTC [846] FATAL:  sorry, too many clients already
+2026-10-26 19:13:11.492 UTC [854] FATAL:  sorry, too many clients already
+2026-10-26 19:13:12.069 UTC [862] FATAL:  sorry, too many clients already
+2026-10-26 19:13:13.649 UTC [863] FATAL:  sorry, too many clients already
+2026-10-26 19:13:17.072 UTC [871] FATAL:  sorry, too many clients already
+2026-10-26 19:13:17.172 UTC [872] FATAL:  sorry, too many clients already
+2026-10-26 19:13:17.419 UTC [873] FATAL:  sorry, too many clients already
+2026-10-26 19:13:18.648 UTC [874] FATAL:  sorry, too many clients already
+2026-10-26 19:13:20.105 UTC [875] FATAL:  sorry, too many clients already
+2026-10-26 19:13:20.317 UTC [876] FATAL:  sorry, too many clients already
+2026-10-26 19:13:20.976 UTC [877] FATAL:  sorry, too many clients already
+2026-10-26 19:13:21.121 UTC [878] FATAL:  sorry, too many clients already
+2026-10-26 19:13:21.171 UTC [879] FATAL:  sorry, too many clients already
+2026-10-26 19:13:21.274 UTC [880] FATAL:  sorry, too many clients already
+2026-10-26 19:13:21.403 UTC [881] FATAL:  sorry, too many clients already
+2026-10-26 19:13:21.485 UTC [889] FATAL:  sorry, too many clients already
+2026-10-26 19:13:22.073 UTC [897] FATAL:  sorry, too many clients already
+2026-10-26 19:13:22.260 UTC [31] LOG:  checkpoint starting: time
+2026-10-26 19:13:22.381 UTC [31] LOG:  checkpoint complete: wrote 4 buffers (0.0%); 0 WAL file(s) added, 0 removed, 0 recycled; write=0.105 s, sync=0.005 s, total=0.122 s; sync files=3, longest=0.004 s, average=0.002 s; distance=0 kB, estimate=0 kB; lsn=0/1999460, redo lsn=0/1999428
+2026-10-26 19:13:23.648 UTC [899] FATAL:  sorry, too many clients already
+2026-10-26 19:13:27.072 UTC [907] FATAL:  sorry, too many clients already
+2026-10-26 19:13:28.645 UTC [908] FATAL:  sorry, too many clients already
+2026-10-26 19:13:31.489 UTC [916] FATAL:  sorry, too many clients already
+2026-10-26 19:13:32.127 UTC [924] FATAL:  sorry, too many clients already
+2026-10-26 19:13:33.647 UTC [925] FATAL:  sorry, too many clients already
+2026-10-26 19:13:37.081 UTC [933] FATAL:  sorry, too many clients already
+2026-10-26 19:13:38.646 UTC [934] FATAL:  sorry, too many clients already
+2026-10-26 19:13:41.494 UTC [942] FATAL:  sorry, too many clients already
+2026-10-26 19:13:42.068 UTC [950] FATAL:  sorry, too many clients already
+2026-10-26 19:13:43.644 UTC [952] FATAL:  sorry, too many clients already
+2026-10-26 19:13:47.071 UTC [960] FATAL:  sorry, too many clients already
+2026-10-26 19:13:48.644 UTC [961] FATAL:  sorry, too many clients already
+2026-10-26 19:13:51.481 UTC [969] FATAL:  sorry, too many clients already
+2026-10-26 19:13:52.080 UTC [977] FATAL:  sorry, too many clients already
+2026-10-26 19:13:53.652 UTC [978] FATAL:  sorry, too many clients already
+2026-10-26 19:13:57.068 UTC [986] FATAL:  sorry, too many clients already
+2026-10-26 19:13:58.643 UTC [987] FATAL:  sorry, too many clients already
+2026-10-26 19:14:01.487 UTC [995] FATAL:  sorry, too many clients already
+2026-10-26 19:14:02.121 UTC [1004] FATAL:  sorry, too many clients already
+2026-10-26 19:14:03.642 UTC [1006] FATAL:  sorry, too many clients already
+2026-10-26 19:14:05.275 UTC [1007] FATAL:  sorry, too many clients already
+2026-10-26 19:14:05.367 UTC [1008] FATAL:  sorry, too many clients already
+2026-10-26 19:14:07.086 UTC [1016] FATAL:  sorry, too many clients already
+2026-10-26 19:14:08.643 UTC [1017] FATAL:  sorry, too many clients already
+2026-10-26 19:14:08.799 UTC [1018] FATAL:  sorry, too many clients already
+2026-10-26 19:14:10.969 UTC [1019] FATAL:  sorry, too many clients already
+2026-10-26 19:14:11.490 UTC [1027] FATAL:  sorry, too many clients already
+2026-10-26 19:14:12.078 UTC [1036] FATAL:  sorry, too many clients already
+2026-10-26 19:14:13.644 UTC [1037] FATAL:  sorry, too many clients already
+2026-10-26 19:14:17.070 UTC [1045] FATAL:  sorry, too many clients already
+2026-10-26 19:14:18.643 UTC [1046] FATAL:  sorry, too many clients already
+2026-10-26 19:14:21.471 UTC [1054] FATAL:  sorry, too many clients already
+2026-10-26 19:14:22.061 UTC [1062] FATAL:  sorry, too many clients already
+2026-10-26 19:14:23.643 UTC [1064] FATAL:  sorry, too many clients already
+2026-10-26 19:14:27.132 UTC [1072] FATAL:  sorry, too many clients already
+2026-10-26 19:14:28.648 UTC [1073] FATAL:  sorry, too many clients already
+2026-10-26 19:14:31.466 UTC [1081] FATAL:  sorry, too many clients already
+2026-10-26 19:14:32.054 UTC [1089] FATAL:  sorry, too many clients already
+2026-10-26 19:14:33.640 UTC [1090] FATAL:  sorry, too many clients already
+2026-10-26 19:14:37.063 UTC [1098] FATAL:  sorry, too many clients already
+2026-10-26 19:14:38.640 UTC [1099] FATAL:  sorry, too many clients already
+2026-10-26 19:14:41.466 UTC [1107] FATAL:  sorry, too many clients already
+2026-10-26 19:14:42.050 UTC [1115] FATAL:  sorry, too many clients already
+2026-10-26 19:14:43.641 UTC [1117] FATAL:  sorry, too many clients already

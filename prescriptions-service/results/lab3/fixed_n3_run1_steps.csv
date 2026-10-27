@@ -1,0 +1,4 @@
+segment_index,segment_name,duration_seconds,target_rps,window_start_second,window_end_second,scheduled_rps,started_rps,success_rps,std_rps,attainment_ratio,p50_client_ms,p95_client_ms,p99_client_ms,http_non2xx,connection_errors,timeouts,queue_rejected,pod_2xx_json
+0,warmup,10,200.0,0,10,200.0,200.0,199.7,2.492,0.9985,7.0,44.0,79.04,0,0,0,0,"{""web-7fb648787f-28hxb"": 809, ""web-7fb648787f-4cwt6"": 658, ""web-7fb648787f-72jmw"": 530}"
+1,step_1,30,200.0,20,40,200.0,171.95,171.35,27.317,0.85675,947.0,2796.0,2897.96,0,0,0,0,"{""web-7fb648787f-28hxb"": 1445, ""web-7fb648787f-4cwt6"": 497, ""web-7fb648787f-72jmw"": 1485}"
+2,step_2,30,400.0,50,70,400.0,197.65,197.6,38.424,0.494,11289.5,15767.95,15895.99,0,0,0,3554,"{""web-7fb648787f-28hxb"": 1431, ""web-7fb648787f-4cwt6"": 1402, ""web-7fb648787f-72jmw"": 1119}"

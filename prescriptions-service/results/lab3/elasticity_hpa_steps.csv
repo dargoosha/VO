@@ -1,0 +1,4 @@
+segment_index,segment_name,duration_seconds,target_rps,window_start_second,window_end_second,scheduled_rps,started_rps,success_rps,std_rps,attainment_ratio,p50_client_ms,p95_client_ms,p99_client_ms,http_non2xx,connection_errors,timeouts,queue_rejected,pod_2xx_json
+1,low_before,30,22.98,0,30,22.967,22.967,22.967,0.482,0.99942,16.199,27.583,35.992,0,0,0,0,"{""web-7fb648787f-72jmw"": 689}"
+2,spike,60,153.2,30,90,153.2,58.733,58.333,6.784,0.380766,17120.749,35298.943,36836.834,0,0,0,2692,"{""web-7fb648787f-72jmw"": 3500}"
+3,low_after,90,22.98,90,180,22.978,56.033,56.3,58.616,2.449956,28653.384,42683.41,42781.118,0,0,0,1,"{""web-7fb648787f-72jmw"": 2059, ""web-7fb648787f-k465m"": 1640, ""web-7fb648787f-q6f8b"": 1368}"

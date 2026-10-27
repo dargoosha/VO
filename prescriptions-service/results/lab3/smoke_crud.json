@@ -1,0 +1,93 @@
+{
+  "create": {
+    "status": 201,
+    "id": 109,
+    "pod": [
+      "web-5699df7458-nr9f9"
+    ]
+  },
+  "read": {
+    "status": 200,
+    "pod": [
+      "web-5699df7458-nr9f9"
+    ]
+  },
+  "update": {
+    "status": 200,
+    "pod": [
+      "web-5699df7458-nr9f9"
+    ]
+  },
+  "delete": {
+    "status": 204,
+    "pod": [
+      "web-5699df7458-5fdll"
+    ]
+  },
+  "max_connections": "100",
+  "nodes": [
+    "NAME                               STATUS   ROLES           AGE   VERSION   INTERNAL-IP   EXTERNAL-IP   OS-IMAGE                       KERNEL-VERSION                              CONTAINER-RUNTIME",
+    "prescriptions-lab3-control-plane   Ready    control-plane   51m   v1.37.0   172.20.0.4    <none>        Debian GNU/Linux 13 (trixie)   6.18.54.1-microsoft-standard-WSL2 (amd64)   containerd://2.3.4",
+    "prescriptions-lab3-worker          Ready    <none>          51m   v1.37.0   172.20.0.2    <none>        Debian GNU/Linux 13 (trixie)   6.18.54.1-microsoft-standard-WSL2 (amd64)   containerd://2.3.4",
+    "prescriptions-lab3-worker2         Ready    <none>          51m   v1.37.0   172.20.0.3    <none>        Debian GNU/Linux 13 (trixie)   6.18.54.1-microsoft-standard-WSL2 (amd64)   containerd://2.3.4"
+  ],
+  "workloads": [
+    "NAME                                  READY   STATUS      RESTARTS   AGE   IP            NODE                               NOMINATED NODE   READINESS GATES",
+    "kube-state-metrics-6876777654-5hq8f   1/1     Running     0          49m   10.244.0.9    prescriptions-lab3-control-plane   <none>           <none>",
+    "postgres-0                            1/1     Running     0          11m   10.244.0.16   prescriptions-lab3-control-plane   <none>           <none>",
+    "postgres-exporter-7bf9dc6988-zshrf    1/1     Running     0          10s   10.244.0.17   prescriptions-lab3-control-plane   <none>           <none>",
+    "postgres-migration-fxj8v              0/1     Completed   0          49m   10.244.0.7    prescriptions-lab3-control-plane   <none>           <none>",
+    "prometheus-5bfbc75648-tckrf           1/1     Running     0          49m   10.244.0.8    prescriptions-lab3-control-plane   <none>           <none>",
+    "web-5699df7458-5fdll                  1/1     Running     0          11m   10.244.2.10   prescriptions-lab3-worker2         <none>           <none>",
+    "web-5699df7458-nr9f9                  1/1     Running     0          11m   10.244.2.11   prescriptions-lab3-worker2         <none>           <none>",
+    "web-5699df7458-zqbgc                  1/1     Running     0          11m   10.244.1.5    prescriptions-lab3-worker          <none>           <none>"
+  ],
+  "prometheus_targets": {
+    "kubernetes-cadvisor": {
+      "total": 3,
+      "up": 3
+    },
+    "kube-state-metrics": {
+      "total": 1,
+      "up": 1
+    },
+    "web": {
+      "total": 3,
+      "up": 3
+    },
+    "postgres-exporter": {
+      "total": 1,
+      "up": 1
+    }
+  },
+  "prometheus_queries": {
+    "ready_replicas": {
+      "series": 1
+    },
+    "postgres_activity": {
+      "series": 24
+    },
+    "postgres_up": {
+      "series": 1
+    },
+    "cfs_periods": {
+      "series": 3
+    },
+    "cfs_throttled": {
+      "series": 3
+    },
+    "web_up": {
+      "series": 3
+    }
+  },
+  "top_pods": [
+    "NAME                                  CPU(cores)   MEMORY(bytes)   ",
+    "kube-state-metrics-6876777654-5hq8f   4m           11Mi            ",
+    "postgres-0                            22m          27Mi            ",
+    "postgres-exporter-7bf9dc6988-zshrf    21m          6Mi             ",
+    "prometheus-5bfbc75648-tckrf           9m           80Mi            ",
+    "web-5699df7458-5fdll                  5m           64Mi            ",
+    "web-5699df7458-nr9f9                  5m           65Mi            ",
+    "web-5699df7458-zqbgc                  5m           64Mi            "
+  ]
+}

@@ -1,0 +1,117 @@
+{
+  "captured_at": "2026-10-26T20:42:00.1170457+02:00",
+  "kind": "kind v0.33.0 go1.26.7 windows/amd64",
+  "kubectl": {
+    "clientVersion": {
+      "major": "1",
+      "minor": "36",
+      "gitVersion": "v1.36.1",
+      "gitCommit": "756939600b9a7180fc2df6550a4585b638875e67",
+      "gitTreeState": "clean",
+      "buildDate": "2026-05-12T09:54:35Z",
+      "goVersion": "go1.26.2",
+      "compiler": "gc",
+      "platform": "windows/amd64"
+    },
+    "kustomizeVersion": "v5.8.1",
+    "serverVersion": {
+      "major": "1",
+      "minor": "37",
+      "emulationMajor": "1",
+      "emulationMinor": "37",
+      "minCompatibilityMajor": "1",
+      "minCompatibilityMinor": "36",
+      "gitVersion": "v1.37.0",
+      "gitCommit": "f54c212e3a2f75d674b717a9b29052b20b60aefc",
+      "gitTreeState": "clean",
+      "buildDate": "2026-08-26T10:44:25Z",
+      "goVersion": "go1.26.6",
+      "compiler": "gc",
+      "platform": "linux/amd64"
+    }
+  },
+  "docker": {
+    "Client": {
+      "Version": "29.8.2",
+      "ApiVersion": "1.56",
+      "DefaultAPIVersion": "1.56",
+      "GitCommit": "7fc2dff",
+      "GoVersion": "go1.26.8",
+      "Os": "windows",
+      "Arch": "amd64",
+      "BuildTime": "Wed Sep 30 19:35:42 2026",
+      "Context": "desktop-linux"
+    },
+    "Server": {
+      "Platform": {
+        "Name": "Docker Desktop 4.95.0 (242831)"
+      },
+      "Version": "29.8.2",
+      "ApiVersion": "1.56",
+      "MinAPIVersion": "1.40",
+      "Os": "linux",
+      "Arch": "amd64",
+      "Components": [
+        {
+          "Name": "Engine",
+          "Version": "29.8.2",
+          "Details": {
+            "ApiVersion": "1.56",
+            "Arch": "amd64",
+            "BuildTime": "Wed Sep 30 19:32:25 2026",
+            "Experimental": "false",
+            "GitCommit": "8af9fe3",
+            "GoVersion": "go1.26.8",
+            "KernelVersion": "6.18.54.1-microsoft-standard-WSL2",
+            "MinAPIVersion": "1.40",
+            "Module": "github.com/moby/moby/v2",
+            "ModuleVersion": "v2.0.0+unknown",
+            "Os": "linux"
+          }
+        },
+        {
+          "Name": "containerd",
+          "Version": "v2.3.6",
+          "Details": {
+            "GitCommit": "ee2735368117d2eb259779949d5e75cdafec9761"
+          }
+        },
+        {
+          "Name": "runc",
+          "Version": "1.5.1",
+          "Details": {
+            "GitCommit": "v1.5.1-0-g8f2685a4"
+          }
+        },
+        {
+          "Name": "docker-init",
+          "Version": "0.19.0",
+          "Details": {
+            "GitCommit": "de40ad0"
+          }
+        }
+      ],
+      "GitCommit": "8af9fe3",
+      "GoVersion": "go1.26.8",
+      "KernelVersion": "6.18.54.1-microsoft-standard-WSL2",
+      "BuildTime": "2026-09-30T19:32:25.000000000+00:00"
+    }
+  },
+  "nodes": [
+    {
+      "name": "prescriptions-lab3-control-plane",
+      "kubelet_version": "v1.37.0",
+      "container_runtime": "containerd://2.3.4"
+    },
+    {
+      "name": "prescriptions-lab3-worker",
+      "kubelet_version": "v1.37.0",
+      "container_runtime": "containerd://2.3.4"
+    },
+    {
+      "name": "prescriptions-lab3-worker2",
+      "kubelet_version": "v1.37.0",
+      "container_runtime": "containerd://2.3.4"
+    }
+  ]
+}

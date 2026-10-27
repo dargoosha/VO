@@ -1,0 +1,4 @@
+segment_index,segment_name,duration_seconds,target_rps,window_start_second,window_end_second,scheduled_rps,started_rps,success_rps,std_rps,attainment_ratio,p50_client_ms,p95_client_ms,p99_client_ms,http_non2xx,connection_errors,timeouts,queue_rejected,pod_2xx_json
+0,warmup,10,200.0,0,10,200.0,50.8,48.4,6.8,0.242,3935.5,7145.25,7397.85,0,0,0,0,"{""web-758bfdcc74-dvwfh"": 484}"
+1,step_1,30,200.0,20,40,200.0,55.1,55.1,9.396,0.2755,21067.0,28650.75,29242.7,0,0,0,2886,"{""web-758bfdcc74-dvwfh"": 1102}"
+2,step_2,30,400.0,50,70,400.0,62.4,62.4,5.843,0.156,43082.5,49246.3,49914.12,0,0,0,6751,"{""web-758bfdcc74-dvwfh"": 1248}"

@@ -1,0 +1,71 @@
+{
+  "command": "profile",
+  "base_url": "http://localhost:8080",
+  "replicas": 3,
+  "connections": 24,
+  "expected_connections_8R": 24,
+  "rotate_after": 100,
+  "timeout_seconds": 5.0,
+  "drain_timeout_seconds": 10.0,
+  "max_pending": 3000,
+  "unix_start": 1793041336.6262217,
+  "unix_profile_end": 1793041516.618258,
+  "unix_finish": 1793041516.8535066,
+  "segments": [
+    {
+      "index": 1,
+      "name": "low_before",
+      "duration_seconds": 30,
+      "target_rps": 22.98,
+      "begin_second": 0,
+      "summary_window_seconds": 30
+    },
+    {
+      "index": 2,
+      "name": "spike",
+      "duration_seconds": 60,
+      "target_rps": 153.2,
+      "begin_second": 30,
+      "summary_window_seconds": 60
+    },
+    {
+      "index": 3,
+      "name": "low_after",
+      "duration_seconds": 90,
+      "target_rps": 22.98,
+      "begin_second": 90,
+      "summary_window_seconds": 90
+    }
+  ],
+  "totals": {
+    "scheduled": 11949,
+    "enqueued": 9256,
+    "started": 9256,
+    "completed": 9256,
+    "ok": 9256,
+    "non2xx": 0,
+    "connection_errors": 0,
+    "timeouts": 0,
+    "queue_rejected": 2693,
+    "cancelled": 0
+  },
+  "peak_pending": 3000,
+  "peak_queue_depth": 2976,
+  "sessions_opened": 102,
+  "sessions_rotated": 78,
+  "tcp_connections_established": 102,
+  "stop_reason": "profile_complete",
+  "capacity_reached": null,
+  "eligible_for_usl": null,
+  "X_peak": 58.333,
+  "X_std_rps": 6.784,
+  "X_segment": "spike",
+  "final_attainment_ratio": 2.449956,
+  "files": [
+    "E:\\UNI\\VO\\prescriptions-service\\results\\lab3\\elasticity_hpa_seconds.csv",
+    "E:\\UNI\\VO\\prescriptions-service\\results\\lab3\\elasticity_hpa_steps.csv",
+    "E:\\UNI\\VO\\prescriptions-service\\results\\lab3\\elasticity_hpa_requests.csv",
+    "E:\\UNI\\VO\\prescriptions-service\\results\\lab3\\elasticity_hpa_pods_seconds.csv",
+    "E:\\UNI\\VO\\prescriptions-service\\results\\lab3\\elasticity_hpa_errors.csv"
+  ]
+}

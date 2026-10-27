@@ -1,0 +1,17 @@
+[
+  {
+    "name": "low_before",
+    "target_rps": 22.98,
+    "duration_seconds": 30
+  },
+  {
+    "name": "spike",
+    "target_rps": 153.2,
+    "duration_seconds": 60
+  },
+  {
+    "name": "low_after",
+    "target_rps": 22.98,
+    "duration_seconds": 90
+  }
+]

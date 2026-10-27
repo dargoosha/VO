@@ -1,0 +1,4 @@
+replicas,runs_total,runs_eligible,observed_peak_mean_all_rps,x_mean_eligible_rps,x_between_run_sd_rps,eligible_for_usl
+1,1,1,76.6,76.6,,True
+2,1,1,150.3,150.3,,True
+3,3,3,210.88333333333333,210.88333333333333,9.423050933157947,True

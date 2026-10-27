@@ -1,0 +1,119 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: web-config
+  namespace: prescriptions-lab3
+data:
+  DB_HOST: postgres
+  DB_POOL_SIZE: "15"
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: web
+  namespace: prescriptions-lab3
+  labels:
+    app: web
+spec:
+  selector:
+    matchLabels:
+      app: web
+  template:
+    metadata:
+      labels:
+        app: web
+      annotations:
+        prometheus.io/scrape: "true"
+        prometheus.io/path: /metrics
+        prometheus.io/port: "8000"
+    spec:
+      terminationGracePeriodSeconds: 15
+      containers:
+        - name: web
+          image: prescriptions-web:lab3
+          imagePullPolicy: IfNotPresent
+          args:
+            - uvicorn
+            - app.main:app
+            - --host
+            - 0.0.0.0
+            - --port
+            - "8000"
+            - --timeout-graceful-shutdown
+            - "8"
+          env:
+            - name: DB_HOST
+              valueFrom:
+                configMapKeyRef:
+                  name: web-config
+                  key: DB_HOST
+            - name: DB_POOL_SIZE
+              valueFrom:
+                configMapKeyRef:
+                  name: web-config
+                  key: DB_POOL_SIZE
+            - name: POSTGRES_USER
+              valueFrom:
+                secretKeyRef:
+                  name: postgres-secret
+                  key: POSTGRES_USER
+            - name: POSTGRES_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: postgres-secret
+                  key: POSTGRES_PASSWORD
+            - name: POSTGRES_DB
+              valueFrom:
+                secretKeyRef:
+                  name: postgres-secret
+                  key: POSTGRES_DB
+            - name: POD_NAME
+              valueFrom:
+                fieldRef:
+                  fieldPath: metadata.name
+          ports:
+            - name: http
+              containerPort: 8000
+          resources:
+            requests:
+              cpu: 250m
+              memory: 128Mi
+            limits:
+              cpu: 500m
+              memory: 512Mi
+          readinessProbe:
+            httpGet:
+              path: /healthz
+              port: http
+            timeoutSeconds: 3
+            periodSeconds: 5
+            failureThreshold: 3
+          livenessProbe:
+            httpGet:
+              path: /livez
+              port: http
+            initialDelaySeconds: 10
+            timeoutSeconds: 3
+            periodSeconds: 5
+            failureThreshold: 3
+          lifecycle:
+            preStop:
+              sleep:
+                seconds: 5
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: web
+  namespace: prescriptions-lab3
+  labels:
+    app: web
+spec:
+  type: NodePort
+  selector:
+    app: web
+  ports:
+    - name: http
+      port: 80
+      targetPort: http
+      nodePort: 30080

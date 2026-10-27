@@ -1,0 +1,95 @@
+{
+  "create": {
+    "pod": [
+      "web-7fb648787f-28hxb"
+    ],
+    "status": 201,
+    "id": 2
+  },
+  "read": {
+    "pod": [
+      "web-7fb648787f-28hxb"
+    ],
+    "status": 200
+  },
+  "update": {
+    "pod": [
+      "web-7fb648787f-28hxb"
+    ],
+    "status": 200
+  },
+  "persistence": {
+    "pod": [
+      "web-7fb648787f-28hxb"
+    ],
+    "status": 200
+  },
+  "delete": {
+    "pod": [
+      "web-7fb648787f-28hxb"
+    ],
+    "status": 204
+  },
+  "max_connections": "100",
+  "nodes": [
+    "NAME                               STATUS   ROLES           AGE     VERSION   INTERNAL-IP   EXTERNAL-IP   OS-IMAGE                       KERNEL-VERSION                              CONTAINER-RUNTIME",
+    "prescriptions-lab3-control-plane   Ready    control-plane   6m2s    v1.37.0   172.20.0.4    <none>        Debian GNU/Linux 13 (trixie)   6.18.54.1-microsoft-standard-WSL2 (amd64)   containerd://2.3.4",
+    "prescriptions-lab3-worker          Ready    <none>          5m49s   v1.37.0   172.20.0.2    <none>        Debian GNU/Linux 13 (trixie)   6.18.54.1-microsoft-standard-WSL2 (amd64)   containerd://2.3.4",
+    "prescriptions-lab3-worker2         Ready    <none>          5m49s   v1.37.0   172.20.0.3    <none>        Debian GNU/Linux 13 (trixie)   6.18.54.1-microsoft-standard-WSL2 (amd64)   containerd://2.3.4"
+  ],
+  "workloads": [
+    "NAME                                  READY   STATUS      RESTARTS   AGE     IP            NODE                               NOMINATED NODE   READINESS GATES",
+    "kube-state-metrics-6876777654-5hq8f   1/1     Running     0          3m56s   10.244.0.9    prescriptions-lab3-control-plane   <none>           <none>",
+    "postgres-0                            1/1     Running     0          11s     10.244.0.13   prescriptions-lab3-control-plane   <none>           <none>",
+    "postgres-exporter-545969dc96-hsv6s    1/1     Running     0          61s     10.244.0.12   prescriptions-lab3-control-plane   <none>           <none>",
+    "postgres-migration-fxj8v              0/1     Completed   0          4m6s    10.244.0.7    prescriptions-lab3-control-plane   <none>           <none>",
+    "prometheus-5bfbc75648-tckrf           1/1     Running     0          3m57s   10.244.0.8    prescriptions-lab3-control-plane   <none>           <none>",
+    "web-7fb648787f-28hxb                  1/1     Running     0          4m3s    10.244.2.2    prescriptions-lab3-worker2         <none>           <none>"
+  ],
+  "prometheus_targets": {
+    "kube-state-metrics": {
+      "up": 1,
+      "total": 1
+    },
+    "postgres-exporter": {
+      "up": 1,
+      "total": 1
+    },
+    "kubernetes-cadvisor": {
+      "up": 3,
+      "total": 3
+    },
+    "web": {
+      "up": 1,
+      "total": 1
+    }
+  },
+  "prometheus_queries": {
+    "cfs_periods": {
+      "series": 1
+    },
+    "postgres_up": {
+      "series": 1
+    },
+    "cfs_throttled": {
+      "series": 1
+    },
+    "ready_replicas": {
+      "series": 1
+    },
+    "postgres_activity": {
+      "series": 24
+    },
+    "web_up": {
+      "series": 1
+    }
+  },
+  "top_pods": [
+    "NAME                                  CPU(cores)   MEMORY(bytes)   ",
+    "kube-state-metrics-6876777654-5hq8f   2m           12Mi            ",
+    "postgres-0                            24m          20Mi            ",
+    "postgres-exporter-545969dc96-hsv6s    6m           8Mi             ",
+    "prometheus-5bfbc75648-tckrf           10m          60Mi            ",
+    "web-7fb648787f-28hxb                  4m           65Mi            "
+  ]
+}

@@ -1,0 +1,4 @@
+segment_index,segment_name,duration_seconds,target_rps,window_start_second,window_end_second,scheduled_rps,started_rps,success_rps,std_rps,attainment_ratio,p50_client_ms,p95_client_ms,p99_client_ms,http_non2xx,connection_errors,timeouts,queue_rejected,pod_2xx_json
+0,warmup,10,200.0,0,10,200.0,100.1,97.7,16.242,0.4885,2920.0,4944.0,5106.88,0,0,0,0,"{""web-758bfdcc74-dvwfh"": 496, ""web-758bfdcc74-xhzjb"": 481}"
+1,step_1,30,200.0,20,40,200.0,84.1,84.1,26.319,0.4205,15532.5,20747.85,21041.0,0,0,0,1233,"{""web-758bfdcc74-dvwfh"": 508, ""web-758bfdcc74-xhzjb"": 1174}"
+2,step_2,30,400.0,50,70,400.0,101.9,101.95,11.338,0.254875,28551.0,30103.5,30326.24,0,0,0,5960,"{""web-758bfdcc74-dvwfh"": 1018, ""web-758bfdcc74-xhzjb"": 1021}"

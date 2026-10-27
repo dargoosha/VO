@@ -1,0 +1,58 @@
+{
+  "prometheus_url": "http://localhost:9090",
+  "start": 1793040303.340527,
+  "end": 1793040393.3321164,
+  "step": 5,
+  "queries": {
+    "web_rps_by_pod": "sum by (pod) (rate(http_requests_total{path=\"/prescriptions/{id}\",code=~\"2..\"}[20s]))",
+    "server_p99_by_pod": "histogram_quantile(0.99, sum by (pod,le) (rate(http_request_duration_seconds_bucket{path=\"/prescriptions/{id}\"}[20s])))",
+    "throttling_by_pod": "sum by (pod) (rate(container_cpu_cfs_throttled_periods_total{namespace=\"prescriptions-lab3\",container=\"web\"}[20s])) / sum by (pod) (rate(container_cpu_cfs_periods_total{namespace=\"prescriptions-lab3\",container=\"web\"}[20s]))",
+    "cpu_request_percent_by_pod": "100 * sum by (pod) (rate(container_cpu_usage_seconds_total{namespace=\"prescriptions-lab3\",container=\"web\"}[20s])) / 0.25",
+    "ready_replicas": "kube_deployment_status_replicas_ready{namespace=\"prescriptions-lab3\",deployment=\"web\"}",
+    "hpa_desired_replicas": "kube_horizontalpodautoscaler_status_desired_replicas{namespace=\"prescriptions-lab3\",horizontalpodautoscaler=\"web\"}",
+    "postgres_connections": "pg_stat_activity_count",
+    "target_up": "up{job=~\"web|kubernetes-cadvisor|kube-state-metrics|postgres-exporter\"}"
+  },
+  "status": {
+    "web_rps_by_pod": {
+      "series": 1,
+      "samples": 18,
+      "valid_samples": 18
+    },
+    "server_p99_by_pod": {
+      "series": 1,
+      "samples": 18,
+      "valid_samples": 15
+    },
+    "throttling_by_pod": {
+      "series": 1,
+      "samples": 5,
+      "valid_samples": 5
+    },
+    "cpu_request_percent_by_pod": {
+      "series": 1,
+      "samples": 5,
+      "valid_samples": 5
+    },
+    "ready_replicas": {
+      "series": 1,
+      "samples": 18,
+      "valid_samples": 18
+    },
+    "hpa_desired_replicas": {
+      "series": 0,
+      "samples": 0,
+      "valid_samples": 0
+    },
+    "postgres_connections": {
+      "series": 25,
+      "samples": 432,
+      "valid_samples": 432
+    },
+    "target_up": {
+      "series": 6,
+      "samples": 108,
+      "valid_samples": 108
+    }
+  }
+}

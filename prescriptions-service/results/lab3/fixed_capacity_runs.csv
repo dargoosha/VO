@@ -1,0 +1,6 @@
+run,replicas,eligible_for_usl,x_rps,within_run_sd_rps,target_rps,client_p99_ms,server_p99_ms_mean,throttling_mean,throttling_max,pod_count_observed
+fixed_n1_run1,1,True,76.6,4.176,200.0,24482.69,496.0582191780822,1.0,1.0,1
+fixed_n2_run1,2,True,150.3,6.427,400.0,20042.5,334.2858751062023,1.0,1.0,2
+fixed_n3_run1,3,True,197.6,38.424,400.0,15895.99,336.65328502415457,0.8378378378378378,1.0,3
+fixed_n3_run2,3,True,216.6,14.702,600.0,15102.793,206.22600549355784,0.9403973509933775,1.0,3
+fixed_n3_run3,3,True,218.45,26.312,400.0,13516.82,272.89942141332443,1.0,1.0,3

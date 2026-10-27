@@ -1,0 +1,5 @@
+segment_index,segment_name,duration_seconds,target_rps,window_start_second,window_end_second,scheduled_rps,started_rps,success_rps,std_rps,attainment_ratio,p50_client_ms,p95_client_ms,p99_client_ms,http_non2xx,connection_errors,timeouts,queue_rejected,pod_2xx_json
+0,warmup,10,200.0,0,10,200.0,200.0,198.5,13.959,0.9925,28.0,225.0,353.16,0,0,0,0,"{""web-7fb648787f-28hxb"": 599, ""web-7fb648787f-4cwt6"": 697, ""web-7fb648787f-72jmw"": 689}"
+1,step_1,30,200.0,20,40,200.0,200.25,201.45,8.726,1.00725,14.0,187.6,332.16,0,0,0,0,"{""web-7fb648787f-28hxb"": 1454, ""web-7fb648787f-4cwt6"": 1468, ""web-7fb648787f-72jmw"": 1107}"
+2,step_2,30,400.0,50,70,400.0,218.45,218.45,26.312,0.546125,8987.0,13266.7,13516.82,0,0,0,2439,"{""web-7fb648787f-28hxb"": 1415, ""web-7fb648787f-4cwt6"": 1504, ""web-7fb648787f-72jmw"": 1450}"
+3,step_3,30,600.0,80,100,600.0,214.45,214.45,44.644,0.357417,14808.5,15696.2,15808.16,0,0,0,7709,"{""web-7fb648787f-28hxb"": 1467, ""web-7fb648787f-4cwt6"": 1472, ""web-7fb648787f-72jmw"": 1350}"

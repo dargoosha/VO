@@ -1,0 +1,79 @@
+{
+  "command": "steps",
+  "base_url": "http://localhost:8080",
+  "replicas": 3,
+  "connections": 24,
+  "expected_connections_8R": 24,
+  "rotate_after": 100,
+  "timeout_seconds": 5.0,
+  "drain_timeout_seconds": 10.0,
+  "max_pending": 3000,
+  "unix_start": 1793040877.2490225,
+  "unix_profile_end": 1793040977.2455423,
+  "unix_finish": 1793040987.4915264,
+  "segments": [
+    {
+      "index": 0,
+      "name": "warmup",
+      "duration_seconds": 10,
+      "target_rps": 200.0,
+      "begin_second": 0,
+      "summary_window_seconds": 10
+    },
+    {
+      "index": 1,
+      "name": "step_1",
+      "duration_seconds": 30,
+      "target_rps": 200.0,
+      "begin_second": 10,
+      "summary_window_seconds": 20
+    },
+    {
+      "index": 2,
+      "name": "step_2",
+      "duration_seconds": 30,
+      "target_rps": 400.0,
+      "begin_second": 40,
+      "summary_window_seconds": 20
+    },
+    {
+      "index": 3,
+      "name": "step_3",
+      "duration_seconds": 30,
+      "target_rps": 600.0,
+      "begin_second": 70,
+      "summary_window_seconds": 20
+    }
+  ],
+  "totals": {
+    "scheduled": 38000,
+    "enqueued": 23656,
+    "started": 22651,
+    "completed": 22651,
+    "ok": 22651,
+    "non2xx": 0,
+    "connection_errors": 0,
+    "timeouts": 0,
+    "queue_rejected": 14344,
+    "cancelled": 1005
+  },
+  "peak_pending": 3000,
+  "peak_queue_depth": 2980,
+  "sessions_opened": 238,
+  "sessions_rotated": 214,
+  "tcp_connections_established": 238,
+  "stop_reason": "two_below_90",
+  "capacity_reached": true,
+  "eligible_for_usl": true,
+  "X_peak": 218.45,
+  "X_std_rps": 26.312,
+  "X_segment": "step_2",
+  "final_attainment_ratio": 0.357417,
+  "files": [
+    "E:\\UNI\\VO\\prescriptions-service\\results\\lab3\\fixed_n3_run3_seconds.csv",
+    "E:\\UNI\\VO\\prescriptions-service\\results\\lab3\\fixed_n3_run3_steps.csv",
+    "E:\\UNI\\VO\\prescriptions-service\\results\\lab3\\fixed_n3_run3_requests.csv",
+    "E:\\UNI\\VO\\prescriptions-service\\results\\lab3\\fixed_n3_run3_pods_seconds.csv",
+    "E:\\UNI\\VO\\prescriptions-service\\results\\lab3\\fixed_n3_run3_errors.csv"
+  ]
+}
