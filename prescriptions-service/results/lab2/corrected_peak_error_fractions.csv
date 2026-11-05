@@ -1,0 +1,5 @@
+n,peak_step,target_rps,X_rps,sent_rps,wire_sent_rps,http_non2xx_including_timeouts,http_status_non2xx,timeouts,connection_errors,sent_requests_15s,error_fraction
+1,1,200.0,16.133,199.8,199.8,2997,0,2997,0,2997.0,1.0
+2,1,200.0,200.0,199.8,199.8,0,0,0,0,2997.0,0.0
+3,2,400.0,399.2,400.0,400.0,0,0,0,0,6000.0,0.0
+4,2,400.0,399.6,400.467,400.467,0,0,0,0,6007.005,0.0

@@ -1,0 +1,11 @@
+component,samples,cpu_percent_one_core_mean,cpu_cores_mean
+prescriptions-service-db-1,5,27.13,0.2713
+prescriptions-service-nginx-1,5,14.91,0.1491
+prescriptions-service-prometheus-1,5,0.056,0.00056
+prescriptions-service-web-1,5,64.926,0.64926
+prescriptions-service-web-2,5,63.656,0.63656
+prescriptions-service-web-3,5,64.736,0.64736
+prescriptions-service-web-4,5,65.094,0.65094
+load-generator,15,14.547,0.14547
+TOTAL containers + generator,,315.055,3.15055
+Docker VM capacity,,1200,12

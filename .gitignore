@@ -4,7 +4,8 @@ __pycache__/
 *.pyo
 .pytest_cache/
 README_LAB3.md
-
+prescriptions-service/.cdxlabcontext/
+AGENTS.md
 # Virtual environments
 Lib/
 Scripts/

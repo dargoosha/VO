@@ -21,6 +21,8 @@ P99 = ('histogram_quantile(0.99, sum by (le) '
        '{method="GET",path="/prescriptions/{id}"}[15s])))')
 CPU = 'rate(process_cpu_seconds_total{job="web"}[15s])'
 INFLIGHT = 'http_requests_in_progress{job="web"}'
+REQUEST_RATE = ('sum by (instance) (rate(http_requests_total'
+                '{job="web",path="/prescriptions/{id}"}[15s]))')
 
 
 def query_range(host, expr, start, end, step=5):
@@ -65,7 +67,7 @@ def write_csv(path, rows, columns):
         writer.writerows(rows)
 
 
-def run(host):
+def run(host, series_template, output_prefix, figure_n1, figure_n4):
     OUT.mkdir(parents=True, exist_ok=True)
     FIG.mkdir(parents=True, exist_ok=True)
     try:
@@ -78,7 +80,7 @@ def run(host):
     # First check TSDB on a known past interval. Current queries cannot reconstruct old runs.
     meta = {}
     for n in range(1, 5):
-        path = OUT / f'web{n}_final_meta.json'
+        path = OUT / f'{series_template.format(n=n)}_meta.json'
         meta[n] = json.loads(path.read_text(encoding='utf-8-sig'))
     if not query_range(host, 'up{job="web"}', float(meta[1]['unix_start']) + 10,
                        float(meta[1]['unix_start']) + 35, 5):
@@ -119,12 +121,15 @@ def run(host):
         if len(usable) != n:
             print(f'  WARNING: expected {n} instance series, got {len(usable)}. Inspect per-instance CSV; do not present missing data as 0.')
 
-    write_csv(OUT / 'peak_prometheus_per_instance.csv', instance_rows,
+    per_instance_path = OUT / f'{output_prefix}_peak_prometheus_per_instance.csv'
+    summary_path = OUT / f'{output_prefix}_peak_prometheus_summary.csv'
+    write_csv(per_instance_path, instance_rows,
               ['n','peak_step','target_rps','instance','cpu_cores_mean','in_progress_mean','cpu_samples','in_progress_samples'])
-    write_csv(OUT / 'peak_prometheus_summary.csv', summary_rows,
+    write_csv(summary_path, summary_rows,
               ['n','peak_step','target_rps','X_rps','instances_with_data','cpu_cores_per_instance','cpu_percent_one_core_per_instance','in_progress_per_instance'])
 
     timeline = []
+    run_metrics = []
     for n in (1, 4):
         m = meta[n]
         start = float(m['unix_start'])
@@ -133,22 +138,37 @@ def run(host):
         server = [(t, v * 1000) for _,t,v in points(series)]
         if not server:
             print(f'WARNING: no historical server p99 for N={n}.')
-        client = read_csv(f'web{n}_final_seconds.csv')
+        client = read_csv(f'{series_template.format(n=n)}_seconds.csv')
         records = []
+        last_target = (float(m.get('first_step_rps', 200)) +
+                       (int(m['steps']) - 1) * float(m.get('increment_rps', 200)))
         for row in client:
             try:
                 t = float(row['unix_second'])
                 if t >= finish or t < start: continue
                 p99 = float(row['p99_ms'])
                 p99 = p99 if math.isfinite(p99) else None
-                records.append((t, p99, float(row['target_rps']), float(row['success_rps'])))
+                records.append((t, p99, min(float(row['target_rps']), last_target),
+                                float(row['success_rps'])))
             except (ValueError, TypeError, KeyError):
                 continue
         for t, p in server:
             timeline.append({'n': n, 'source': 'server', 'unix_time': render_number(t,3), 'p99_ms': render_number(p,3)})
         for t, p99, _, _ in records:
             timeline.append({'n': n, 'source': 'client', 'unix_time': render_number(t,3), 'p99_ms': render_number(p99,3)})
-        fig, axes = plt.subplots(2, 1, figsize=(12, 7), sharex=True)
+        per_instance = {}
+        for metric_name, promql, scale in (
+                ('completed_rps', REQUEST_RATE, 1),
+                ('cpu_percent_one_core', CPU, 100),
+                ('in_progress', INFLIGHT, 1)):
+            result = query_range(host, promql, start + 5, finish - .1, 5)
+            for instance, t, value in points(result):
+                scaled = value * scale
+                per_instance.setdefault(instance, {}).setdefault(metric_name, []).append((t, scaled))
+                run_metrics.append({'n': n, 'metric': metric_name, 'instance': instance,
+                                    'unix_time': render_number(t,3), 'value': render_number(scaled,5)})
+
+        fig, axes = plt.subplots(3, 1, figsize=(14, 10), sharex=True)
         if records:
             axes[0].plot([(t-start) for t,p,_,_ in records if p is not None],
                          [p for _,p,_,_ in records if p is not None],
@@ -162,25 +182,62 @@ def run(host):
                          label='Server p99 (15s window, 5s step)', linewidth=1.5)
         axes[0].set_ylabel('p99 (ms)')
         axes[1].set_ylabel('Requests/s')
-        axes[1].set_xlabel('Seconds since test start (shared time axis)')
-        for ax in axes:
+        metric_ax = axes[2]
+        cpu_ax = metric_ax.twinx()
+        inflight_ax = metric_ax.twinx()
+        inflight_ax.spines['right'].set_position(('outward', 60))
+        colors = plt.cm.tab10.colors
+        for index, (instance, values) in enumerate(sorted(per_instance.items())):
+            color = colors[index % len(colors)]
+            short = instance.split(':')[0]
+            for metric_name, axis, style in (
+                    ('completed_rps', metric_ax, '-'),
+                    ('cpu_percent_one_core', cpu_ax, '--'),
+                    ('in_progress', inflight_ax, ':')):
+                rows = values.get(metric_name, [])
+                if rows:
+                    axis.plot([t-start for t,_ in rows], [v for _,v in rows],
+                              color=color, linestyle=style, linewidth=1.2,
+                              label=f'{short} {metric_name}')
+        metric_ax.set_ylabel('Completed RPS')
+        cpu_ax.set_ylabel('CPU, % of one core')
+        inflight_ax.set_ylabel('In progress')
+        handles, labels = [], []
+        for axis in (metric_ax, cpu_ax, inflight_ax):
+            axis_handles, axis_labels = axis.get_legend_handles_labels()
+            handles.extend(axis_handles); labels.extend(axis_labels)
+        if handles:
+            metric_ax.legend(handles, labels, loc='upper left', fontsize=7, ncol=3)
+        axes[2].set_xlabel('Seconds since test start (shared time axis)')
+        for ax in (axes[0], axes[1], metric_ax):
             ax.grid(alpha=.2)
-            ax.legend(loc='upper left', fontsize=9)
-        fig.suptitle(f'Lab 2: aligned client/server p99 and request rate, N={n}')
+        axes[0].legend(loc='upper left', fontsize=9)
+        axes[1].legend(loc='upper left', fontsize=9)
+        axes[0].set_title(f'Lab 2: aligned client/server p99 and request rate, N={n}')
         fig.tight_layout()
-        filename = FIG / f'39_aligned_p99_n{n}.png' if n == 1 else FIG / '40_aligned_p99_n4.png'
+        filename = FIG / (figure_n1 if n == 1 else figure_n4)
         fig.savefig(filename, dpi=165)
         plt.close(fig)
         print('Saved:', filename.relative_to(ROOT), f'(server data points: {len(server)})')
 
-    write_csv(OUT / 'aligned_p99_timeline.csv', timeline, ['n','source','unix_time','p99_ms'])
-    print('Saved: results/lab2/peak_prometheus_summary.csv')
-    print('Saved: results/lab2/peak_prometheus_per_instance.csv')
-    print('Saved: results/lab2/aligned_p99_timeline.csv')
+    p99_path = OUT / f'{output_prefix}_aligned_p99_timeline.csv'
+    run_metrics_path = OUT / f'{output_prefix}_aligned_run_metrics.csv'
+    write_csv(p99_path, timeline, ['n','source','unix_time','p99_ms'])
+    write_csv(run_metrics_path, run_metrics, ['n','metric','instance','unix_time','value'])
+    print('Saved:', summary_path)
+    print('Saved:', per_instance_path)
+    print('Saved:', p99_path)
+    print('Saved:', run_metrics_path)
     print('NOTICE: Means are 5s Prometheus samples averaged over the client\'s 15s peak window, not an integral over all requests.')
 
 
 if __name__ == '__main__':
     p = argparse.ArgumentParser()
     p.add_argument('--prometheus', default='http://localhost:9090')
-    run(p.parse_args().prometheus)
+    p.add_argument('--series-template', default='web{n}_final')
+    p.add_argument('--output-prefix', default='lab2')
+    p.add_argument('--figure-n1', default='39_aligned_p99_n1.png')
+    p.add_argument('--figure-n4', default='40_aligned_p99_n4.png')
+    args = p.parse_args()
+    run(args.prometheus, args.series_template, args.output_prefix,
+        args.figure_n1, args.figure_n4)

@@ -1,0 +1,8 @@
+{
+  "captured_at": "2026-11-04",
+  "command": "docker info --format CPUs={{.NCPU}}; TotalMemoryBytes={{.MemTotal}}; ServerVersion={{.ServerVersion}}",
+  "cpus": 12,
+  "total_memory_bytes": 7995183104,
+  "total_memory_gib": 7.446,
+  "server_version": "29.8.2"
+}

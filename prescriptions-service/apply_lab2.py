@@ -61,12 +61,21 @@ async def lab2_metrics(request: Request, call_next):
         HTTP_IN_FLIGHT.dec()
 
 @app.get("/metrics", include_in_schema=False)
-def metrics_endpoint():
+async def metrics_endpoint():
     return Response(generate_latest(), media_type=CONTENT_TYPE_LATEST, headers={"X-Pod": POD_NAME})
 
 @app.get("/livez")
 def livez():
     return {"status": "alive"}
+
+
+@app.exception_handler(Exception)
+async def unhandled_error(request: Request, exc: Exception):
+    return JSONResponse(
+        status_code=500,
+        content={"detail": "Internal Server Error"},
+        headers={"X-Pod": POD_NAME},
+    )
 
 
 '''

@@ -1,0 +1,5 @@
+n,peak_step,target_rps,X_rps,instances_with_data,cpu_cores_per_instance,cpu_percent_one_core_per_instance,in_progress_per_instance
+1,1,200,16.133,1,1.00603,100.60,1075.33333
+2,1,200,200.0,2,0.43189,43.19,1.16667
+3,2,400,399.2,3,0.63786,63.79,2.77778
+4,2,400,399.6,4,0.47232,47.23,1.91667

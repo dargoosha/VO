@@ -1,0 +1,10 @@
+{
+  "X1_rps": 155.533,
+  "sigma_unconstrained": -0.1465496694083875,
+  "kappa_unconstrained": 0.06217705384376543,
+  "sse_unconstrained": 0.00039592808489759105,
+  "sigma_nonnegative": 0.0,
+  "kappa_nonnegative": 0.0223537741132254,
+  "sse_nonnegative": 0.009266782573385554,
+  "interpretation": "Negative unconstrained sigma indicates superlinear measurements for N=2 and N=3. The non-negative USL fit is reported separately and must not be treated as evidence that contention is absent."
+}

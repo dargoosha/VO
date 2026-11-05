@@ -1,0 +1,31 @@
+{
+  "mode": "noop",
+  "base_url": "http://localhost:8080",
+  "unix_start": 1793827032.5360866,
+  "warmup": 10,
+  "step_seconds": 20,
+  "first_step_rps": 200,
+  "increment_rps": 200,
+  "timeout": 5,
+  "connection_limit": 0,
+  "peak_pending": 38974,
+  "X_peak": 999.933,
+  "X_step": {
+    "step": 5,
+    "target_rps": 1000,
+    "success_rps": 999.933,
+    "std_rps": 16.225,
+    "send_rps": 999.733,
+    "p50_ms": 1.0,
+    "p95_ms": 22.0,
+    "p99_ms": 30.0,
+    "http_non2xx": 0,
+    "http_status_non2xx": 0,
+    "connection_errors": 0,
+    "timeouts": 0,
+    "error_fraction": 0.0
+  },
+  "steps": 7,
+  "last_step_target": 1400,
+  "last_step_success": 37.933
+}

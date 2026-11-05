@@ -1,0 +1,123 @@
+STEP {'step': 1, 'target_rps': 200, 'success_rps': 200.0, 'std_rps': 3.033, 'send_rps': 200.0, 'wire_sent_rps': 200.0, 'p50_ms': 2.0, 'p95_ms': 27.0, 'p99_ms': 31.0, 'http_non2xx': 0, 'http_status_non2xx': 0, 'connection_errors': 0, 'timeouts': 0, 'error_fraction': 0.0}
+STEP {'step': 2, 'target_rps': 400, 'success_rps': 399.6, 'std_rps': 4.991, 'send_rps': 400.4, 'wire_sent_rps': 400.4, 'p50_ms': 6.5, 'p95_ms': 34.0, 'p99_ms': 50.5, 'http_non2xx': 0, 'http_status_non2xx': 0, 'connection_errors': 0, 'timeouts': 0, 'error_fraction': 0.0}
+Exception in callback _ProactorBasePipeTransport._call_connection_lost(None)
+handle: <Handle _ProactorBasePipeTransport._call_connection_lost(None)>
+Traceback (most recent call last):
+  File "C:\Python312\Lib\asyncio\events.py", line 88, in _run
+    self._context.run(self._callback, *self._args)
+  File "C:\Python312\Lib\asyncio\proactor_events.py", line 165, in _call_connection_lost
+    self._sock.shutdown(socket.SHUT_RDWR)
+ConnectionResetError: [WinError 10054] An existing connection was forcibly closed by the remote host
+Exception in callback _ProactorBasePipeTransport._call_connection_lost(None)
+handle: <Handle _ProactorBasePipeTransport._call_connection_lost(None)>
+Traceback (most recent call last):
+  File "C:\Python312\Lib\asyncio\events.py", line 88, in _run
+    self._context.run(self._callback, *self._args)
+  File "C:\Python312\Lib\asyncio\proactor_events.py", line 165, in _call_connection_lost
+    self._sock.shutdown(socket.SHUT_RDWR)
+ConnectionResetError: [WinError 10054] An existing connection was forcibly closed by the remote host
+Exception in callback _ProactorBasePipeTransport._call_connection_lost(None)
+handle: <Handle _ProactorBasePipeTransport._call_connection_lost(None)>
+Traceback (most recent call last):
+  File "C:\Python312\Lib\asyncio\events.py", line 88, in _run
+    self._context.run(self._callback, *self._args)
+  File "C:\Python312\Lib\asyncio\proactor_events.py", line 165, in _call_connection_lost
+    self._sock.shutdown(socket.SHUT_RDWR)
+ConnectionResetError: [WinError 10054] An existing connection was forcibly closed by the remote host
+Exception in callback _ProactorBasePipeTransport._call_connection_lost(None)
+handle: <Handle _ProactorBasePipeTransport._call_connection_lost(None)>
+Traceback (most recent call last):
+  File "C:\Python312\Lib\asyncio\events.py", line 88, in _run
+    self._context.run(self._callback, *self._args)
+  File "C:\Python312\Lib\asyncio\proactor_events.py", line 165, in _call_connection_lost
+    self._sock.shutdown(socket.SHUT_RDWR)
+ConnectionResetError: [WinError 10054] An existing connection was forcibly closed by the remote host
+Exception in callback _ProactorBasePipeTransport._call_connection_lost(None)
+handle: <Handle _ProactorBasePipeTransport._call_connection_lost(None)>
+Traceback (most recent call last):
+  File "C:\Python312\Lib\asyncio\events.py", line 88, in _run
+    self._context.run(self._callback, *self._args)
+  File "C:\Python312\Lib\asyncio\proactor_events.py", line 165, in _call_connection_lost
+    self._sock.shutdown(socket.SHUT_RDWR)
+ConnectionResetError: [WinError 10054] An existing connection was forcibly closed by the remote host
+Exception in callback _ProactorBasePipeTransport._call_connection_lost(None)
+handle: <Handle _ProactorBasePipeTransport._call_connection_lost(None)>
+Traceback (most recent call last):
+  File "C:\Python312\Lib\asyncio\events.py", line 88, in _run
+    self._context.run(self._callback, *self._args)
+  File "C:\Python312\Lib\asyncio\proactor_events.py", line 165, in _call_connection_lost
+    self._sock.shutdown(socket.SHUT_RDWR)
+ConnectionResetError: [WinError 10054] An existing connection was forcibly closed by the remote host
+Exception in callback _ProactorBasePipeTransport._call_connection_lost(None)
+handle: <Handle _ProactorBasePipeTransport._call_connection_lost(None)>
+Traceback (most recent call last):
+  File "C:\Python312\Lib\asyncio\events.py", line 88, in _run
+    self._context.run(self._callback, *self._args)
+  File "C:\Python312\Lib\asyncio\proactor_events.py", line 165, in _call_connection_lost
+    self._sock.shutdown(socket.SHUT_RDWR)
+ConnectionResetError: [WinError 10054] An existing connection was forcibly closed by the remote host
+Exception in callback _ProactorBasePipeTransport._call_connection_lost(None)
+handle: <Handle _ProactorBasePipeTransport._call_connection_lost(None)>
+Traceback (most recent call last):
+  File "C:\Python312\Lib\asyncio\events.py", line 88, in _run
+    self._context.run(self._callback, *self._args)
+  File "C:\Python312\Lib\asyncio\proactor_events.py", line 165, in _call_connection_lost
+    self._sock.shutdown(socket.SHUT_RDWR)
+ConnectionResetError: [WinError 10054] An existing connection was forcibly closed by the remote host
+Exception in callback _ProactorBasePipeTransport._call_connection_lost(None)
+handle: <Handle _ProactorBasePipeTransport._call_connection_lost(None)>
+Traceback (most recent call last):
+  File "C:\Python312\Lib\asyncio\events.py", line 88, in _run
+    self._context.run(self._callback, *self._args)
+  File "C:\Python312\Lib\asyncio\proactor_events.py", line 165, in _call_connection_lost
+    self._sock.shutdown(socket.SHUT_RDWR)
+ConnectionResetError: [WinError 10054] An existing connection was forcibly closed by the remote host
+Exception in callback _ProactorBasePipeTransport._call_connection_lost(None)
+handle: <Handle _ProactorBasePipeTransport._call_connection_lost(None)>
+Traceback (most recent call last):
+  File "C:\Python312\Lib\asyncio\events.py", line 88, in _run
+    self._context.run(self._callback, *self._args)
+  File "C:\Python312\Lib\asyncio\proactor_events.py", line 165, in _call_connection_lost
+    self._sock.shutdown(socket.SHUT_RDWR)
+ConnectionResetError: [WinError 10054] An existing connection was forcibly closed by the remote host
+Exception in callback _ProactorBasePipeTransport._call_connection_lost(None)
+handle: <Handle _ProactorBasePipeTransport._call_connection_lost(None)>
+Traceback (most recent call last):
+  File "C:\Python312\Lib\asyncio\events.py", line 88, in _run
+    self._context.run(self._callback, *self._args)
+  File "C:\Python312\Lib\asyncio\proactor_events.py", line 165, in _call_connection_lost
+    self._sock.shutdown(socket.SHUT_RDWR)
+ConnectionResetError: [WinError 10054] An existing connection was forcibly closed by the remote host
+Exception in callback _ProactorBasePipeTransport._call_connection_lost(None)
+handle: <Handle _ProactorBasePipeTransport._call_connection_lost(None)>
+Traceback (most recent call last):
+  File "C:\Python312\Lib\asyncio\events.py", line 88, in _run
+    self._context.run(self._callback, *self._args)
+  File "C:\Python312\Lib\asyncio\proactor_events.py", line 165, in _call_connection_lost
+    self._sock.shutdown(socket.SHUT_RDWR)
+ConnectionResetError: [WinError 10054] An existing connection was forcibly closed by the remote host
+Exception in callback _ProactorBasePipeTransport._call_connection_lost(None)
+handle: <Handle _ProactorBasePipeTransport._call_connection_lost(None)>
+Traceback (most recent call last):
+  File "C:\Python312\Lib\asyncio\events.py", line 88, in _run
+    self._context.run(self._callback, *self._args)
+  File "C:\Python312\Lib\asyncio\proactor_events.py", line 165, in _call_connection_lost
+    self._sock.shutdown(socket.SHUT_RDWR)
+ConnectionResetError: [WinError 10054] An existing connection was forcibly closed by the remote host
+Exception in callback _ProactorBasePipeTransport._call_connection_lost(None)
+handle: <Handle _ProactorBasePipeTransport._call_connection_lost(None)>
+Traceback (most recent call last):
+  File "C:\Python312\Lib\asyncio\events.py", line 88, in _run
+    self._context.run(self._callback, *self._args)
+  File "C:\Python312\Lib\asyncio\proactor_events.py", line 165, in _call_connection_lost
+    self._sock.shutdown(socket.SHUT_RDWR)
+ConnectionResetError: [WinError 10054] An existing connection was forcibly closed by the remote host
+STEP {'step': 3, 'target_rps': 600, 'success_rps': 349.667, 'std_rps': 130.988, 'send_rps': 585.333, 'wire_sent_rps': 547.467, 'p50_ms': 4866.667, 'p95_ms': 6278.733, 'p99_ms': 6622.2, 'http_non2xx': 562, 'http_status_non2xx': 0, 'connection_errors': 1262, 'timeouts': 562, 'error_fraction': 0.207745}
+STEP {'step': 4, 'target_rps': 800, 'success_rps': 130.067, 'std_rps': 142.28, 'send_rps': 655.533, 'wire_sent_rps': 305.267, 'p50_ms': 9054.0, 'p95_ms': 12657.5, 'p99_ms': 13051.05, 'http_non2xx': 5263, 'http_status_non2xx': 0, 'connection_errors': 0, 'timeouts': 5263, 'error_fraction': 0.535238}
+STOP: two consecutive steps below 90% target
+Draining pending tasks (<= timeout)
+FINAL STEP {'step': 1, 'target_rps': 200, 'success_rps': 200.0, 'std_rps': 3.033, 'send_rps': 200.0, 'wire_sent_rps': 200.0, 'p50_ms': 2.0, 'p95_ms': 27.0, 'p99_ms': 31.0, 'http_non2xx': 0, 'http_status_non2xx': 0, 'connection_errors': 0, 'timeouts': 0, 'error_fraction': 0.0}
+FINAL STEP {'step': 2, 'target_rps': 400, 'success_rps': 399.6, 'std_rps': 4.991, 'send_rps': 400.467, 'wire_sent_rps': 400.467, 'p50_ms': 6.5, 'p95_ms': 34.0, 'p99_ms': 50.5, 'http_non2xx': 0, 'http_status_non2xx': 0, 'connection_errors': 0, 'timeouts': 0, 'error_fraction': 0.0}
+FINAL STEP {'step': 3, 'target_rps': 600, 'success_rps': 349.667, 'std_rps': 130.988, 'send_rps': 585.333, 'wire_sent_rps': 547.467, 'p50_ms': 4866.667, 'p95_ms': 6278.733, 'p99_ms': 6622.2, 'http_non2xx': 2059, 'http_status_non2xx': 0, 'connection_errors': 1262, 'timeouts': 2059, 'error_fraction': 0.378246}
+FINAL STEP {'step': 4, 'target_rps': 800, 'success_rps': 130.067, 'std_rps': 142.28, 'send_rps': 655.533, 'wire_sent_rps': 305.267, 'p50_ms': 9054.0, 'p95_ms': 12657.5, 'p99_ms': 13051.05, 'http_non2xx': 8483, 'http_status_non2xx': 0, 'connection_errors': 0, 'timeouts': 8483, 'error_fraction': 0.862707}
+SAVED: results\lab2\corrected_web4_sync_seconds.csv results\lab2\corrected_web4_sync_steps.csv results\lab2\corrected_web4_sync_meta.json

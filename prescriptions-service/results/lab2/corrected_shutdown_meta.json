@@ -1,0 +1,11 @@
+{
+  "endpoint": "/prescriptions/{id}",
+  "ids_file": "results/ids.json",
+  "rps": 50,
+  "duration_seconds": 25,
+  "control_window": "[5,15)",
+  "control_window_requests": 500,
+  "control_window_non2xx_or_errors": 0,
+  "docker_stop_returncode": 0,
+  "container_exit_code": 0
+}
