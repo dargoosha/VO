@@ -1,0 +1,9 @@
+{
+  "captured_at": "2026-11-05",
+  "scope": "environment snapshot captured independently of the 2026-10-26 runs",
+  "cpus": 12,
+  "total_memory_bytes": 7995179008,
+  "total_memory_gib": 7.446,
+  "server_version": "29.8.2",
+  "operating_system": "Docker Desktop"
+}

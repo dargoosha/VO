@@ -1,0 +1,2 @@
+segment_index,segment_name,duration_seconds,target_rps,window_start_second,window_end_second,scheduled_rps,started_rps,wire_sent_rps,sent_rps,success_rps,std_rps,attainment_ratio,p50_client_ms,p95_client_ms,p99_client_ms,http_non2xx,connection_errors,timeouts,queue_rejected,pod_2xx_json
+1,step_1,30,1.0,10,30,1.0,1.0,1.0,1.0,1.0,0.0,1.0,16.0,16.0,16.0,0,0,0,0,"{""595f91773f55"": 5, ""9dddf63e17b5"": 5, ""cc111e5eedc7"": 5, ""e30625a64eb4"": 5}"

@@ -39,7 +39,16 @@ def finite(value: str | float | int | None) -> float | None:
 
 def fit_usl(capacity: dict[int, float]) -> dict[str, float | None]:
     if 1 not in capacity or len(capacity) < 3:
-        return {"lambda": capacity.get(1), "sigma": None, "kappa": None, "n_star": None}
+        return {
+            "lambda": capacity.get(1),
+            "sigma": None,
+            "kappa": None,
+            "n_star": None,
+            "sigma_unconstrained": None,
+            "kappa_unconstrained": None,
+            "sse_unconstrained": None,
+            "sse_nonnegative": None,
+        }
     lam = capacity[1]
     observations: list[tuple[float, float, float]] = []
     for n, throughput in sorted(capacity.items()):
@@ -54,9 +63,20 @@ def fit_usl(capacity: dict[int, float]) -> dict[str, float | None]:
     svy = sum(v * y for _, v, y in observations)
     determinant = suu * svv - suv * suv
     if abs(determinant) < 1e-12:
-        return {"lambda": lam, "sigma": None, "kappa": None, "n_star": None}
-    sigma = (svv * suy - suv * svy) / determinant
-    kappa = (suu * svy - suv * suy) / determinant
+        return {
+            "lambda": lam,
+            "sigma": None,
+            "kappa": None,
+            "n_star": None,
+            "sigma_unconstrained": None,
+            "kappa_unconstrained": None,
+            "sse_unconstrained": None,
+            "sse_nonnegative": None,
+        }
+    sigma_raw = (svv * suy - suv * svy) / determinant
+    kappa_raw = (suu * svy - suv * suy) / determinant
+    sigma = sigma_raw
+    kappa = kappa_raw
     if sigma < 0 and kappa < 0:
         sigma, kappa = 0.0, 0.0
     elif sigma < 0:
@@ -65,8 +85,22 @@ def fit_usl(capacity: dict[int, float]) -> dict[str, float | None]:
     elif kappa < 0:
         kappa = 0.0
         sigma = max(0.0, suy / suu)
+    def sse(model_sigma: float, model_kappa: float) -> float:
+        return sum(
+            (y - model_sigma * u - model_kappa * v) ** 2
+            for u, v, y in observations
+        )
     n_star = math.sqrt((1 - sigma) / kappa) if kappa > 0 and sigma < 1 else None
-    return {"lambda": lam, "sigma": sigma, "kappa": kappa, "n_star": n_star}
+    return {
+        "lambda": lam,
+        "sigma": sigma,
+        "kappa": kappa,
+        "n_star": n_star,
+        "sigma_unconstrained": sigma_raw,
+        "kappa_unconstrained": kappa_raw,
+        "sse_unconstrained": sse(sigma_raw, kappa_raw),
+        "sse_nonnegative": sse(sigma, kappa),
+    }
 
 
 def usl_value(n: float, model: dict[str, float | None]) -> float | None:
@@ -409,6 +443,12 @@ def audit_scheduler_timing(results: Path) -> list[dict[str, Any]]:
 
 def compose_capacity(results: Path) -> dict[int, float]:
     lab2 = results.parent / "lab2"
+    corrected = lab2 / "corrected_fine_peak_summary.csv"
+    if corrected.exists():
+        rows = read_csv(corrected)
+        capacity = {int(row["n"]): float(row["X_rps"]) for row in rows}
+        if {1, 2, 3}.issubset(capacity):
+            return capacity
     capacity: dict[int, float] = {}
     for n in range(1, 5):
         path = lab2 / f"web{n}_final_meta.json"
@@ -419,6 +459,12 @@ def compose_capacity(results: Path) -> dict[int, float]:
 
 def compose_spread(results: Path) -> dict[int, float]:
     lab2 = results.parent / "lab2"
+    corrected = lab2 / "corrected_fine_peak_summary.csv"
+    if corrected.exists():
+        rows = read_csv(corrected)
+        spread = {int(row["n"]): float(row["std_rps"]) for row in rows}
+        if {1, 2, 3}.issubset(spread):
+            return spread
     spread: dict[int, float] = {}
     for n in range(1, 5):
         path = lab2 / f"web{n}_final_meta.json"
@@ -578,11 +624,14 @@ def analyze_d2(results: Path) -> tuple[list[dict[str, Any]], int | None]:
         replicas = int(parts[2].removeprefix("n"))
         meta = read_json(meta_path)
         steps_path = results / f"{stem}_steps.csv"
+        requests_path = results / f"{stem}_requests.csv"
         if not steps_path.exists():
             continue
         measured = [row for row in read_csv(steps_path) if row["segment_name"] != "warmup"]
         peak = max(measured, key=lambda row: float(row["success_rps"]))
         totals = meta.get("totals", {})
+        request_rows = read_csv(requests_path) if requests_path.exists() else []
+        non2xx_rows = [row for row in request_rows if row.get("outcome") == "non2xx"]
         pg_path = results / f"{stem}_pg_stat_activity.txt"
         rows.append({
             "phase": phase,
@@ -590,6 +639,8 @@ def analyze_d2(results: Path) -> tuple[list[dict[str, Any]], int | None]:
             "x_peak_rps": float(peak["success_rps"]),
             "client_p99_ms": finite(peak["p99_client_ms"]),
             "http_non2xx": int(totals.get("non2xx", 0)),
+            "http_non2xx_unknown_pod": sum(
+                row.get("pod") in ("", "unknown") for row in non2xx_rows),
             "connection_errors": int(totals.get("connection_errors", 0)),
             "timeouts": int(totals.get("timeouts", 0)),
             "queue_rejected": int(totals.get("queue_rejected", 0)),
@@ -774,6 +825,11 @@ def main() -> None:
         "kubernetes_usl": k8s_model,
         "kubernetes_spread_rps": k8s_spread,
         "compose_capacity": compose,
+        "compose_source": (
+            "results/lab2/corrected_fine_peak_summary.csv"
+            if (results.parent / "lab2" / "corrected_fine_peak_summary.csv").exists()
+            else "results/lab2/webN_final_meta.json (historical fallback)"
+        ),
         "compose_spread_rps": compose_sd,
         "compose_usl": compose_model,
         "hpa_timings": timings_for_json,
@@ -783,7 +839,7 @@ def main() -> None:
             "USL includes only runs whose final two steps were below 90% of target.",
             "Throttling mean requires every pod at the exact X(N) endpoint; an observed value of 1 still determines the maximum because the ratio is bounded by 1.",
             "Peak client latency is grouped by completion time; peak_latency_summary.csv exposes the planned-segment composition of that window.",
-            "Compose and Kubernetes have different CPU limits and are compared as separate stands.",
+            "The selected Compose series and Kubernetes have different dates, step profiles, and CPU limits; they are compared as separate stands.",
         ],
     }
     (results / "analysis_summary.json").write_text(

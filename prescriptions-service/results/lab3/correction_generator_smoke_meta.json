@@ -1,0 +1,56 @@
+{
+  "command": "steps",
+  "base_url": "http://localhost:8080",
+  "replicas": 1,
+  "connections": 24,
+  "expected_connections_8R": 24,
+  "rotate_after": 100,
+  "timeout_seconds": 5.0,
+  "drain_timeout_seconds": 10.0,
+  "max_pending": 3000,
+  "unix_start": 1793874350.983358,
+  "unix_profile_end": 1793874380.9881933,
+  "unix_finish": 1793874380.9961948,
+  "segments": [
+    {
+      "index": 1,
+      "name": "step_1",
+      "duration_seconds": 30,
+      "target_rps": 1.0,
+      "begin_second": 0,
+      "summary_window_seconds": 20
+    }
+  ],
+  "totals": {
+    "scheduled": 30,
+    "enqueued": 30,
+    "started": 30,
+    "wire_sent": 30,
+    "completed": 30,
+    "ok": 30,
+    "non2xx": 0,
+    "connection_errors": 0,
+    "timeouts": 0,
+    "queue_rejected": 0,
+    "cancelled": 0
+  },
+  "peak_pending": 24,
+  "peak_queue_depth": 24,
+  "sessions_opened": 24,
+  "sessions_rotated": 0,
+  "tcp_connections_established": 24,
+  "stop_reason": "max_rps",
+  "capacity_reached": false,
+  "eligible_for_usl": false,
+  "X_peak": 1.0,
+  "X_std_rps": 0.0,
+  "X_segment": "step_1",
+  "final_attainment_ratio": 1.0,
+  "files": [
+    "results\\lab3\\correction_generator_smoke_seconds.csv",
+    "results\\lab3\\correction_generator_smoke_steps.csv",
+    "results\\lab3\\correction_generator_smoke_requests.csv",
+    "results\\lab3\\correction_generator_smoke_pods_seconds.csv",
+    "results\\lab3\\correction_generator_smoke_errors.csv"
+  ]
+}

@@ -8,7 +8,11 @@
     "lambda": 76.6,
     "sigma": 0.0,
     "kappa": 0.014420044234090356,
-    "n_star": 8.327539544923544
+    "n_star": 8.327539544923544,
+    "sigma_unconstrained": -0.031817815408462735,
+    "kappa_unconstrained": 0.025556279627052314,
+    "sse_unconstrained": 0.0,
+    "sse_nonnegative": 0.00010123733773670089
   },
   "kubernetes_spread_rps": {
     "1": 4.176,
@@ -16,22 +20,27 @@
     "3": 9.423050933157947
   },
   "compose_capacity": {
-    "1": 171.133,
-    "2": 328.2,
-    "3": 424.933,
-    "4": 539.667
+    "1": 155.533,
+    "2": 313.733,
+    "3": 437.6,
+    "4": 474.533
   },
+  "compose_source": "results/lab2/corrected_fine_peak_summary.csv",
   "compose_spread_rps": {
-    "1": 8.853,
-    "2": 9.786,
-    "3": 37.385,
-    "4": 17.906
+    "1": 15.068,
+    "2": 12.025,
+    "3": 31.08,
+    "4": 9.57
   },
   "compose_usl": {
-    "lambda": 171.133,
-    "sigma": 0.06410566270888558,
-    "kappa": 0.00734114245517017,
-    "n_star": 11.290978591387516
+    "lambda": 155.533,
+    "sigma": 0.0,
+    "kappa": 0.0223537741132254,
+    "n_star": 6.688435926299778,
+    "sigma_unconstrained": -0.1465496694083875,
+    "kappa_unconstrained": 0.06217705384376543,
+    "sse_unconstrained": 0.00039592808489759105,
+    "sse_nonnegative": 0.009266782573385554
   },
   "hpa_timings": {
     "desired_change_seconds": 30,
@@ -57,6 +66,6 @@
     "USL includes only runs whose final two steps were below 90% of target.",
     "Throttling mean requires every pod at the exact X(N) endpoint; an observed value of 1 still determines the maximum because the ratio is bounded by 1.",
     "Peak client latency is grouped by completion time; peak_latency_summary.csv exposes the planned-segment composition of that window.",
-    "Compose and Kubernetes have different CPU limits and are compared as separate stands."
+    "The selected Compose series and Kubernetes have different dates, step profiles, and CPU limits; they are compared as separate stands."
   ]
 }

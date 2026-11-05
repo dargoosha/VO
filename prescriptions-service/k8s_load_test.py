@@ -116,6 +116,7 @@ def new_second_bucket() -> dict[str, Any]:
         "scheduled": 0,
         "enqueued": 0,
         "started": 0,
+        "wire_sent": 0,
         "completed": 0,
         "ok": 0,
         "non2xx": 0,
@@ -166,13 +167,28 @@ async def execute(args: argparse.Namespace) -> None:
         return next(segment for segment in segments if segment.index == index)
 
     async def make_session() -> aiohttp.ClientSession:
+        trace_config = aiohttp.TraceConfig()
+
+        async def on_request_headers_sent(session, trace_config_ctx, params):
+            request_state = trace_config_ctx.trace_request_ctx
+            if request_state is not None and not request_state["wire_sent"]:
+                moment = time.monotonic()
+                stats[elapsed_second(moment)]["wire_sent"] += 1
+                request_state["wire_sent"] = True
+                request_state["wire_sent_unix"] = time.time()
+
+        trace_config.on_request_headers_sent.append(on_request_headers_sent)
         connector = aiohttp.TCPConnector(
             limit=1,
             limit_per_host=1,
             keepalive_timeout=args.keepalive_timeout,
             ttl_dns_cache=300,
         )
-        return aiohttp.ClientSession(connector=connector, timeout=timeout)
+        return aiohttp.ClientSession(
+            connector=connector,
+            timeout=timeout,
+            trace_configs=[trace_config],
+        )
 
     async def worker(worker_id: int) -> None:
         nonlocal active_requests, sessions_opened, sessions_rotated, connections_established
@@ -203,9 +219,13 @@ async def execute(args: argparse.Namespace) -> None:
                 pod = "unknown"
                 exception_type = ""
                 exception_message = ""
+                request_state = {"wire_sent": False, "wire_sent_unix": None}
                 try:
                     endpoint = request_base + str(item.record_id)
-                    async with session.get(endpoint) as response:
+                    async with session.get(
+                        endpoint,
+                        trace_request_ctx=request_state,
+                    ) as response:
                         await response.read()
                         status = response.status
                         pod = response.headers.get("X-Pod", "unknown")
@@ -247,6 +267,10 @@ async def execute(args: argparse.Namespace) -> None:
                         "connection_generation": connection_generation,
                         "planned_unix": round(item.planned_unix, 6),
                         "started_unix": round(started_unix, 6),
+                        "wire_sent_unix": (
+                            round(request_state["wire_sent_unix"], 6)
+                            if request_state["wire_sent_unix"] is not None else ""
+                        ),
                         "completed_unix": round(completed_unix, 6),
                         "queue_ms": round(queue_ms, 3),
                         "request_ms": round(request_ms, 3),
@@ -399,7 +423,8 @@ async def execute(args: argparse.Namespace) -> None:
     second_fields = [
         "unix_second", "elapsed_second", "segment_index", "segment_name",
         "segment_second", "target_rps", "scheduled_rps", "enqueued_rps",
-        "started_rps", "sent_rps", "completed_rps", "success_rps", "http_2xx",
+        "started_rps", "wire_sent_rps", "sent_rps", "completed_rps",
+        "success_rps", "http_2xx",
         "http_non2xx", "connection_errors", "timeouts", "queue_rejected",
         "cancelled", "inflight_end", "queue_depth_end", "p50_client_ms",
         "p95_client_ms", "p99_client_ms", "p99_ms", "p50_request_ms",
@@ -423,7 +448,8 @@ async def execute(args: argparse.Namespace) -> None:
                 "scheduled_rps": bucket["scheduled"],
                 "enqueued_rps": bucket["enqueued"],
                 "started_rps": bucket["started"],
-                "sent_rps": bucket["started"],
+                "wire_sent_rps": bucket["wire_sent"],
+                "sent_rps": bucket["wire_sent"],
                 "completed_rps": bucket["completed"],
                 "success_rps": bucket["ok"],
                 "http_2xx": bucket["ok"],
@@ -467,6 +493,8 @@ async def execute(args: argparse.Namespace) -> None:
             "window_end_second": window_end,
             "scheduled_rps": round(sum(stats[s]["scheduled"] for s in seconds) / window_length, 3),
             "started_rps": round(sum(stats[s]["started"] for s in seconds) / window_length, 3),
+            "wire_sent_rps": round(sum(stats[s]["wire_sent"] for s in seconds) / window_length, 3),
+            "sent_rps": round(sum(stats[s]["wire_sent"] for s in seconds) / window_length, 3),
             "success_rps": round(success_rps, 3),
             "std_rps": round(statistics.pstdev(success_values), 3) if len(success_values) > 1 else 0,
             "attainment_ratio": round(success_rps / segment.target_rps, 6),
@@ -486,7 +514,8 @@ async def execute(args: argparse.Namespace) -> None:
 
     request_fields = [
         "request_id", "segment_index", "segment_name", "connection_id",
-        "connection_generation", "planned_unix", "started_unix", "completed_unix",
+        "connection_generation", "planned_unix", "started_unix", "wire_sent_unix",
+        "completed_unix",
         "queue_ms", "request_ms", "client_ms", "status", "outcome", "pod",
     ]
     with requests_path.open("w", newline="", encoding="utf-8") as handle:
@@ -538,7 +567,7 @@ async def execute(args: argparse.Namespace) -> None:
     capacity_reached = bool(final_row and final_row["attainment_ratio"] < 0.9)
     totals = {
         key: sum(stats[second][key] for second in stats)
-        for key in ["scheduled", "enqueued", "started", "completed", "ok", "non2xx",
+        for key in ["scheduled", "enqueued", "started", "wire_sent", "completed", "ok", "non2xx",
                     "connection_errors", "timeouts", "queue_rejected", "cancelled"]
     }
     meta = {
