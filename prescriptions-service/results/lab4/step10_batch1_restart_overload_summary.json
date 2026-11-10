@@ -1,0 +1,16 @@
+{
+  "rate": 34.4279774986684,
+  "batch_size": 1,
+  "duration_seconds": 120,
+  "created": 4131.0,
+  "old_pods": [
+    "worker-d7d9f6c6c-hwqhn",
+    "worker-d7d9f6c6c-llrx2",
+    "worker-d7d9f6c6c-zv8rk"
+  ],
+  "returned_to_queue": 0.0,
+  "failed": 0,
+  "attempts_gt_1": 1,
+  "duplicate_result_tasks": 0,
+  "done": 4131
+}

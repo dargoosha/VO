@@ -1,0 +1,2 @@
+task_id,worker_id,attempts,token,lease_until_epoch
+1,worker-5566f5b8ff-4cbpf,1,1,1794161637.801552

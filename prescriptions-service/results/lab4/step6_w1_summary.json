@@ -1,0 +1,13 @@
+{
+  "workers": 1,
+  "batch": 1,
+  "X_30s": 10.033333,
+  "std_30s": 0.481894,
+  "active_seconds": 39.760557,
+  "tasks": 400,
+  "run_start": 1794149817,
+  "run_end": 1794149861,
+  "claim_p99_seconds": 0.03920000000000002,
+  "db_transactions_per_second": 49.69542685698699,
+  "db_cpu_cores": 0.10108773837874266
+}

@@ -26,3 +26,12 @@ venv/
 # OS files
 .DS_Store
 Thumbs.db
+
+
+# Internal review artifacts
+prescriptions-service/audit_lab*.py
+prescriptions-service/results/lab*/audit.*
+prescriptions-service/results/lab*/corrections_audit.*
+prescriptions-service/results/lab*/PROGRESS.md
+prescriptions-service/results/lab*/diagnostic_*
+prescriptions-service/results/lab4/*_containerd_events.err

@@ -1,0 +1,76 @@
+{
+  "lambda": 10.033333,
+  "sigma": 0.25749998143749764,
+  "kappa": 0.1237500030937504,
+  "w_star": 2.449489742783178,
+  "sigma_unconstrained": 0.25749998143749764,
+  "kappa_unconstrained": 0.1237500030937504,
+  "capacity_x30": {
+    "1": 10.033333,
+    "2": 13.333333,
+    "3": 13.333333
+  },
+  "relative_capacity": {
+    "1": 1.0,
+    "2": 1.3289036654120818,
+    "3": 1.3289036654120818
+  },
+  "active_capacity_supplementary": {
+    "1": 10.060221238852364,
+    "2": 18.871346295054632,
+    "3": 26.483059614360307
+  },
+  "t_io_seconds": 0.019368392100039954,
+  "t_cpu_seconds": 0.0664951158499946,
+  "x1_theoretical": 7.360328134378528,
+  "batch10_x3_30s": 13.333333,
+  "batch10_x3_active_supplementary": 34.53750055907579,
+  "batch10_claim_p99_seconds": 0.008774999999999995,
+  "batch1_claim_p99_seconds": 0.044339130434782575,
+  "step9_theory_comparison": [
+    {
+      "series": "step9_baseline",
+      "metric": "attempts_gt_1",
+      "n": 2799,
+      "observed": 455,
+      "observed_fraction": 0.1625580564487317,
+      "expected_fraction": 0.15,
+      "difference_percentage_points": 1.2558056448731703,
+      "expected_95_low": 0.1367715270223479,
+      "expected_95_high": 0.16322847297765208
+    },
+    {
+      "series": "step9_baseline",
+      "metric": "failed",
+      "n": 2799,
+      "observed": 9,
+      "observed_fraction": 0.003215434083601286,
+      "expected_fraction": 0.0033749999999999995,
+      "difference_percentage_points": -0.01595659163987134,
+      "expected_95_low": 0.0012263909569361644,
+      "expected_95_high": 0.005523609043063834
+    },
+    {
+      "series": "step9_poison",
+      "metric": "attempts_gt_1",
+      "n": 2789,
+      "observed": 423,
+      "observed_fraction": 0.15166726425242022,
+      "expected_fraction": 0.15,
+      "difference_percentage_points": 0.16672642524202252,
+      "expected_95_low": 0.1367478328013589,
+      "expected_95_high": 0.16325216719864108
+    },
+    {
+      "series": "step9_poison",
+      "metric": "failed",
+      "n": 2789,
+      "observed": 9,
+      "observed_fraction": 0.0032269630692004303,
+      "expected_fraction": 0.0033749999999999995,
+      "difference_percentage_points": -0.01480369307995692,
+      "expected_95_low": 0.0012225424690894336,
+      "expected_95_high": 0.005527457530910565
+    }
+  ]
+}

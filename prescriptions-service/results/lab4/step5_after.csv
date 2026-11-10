@@ -1,0 +1,2 @@
+task_id,status,attempts,token,current_worker,result_worker,result_count
+1,done,2,2,worker-5566f5b8ff-bvf5b,worker-5566f5b8ff-bvf5b,1

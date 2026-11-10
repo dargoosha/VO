@@ -1,0 +1,1 @@
+{"status":"success","data":{"resultType":"vector","result":[{"metric":{"step":"claim"},"value":[1794148676.303,"0.0020405230083428254"]},{"metric":{"step":"fetch"},"value":[1794148676.303,"0.008495145750026722"]},{"metric":{"step":"process"},"value":[1794148676.303,"0.0664951158499946"]},{"metric":{"step":"store"},"value":[1794148676.303,"0.010873246350013232"]}]}}

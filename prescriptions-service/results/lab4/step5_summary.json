@@ -1,0 +1,8 @@
+{
+  "task_id": 1,
+  "stopped_worker": "worker-5566f5b8ff-4cbpf",
+  "stopped_at": "2026-11-08T20:13:43.1050082+02:00",
+  "resumed_at": "2026-11-08T20:14:15.0251894+02:00",
+  "before": "1,worker-5566f5b8ff-4cbpf,1,1,1794161637.801552",
+  "after": "1,done,2,2,worker-5566f5b8ff-bvf5b,worker-5566f5b8ff-bvf5b,1"
+}

@@ -1,0 +1,4 @@
+"pod","node","container_id","exit_code","event_file","event_line"
+"worker-5566f5b8ff-4cbpf","prescriptions-lab3-worker2","fe4ebaec127f0fb1a995179d9aca4bfbe83ce40ec4e7f8b5ba27ef28bc6471b3","0","step8_prescriptions-lab3-worker2_containerd_events.log","25"
+"worker-5566f5b8ff-bvf5b","prescriptions-lab3-worker","01f8e4e8c97fe32d18368d411003b41f2e0d0b9fa357736a6937150e1598544f","0","step8_prescriptions-lab3-worker_containerd_events.log","10"
+"worker-5566f5b8ff-pmmpq","prescriptions-lab3-worker2","0837ef2b8d83680cf936d2daf62c65585a6267e3d19cac74d136b6f4f71bb096","0","step8_prescriptions-lab3-worker2_containerd_events.log","1"

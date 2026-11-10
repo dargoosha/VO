@@ -1,0 +1,21 @@
+{
+  "rate": 9.3333331,
+  "batch_size": 1,
+  "duration_seconds": 120,
+  "created": 1119.0,
+  "old_pods": [
+    "worker-5566f5b8ff-4cbpf",
+    "worker-5566f5b8ff-bvf5b",
+    "worker-5566f5b8ff-pmmpq"
+  ],
+  "container_exit_codes": {
+    "worker-5566f5b8ff-4cbpf": 0,
+    "worker-5566f5b8ff-bvf5b": 0,
+    "worker-5566f5b8ff-pmmpq": 0
+  },
+  "returned_to_queue": 0.0,
+  "failed": 0,
+  "attempts_gt_1": 0,
+  "duplicate_result_tasks": 0,
+  "done": 1119
+}

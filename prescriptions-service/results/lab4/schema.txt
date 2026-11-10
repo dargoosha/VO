@@ -1,0 +1,45 @@
+                                                                Table "public.tasks"
+    Column    |           Type           | Collation | Nullable |           Default            | Storage  | Compression | Stats target | Description 
+--------------+--------------------------+-----------+----------+------------------------------+----------+-------------+--------------+-------------
+ id           | bigint                   |           | not null | generated always as identity | plain    |             |              | 
+ record_id    | bigint                   |           | not null |                              | plain    |             |              | 
+ status       | text                     |           | not null | 'queued'::text               | extended |             |              | 
+ seed         | bigint                   |           | not null |                              | plain    |             |              | 
+ attempts     | integer                  |           | not null | 0                            | plain    |             |              | 
+ max_attempts | integer                  |           | not null | 3                            | plain    |             |              | 
+ token        | bigint                   |           | not null | 0                            | plain    |             |              | 
+ lease_until  | timestamp with time zone |           |          |                              | plain    |             |              | 
+ worker_id    | text                     |           |          |                              | extended |             |              | 
+ created_at   | timestamp with time zone |           | not null | clock_timestamp()            | plain    |             |              | 
+ started_at   | timestamp with time zone |           |          |                              | plain    |             |              | 
+ finished_at  | timestamp with time zone |           |          |                              | plain    |             |              | 
+Indexes:
+    "tasks_pkey" PRIMARY KEY, btree (id)
+    "idx_tasks_status_created_at" btree (status, created_at)
+Check constraints:
+    "tasks_attempts_check" CHECK (attempts >= 0)
+    "tasks_max_attempts_check" CHECK (max_attempts > 0)
+    "tasks_seed_check" CHECK (seed >= 0 AND seed <= 2147483647)
+    "tasks_status_check" CHECK (status = ANY (ARRAY['queued'::text, 'running'::text, 'done'::text, 'failed'::text]))
+    "tasks_token_check" CHECK (token >= 0)
+Foreign-key constraints:
+    "tasks_record_id_fkey" FOREIGN KEY (record_id) REFERENCES prescriptions(id) ON DELETE RESTRICT
+Referenced by:
+    TABLE "task_results" CONSTRAINT "task_results_task_id_fkey" FOREIGN KEY (task_id) REFERENCES tasks(id) ON DELETE CASCADE
+Access method: heap
+
+                                                      Table "public.task_results"
+   Column   |           Type           | Collation | Nullable |      Default      | Storage  | Compression | Stats target | Description 
+------------+--------------------------+-----------+----------+-------------------+----------+-------------+--------------+-------------
+ task_id    | bigint                   |           | not null |                   | plain    |             |              | 
+ token      | bigint                   |           | not null |                   | plain    |             |              | 
+ worker_id  | text                     |           | not null |                   | extended |             |              | 
+ result     | jsonb                    |           | not null |                   | extended |             |              | 
+ created_at | timestamp with time zone |           | not null | clock_timestamp() | plain    |             |              | 
+Indexes:
+    "task_results_pkey" PRIMARY KEY, btree (task_id)
+    "idx_task_results_created_at" btree (created_at)
+Foreign-key constraints:
+    "task_results_task_id_fkey" FOREIGN KEY (task_id) REFERENCES tasks(id) ON DELETE CASCADE
+Access method: heap
+

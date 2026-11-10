@@ -1,0 +1,17 @@
+{
+  "captured_at": "2026-11-08T19:52:36.0631957+02:00",
+  "replicas": 3,
+  "image": "prescriptions-worker:lab4",
+  "environment": {
+    "DB_HOST": "postgres",
+    "WEB_URL": "http://web",
+    "T_POLL_MS": "100",
+    "LEASE_SECONDS": "15",
+    "FAIL_RATE": "0",
+    "CLAIM_MODE": "locked",
+    "CLAIM_BATCH_SIZE": "1",
+    "HEARTBEAT_ENABLED": "true",
+    "POISON_SEED_ZERO": "true",
+    "FAULT_TEST_PROCESS_DELAY_SECONDS": "0"
+  }
+}

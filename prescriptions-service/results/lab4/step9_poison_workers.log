@@ -1,0 +1,15 @@
+[pod/worker-95d757bc-2bd52/worker] {"event": "worker_started", "worker_id": "worker-95d757bc-2bd52", "claim_mode": "locked", "batch_size": 1}
+[pod/worker-95d757bc-2bd52/worker] {"event": "task_done", "worker_id": "worker-95d757bc-2bd52", "task_id": 2796, "token": 2}
+[pod/worker-95d757bc-c2fs6/worker] {"event": "lease_expired", "worker_id": "worker-95d757bc-c2fs6", "id": 2754, "status": "queued", "attempts": 1}
+[pod/worker-95d757bc-c2fs6/worker] {"event": "task_done", "worker_id": "worker-95d757bc-c2fs6", "task_id": 2754, "token": 2}
+[pod/worker-95d757bc-c2fs6/worker] {"event": "lease_expired", "worker_id": "worker-95d757bc-c2fs6", "id": 2757, "status": "queued", "attempts": 1}
+[pod/worker-95d757bc-c2fs6/worker] {"event": "task_done", "worker_id": "worker-95d757bc-c2fs6", "task_id": 2757, "token": 2}
+[pod/worker-95d757bc-c2fs6/worker] {"event": "lease_expired", "worker_id": "worker-95d757bc-c2fs6", "id": 2719, "status": "queued", "attempts": 2}
+[pod/worker-95d757bc-c2fs6/worker] {"event": "task_done", "worker_id": "worker-95d757bc-c2fs6", "task_id": 2719, "token": 3}
+[pod/worker-95d757bc-c2fs6/worker] {"event": "lease_expired", "worker_id": "worker-95d757bc-c2fs6", "id": 2778, "status": "queued", "attempts": 1}
+[pod/worker-95d757bc-c2fs6/worker] {"event": "task_done", "worker_id": "worker-95d757bc-c2fs6", "task_id": 2778, "token": 2}
+[pod/worker-95d757bc-c2fs6/worker] {"event": "lease_expired", "worker_id": "worker-95d757bc-c2fs6", "id": 2785, "status": "queued", "attempts": 1}
+[pod/worker-95d757bc-c2fs6/worker] {"event": "task_done", "worker_id": "worker-95d757bc-c2fs6", "task_id": 2785, "token": 2}
+[pod/worker-95d757bc-ll4nj/worker] {"event": "worker_started", "worker_id": "worker-95d757bc-ll4nj", "claim_mode": "locked", "batch_size": 1}
+[pod/worker-95d757bc-ll4nj/worker] {"event": "lease_expired", "worker_id": "worker-95d757bc-ll4nj", "id": 2700, "status": "queued", "attempts": 2}
+[pod/worker-95d757bc-ll4nj/worker] {"event": "lease_expired", "worker_id": "worker-95d757bc-ll4nj", "id": 2796, "status": "queued", "attempts": 1}

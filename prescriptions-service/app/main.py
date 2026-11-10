@@ -1,3 +1,4 @@
+import asyncio
 import os
 import socket
 import time
@@ -20,6 +21,8 @@ from sqlalchemy.orm import (
 )
 from sqlalchemy.exc import IntegrityError
 from sqlalchemy.engine import URL
+
+from app.task_api import build_task_router, update_task_metrics
 
 
 class Base(DeclarativeBase):
@@ -89,14 +92,21 @@ engine = create_engine(
 
 @asynccontextmanager
 async def lifespan(app: FastAPI):
-    yield
-    engine.dispose()
+    stop_event = asyncio.Event()
+    metrics_task = asyncio.create_task(update_task_metrics(engine, stop_event))
+    try:
+        yield
+    finally:
+        stop_event.set()
+        await metrics_task
+        engine.dispose()
 
 
 app = FastAPI(
     title="Prescriptions CRUD API",
     lifespan=lifespan
 )
+app.include_router(build_task_router(engine))
 
 
 # Lab 2: metrics use route templates, never literal patient IDs.
