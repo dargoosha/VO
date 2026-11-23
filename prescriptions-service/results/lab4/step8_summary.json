@@ -1,21 +1,21 @@
 {
-  "rate": 9.3333331,
+  "rate": 23.8035021,
   "batch_size": 1,
   "duration_seconds": 120,
-  "created": 1119.0,
+  "created": 2856.0,
   "old_pods": [
-    "worker-5566f5b8ff-4cbpf",
-    "worker-5566f5b8ff-bvf5b",
-    "worker-5566f5b8ff-pmmpq"
+    "worker-9b567d8fd-858qs",
+    "worker-9b567d8fd-8g6tv",
+    "worker-9b567d8fd-z4s75"
   ],
   "container_exit_codes": {
-    "worker-5566f5b8ff-4cbpf": 0,
-    "worker-5566f5b8ff-bvf5b": 0,
-    "worker-5566f5b8ff-pmmpq": 0
+    "worker-9b567d8fd-858qs": 0,
+    "worker-9b567d8fd-8g6tv": 0,
+    "worker-9b567d8fd-z4s75": 0
   },
   "returned_to_queue": 0.0,
   "failed": 0,
-  "attempts_gt_1": 0,
+  "attempts_gt_1": 1,
   "duplicate_result_tasks": 0,
-  "done": 1119
+  "done": 2856
 }

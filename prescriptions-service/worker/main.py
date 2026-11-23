@@ -49,7 +49,12 @@ class Worker:
         self.batch_size = int(os.getenv("CLAIM_BATCH_SIZE", "1"))
         self.heartbeat_enabled = os.getenv("HEARTBEAT_ENABLED", "true").lower() == "true"
         self.poison_seed_zero = os.getenv("POISON_SEED_ZERO", "true").lower() == "true"
+        self.shutdown_timeout_seconds = float(os.getenv("SHUTDOWN_TIMEOUT_SECONDS", "25"))
+        if not 0 < self.shutdown_timeout_seconds < 30:
+            raise ValueError("SHUTDOWN_TIMEOUT_SECONDS must be greater than 0 and less than 30")
         self.stop_event = threading.Event()
+        self.shutdown_complete = threading.Event()
+        self.shutdown_watchdog_started = threading.Event()
         self.held_lock = threading.Lock()
         self.held: dict[int, int] = {}
         self.db = psycopg.connect(
@@ -68,6 +73,43 @@ class Worker:
     def on_signal(self, signum, _frame) -> None:
         self.log("sigterm", signal=signum)
         self.stop_event.set()
+        if not self.shutdown_watchdog_started.is_set():
+            self.shutdown_watchdog_started.set()
+            threading.Thread(target=self.shutdown_watchdog, daemon=True).start()
+
+    def shutdown_watchdog(self) -> None:
+        if self.shutdown_complete.wait(self.shutdown_timeout_seconds):
+            return
+        with self.held_lock:
+            items = list(self.held.items())
+        released = 0
+        try:
+            with psycopg.connect(
+                host=os.getenv("DB_HOST", "postgres"),
+                user=os.environ["POSTGRES_USER"],
+                password=os.environ["POSTGRES_PASSWORD"],
+                dbname=os.environ["POSTGRES_DB"],
+                autocommit=True,
+            ) as connection:
+                for task_id, token in items:
+                    with connection.cursor() as cursor:
+                        cursor.execute(
+                            """
+                            UPDATE tasks SET status='queued', worker_id=NULL, lease_until=NULL
+                            WHERE id=%s AND token=%s AND status='running'
+                            """,
+                            (task_id, token),
+                        )
+                        released += cursor.rowcount
+            self.log(
+                "graceful_timeout",
+                timeout_seconds=self.shutdown_timeout_seconds,
+                returned_to_queue=released,
+            )
+            os._exit(0)
+        except Exception as exc:
+            self.log("graceful_timeout_error", error=type(exc).__name__, message=str(exc))
+            os._exit(1)
 
     def reconnect(self) -> None:
         try:
@@ -113,7 +155,6 @@ class Worker:
                 if not selected:
                     rows = []
                 else:
-                    time.sleep(0.002)
                     with self.db.cursor() as cursor:
                         cursor.execute(
                             """
@@ -313,10 +354,13 @@ class Worker:
                             self.held.pop(task.id, None)
                             WORKER_IN_FLIGHT.set(len(self.held))
         finally:
-            self.release_held()
-            self.http.close()
-            self.db.close()
-            self.log("worker_stopped", exit_code=0)
+            try:
+                self.release_held()
+                self.http.close()
+                self.db.close()
+                self.log("worker_stopped", exit_code=0)
+            finally:
+                self.shutdown_complete.set()
 
 
 if __name__ == "__main__":

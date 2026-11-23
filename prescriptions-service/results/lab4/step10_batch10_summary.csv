@@ -1,2 +1,2 @@
-"workers","batch","X_30s","std_30s","active_seconds","tasks","run_start","run_end","claim_p99_seconds","db_transactions_per_second","db_cpu_cores"
-"3","10","13.333333","16.683991","11.581614","400","1794152465","1794152480","0.008774999999999995","83.63186703278718","0.07426630566378473"
+"workers","batch","X_active","std_active","active_seconds","X_30s_reference","tasks","run_start","run_end","claim_p99_seconds","db_transactions_per_second","db_cpu_cores"
+"3","10","33.597511","4.459696","11.905644","13.333333","400","1795380933","1795380949","0.035900000000000036","84.33493953995817","0.07647116148730557"

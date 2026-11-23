@@ -1,13 +1,14 @@
 {
   "workers": 3,
   "batch": 10,
-  "X_30s": 13.333333,
-  "std_30s": 16.683991,
-  "active_seconds": 11.581614,
+  "X_active": 33.597511,
+  "std_active": 4.459696,
+  "active_seconds": 11.905644,
+  "X_30s_reference": 13.333333,
   "tasks": 400,
-  "run_start": 1794152465,
-  "run_end": 1794152480,
-  "claim_p99_seconds": 0.008774999999999995,
-  "db_transactions_per_second": 83.63186703278718,
-  "db_cpu_cores": 0.07426630566378473
+  "run_start": 1795380933,
+  "run_end": 1795380949,
+  "claim_p99_seconds": 0.035900000000000036,
+  "db_transactions_per_second": 84.33493953995817,
+  "db_cpu_cores": 0.07647116148730557
 }

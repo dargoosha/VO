@@ -1,21 +1,17 @@
-[pod/worker-745b56764d-4rm7m/worker] {"event": "worker_started", "worker_id": "worker-745b56764d-4rm7m", "claim_mode": "locked", "batch_size": 1}
-[pod/worker-745b56764d-mxwvn/worker] {"event": "worker_started", "worker_id": "worker-745b56764d-mxwvn", "claim_mode": "locked", "batch_size": 1}
-[pod/worker-745b56764d-mxwvn/worker] {"event": "task_done", "worker_id": "worker-745b56764d-mxwvn", "task_id": 2799, "token": 1}
-[pod/worker-745b56764d-mxwvn/worker] {"event": "lease_expired", "worker_id": "worker-745b56764d-mxwvn", "id": 2735, "status": "queued", "attempts": 1}
-[pod/worker-745b56764d-mxwvn/worker] {"event": "task_done", "worker_id": "worker-745b56764d-mxwvn", "task_id": 2735, "token": 2}
-[pod/worker-745b56764d-mxwvn/worker] {"event": "lease_expired", "worker_id": "worker-745b56764d-mxwvn", "id": 2749, "status": "queued", "attempts": 1}
-[pod/worker-745b56764d-mxwvn/worker] {"event": "task_done", "worker_id": "worker-745b56764d-mxwvn", "task_id": 2749, "token": 2}
-[pod/worker-745b56764d-mxwvn/worker] {"event": "lease_expired", "worker_id": "worker-745b56764d-mxwvn", "id": 2774, "status": "queued", "attempts": 1}
-[pod/worker-745b56764d-mxwvn/worker] {"event": "task_done", "worker_id": "worker-745b56764d-mxwvn", "task_id": 2689, "token": 3}
-[pod/worker-745b56764d-mxwvn/worker] {"event": "lease_expired", "worker_id": "worker-745b56764d-mxwvn", "id": 2790, "status": "queued", "attempts": 1}
-[pod/worker-745b56764d-mxwvn/worker] {"event": "task_done", "worker_id": "worker-745b56764d-mxwvn", "task_id": 2790, "token": 2}
-[pod/worker-745b56764d-wtbwz/worker] {"event": "task_done", "worker_id": "worker-745b56764d-wtbwz", "task_id": 2795, "token": 1}
-[pod/worker-745b56764d-wtbwz/worker] {"event": "task_done", "worker_id": "worker-745b56764d-wtbwz", "task_id": 2796, "token": 1}
-[pod/worker-745b56764d-wtbwz/worker] {"event": "task_done", "worker_id": "worker-745b56764d-wtbwz", "task_id": 2797, "token": 1}
-[pod/worker-745b56764d-wtbwz/worker] {"event": "task_done", "worker_id": "worker-745b56764d-wtbwz", "task_id": 2798, "token": 1}
-[pod/worker-745b56764d-wtbwz/worker] {"event": "task_done", "worker_id": "worker-745b56764d-wtbwz", "task_id": 2774, "token": 2}
-[pod/worker-745b56764d-wtbwz/worker] {"event": "lease_expired", "worker_id": "worker-745b56764d-wtbwz", "id": 2782, "status": "queued", "attempts": 1}
-[pod/worker-745b56764d-wtbwz/worker] {"event": "task_done", "worker_id": "worker-745b56764d-wtbwz", "task_id": 2782, "token": 2}
-[pod/worker-745b56764d-wtbwz/worker] {"event": "lease_expired", "worker_id": "worker-745b56764d-wtbwz", "id": 2679, "status": "queued", "attempts": 2}
-[pod/worker-745b56764d-wtbwz/worker] {"event": "task_done", "worker_id": "worker-745b56764d-wtbwz", "task_id": 2679, "token": 3}
-[pod/worker-745b56764d-wtbwz/worker] {"event": "lease_expired", "worker_id": "worker-745b56764d-wtbwz", "id": 2689, "status": "queued", "attempts": 2}
+[pod/worker-67756d4ccb-9jb7n/worker] {"event": "worker_started", "worker_id": "worker-67756d4ccb-9jb7n", "claim_mode": "locked", "batch_size": 1}
+[pod/worker-67756d4ccb-9jb7n/worker] {"event": "task_done", "worker_id": "worker-67756d4ccb-9jb7n", "task_id": 7128, "token": 2}
+[pod/worker-67756d4ccb-9jb7n/worker] {"event": "lease_expired", "worker_id": "worker-67756d4ccb-9jb7n", "id": 7141, "status": "queued", "attempts": 1}
+[pod/worker-67756d4ccb-9jb7n/worker] {"event": "task_done", "worker_id": "worker-67756d4ccb-9jb7n", "task_id": 7141, "token": 2}
+[pod/worker-67756d4ccb-9jb7n/worker] {"event": "lease_expired", "worker_id": "worker-67756d4ccb-9jb7n", "id": 7099, "status": "queued", "attempts": 2}
+[pod/worker-67756d4ccb-9jb7n/worker] {"event": "task_done", "worker_id": "worker-67756d4ccb-9jb7n", "task_id": 7099, "token": 3}
+[pod/worker-67756d4ccb-sd7hv/worker] {"event": "worker_started", "worker_id": "worker-67756d4ccb-sd7hv", "claim_mode": "locked", "batch_size": 1}
+[pod/worker-67756d4ccb-sd7hv/worker] {"event": "lease_expired", "worker_id": "worker-67756d4ccb-sd7hv", "id": 7084, "status": "queued", "attempts": 1}
+[pod/worker-67756d4ccb-sd7hv/worker] {"event": "task_done", "worker_id": "worker-67756d4ccb-sd7hv", "task_id": 7084, "token": 2}
+[pod/worker-67756d4ccb-sd7hv/worker] {"event": "lease_expired", "worker_id": "worker-67756d4ccb-sd7hv", "id": 7057, "status": "queued", "attempts": 2}
+[pod/worker-67756d4ccb-sd7hv/worker] {"event": "task_done", "worker_id": "worker-67756d4ccb-sd7hv", "task_id": 7057, "token": 3}
+[pod/worker-67756d4ccb-sd7hv/worker] {"event": "lease_expired", "worker_id": "worker-67756d4ccb-sd7hv", "id": 7128, "status": "queued", "attempts": 1}
+[pod/worker-67756d4ccb-zbffv/worker] {"event": "worker_started", "worker_id": "worker-67756d4ccb-zbffv", "claim_mode": "locked", "batch_size": 1}
+[pod/worker-67756d4ccb-zbffv/worker] {"event": "lease_expired", "worker_id": "worker-67756d4ccb-zbffv", "id": 7121, "status": "queued", "attempts": 1}
+[pod/worker-67756d4ccb-zbffv/worker] {"event": "task_done", "worker_id": "worker-67756d4ccb-zbffv", "task_id": 7121, "token": 2}
+[pod/worker-67756d4ccb-zbffv/worker] {"event": "lease_expired", "worker_id": "worker-67756d4ccb-zbffv", "id": 7130, "status": "queued", "attempts": 1}
+[pod/worker-67756d4ccb-zbffv/worker] {"event": "task_done", "worker_id": "worker-67756d4ccb-zbffv", "task_id": 7130, "token": 2}

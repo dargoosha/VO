@@ -1,21 +1,15 @@
 {
-  "max_lock_waiters": 0.0,
-  "claim_p99": [
-    {
-      "metric": {},
-      "value": [
-        1794149025.067,
-        "0.007763425829470705"
-      ]
-    }
-  ],
-  "empty_claims": [
-    {
-      "metric": {},
-      "value": [
-        1794149027.154,
-        "83221.04012395292"
-      ]
-    }
-  ]
+  "n": 300,
+  "n_dup_table": 0,
+  "D_table": 0,
+  "n_dup_logs": 0,
+  "D_logs": 0,
+  "task_done_events": 300,
+  "result_rows": 300,
+  "claim_p99_seconds": 0.004989186524239934,
+  "empty_claims": 6294,
+  "lock_samples": 14,
+  "mean_lock_sample_interval_seconds": 0.9942564615384616,
+  "max_lock_sample_interval_seconds": 1.061376,
+  "max_lock_waiters": 0.0
 }

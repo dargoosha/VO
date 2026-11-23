@@ -1,2 +1,2 @@
-n,n_dup,D,result_rows
-300,36,0.120000,337
+"n","n_dup_table","D_table","n_dup_logs","D_logs","task_done_events","result_rows","claim_p99_seconds","empty_claims"
+"300","22","0.07333333333333333","22","0.07333333333333333","322","322","0.023685714285714345","185"

@@ -1,14 +1,14 @@
 {
   "name": "step7_steady",
-  "target_rate": 9.333333099999999,
+  "target_rate": 23.8035021,
   "duration_seconds": 180,
-  "created": 1679.0,
+  "created": 4284.0,
   "window_seconds": 120,
-  "lambda": 9.333333333333334,
-  "Wq_seconds": 0.037668035714285716,
-  "lambda_Wq": 0.35156833333333337,
-  "Lq_measured": 0.27450980392156865,
-  "discrepancy_percent": 28.07132142857143,
-  "start": 1794161754,
-  "end": 1794161937
+  "lambda": 23.8,
+  "Wq_seconds": 0.030441317927170867,
+  "lambda_Wq": 0.7245033666666667,
+  "Lq_measured": 0.68,
+  "discrepancy_percent": 6.5446127450980365,
+  "start": 1795380394,
+  "end": 1795380576
 }

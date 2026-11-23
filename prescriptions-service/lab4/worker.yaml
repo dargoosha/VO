@@ -61,6 +61,8 @@ spec:
               value: "true"
             - name: POISON_SEED_ZERO
               value: "true"
+            - name: SHUTDOWN_TIMEOUT_SECONDS
+              value: "25"
           ports:
             - name: metrics
               containerPort: 9000

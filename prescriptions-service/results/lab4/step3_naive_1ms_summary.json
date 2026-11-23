@@ -1,0 +1,11 @@
+{
+  "n": 300,
+  "n_dup_table": 23,
+  "D_table": 0.07666666666666666,
+  "n_dup_logs": 23,
+  "D_logs": 0.07666666666666666,
+  "task_done_events": 324,
+  "result_rows": 324,
+  "claim_p99_seconds": 0.004154273318872023,
+  "empty_claims": 7716
+}
