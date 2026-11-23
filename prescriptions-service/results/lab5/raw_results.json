@@ -1,0 +1,1000 @@
+{
+  "schema_version": 2,
+  "laboratory": 5,
+  "variant": 6,
+  "structure": "C6 ring buffer of latest service events",
+  "parameters": {
+    "capacity": 1024,
+    "thread_count": 6,
+    "writer_threads": 3,
+    "reader_threads": 3,
+    "warmup_s": 1.0,
+    "duration_s": 10.0,
+    "repeats": 3,
+    "read_limit": 16,
+    "mode_selection": "both",
+    "phase_selection": "both"
+  },
+  "environment": {
+    "captured_at_local": "2026-11-23T15:47:41+0200",
+    "python_version": "3.12.5",
+    "python_implementation": "CPython",
+    "platform": "Windows-10-10.0.19045-SP0",
+    "processor_identifier": "AMD64 Family 23 Model 96 Stepping 1, AuthenticAMD",
+    "logical_cores": 12
+  },
+  "lock_policies": {
+    "global": "single global mutex",
+    "rwlock": "FIFO tickets; consecutive readers share a phase; no barging"
+  },
+  "baseline_runs": [
+    {
+      "kind": "baseline_x1",
+      "mode": "global",
+      "lock_policy": "single global mutex",
+      "repeat": 1,
+      "warmup_s": 1.0,
+      "duration_s": 10.0,
+      "scheduled_wall_s": 11.0,
+      "observed_wall_s": 11.0000019,
+      "pattern": [
+        "write",
+        "read",
+        "write",
+        "read",
+        "write",
+        "read"
+      ],
+      "roles": {
+        "write": {
+          "threads": 1,
+          "operations": 1316296,
+          "duration_samples": 1316296,
+          "duration_sum_ns": 1068192100,
+          "wait_sum_ns": 303022600,
+          "hold_sum_ns": 536033600,
+          "throughput_ops_s": 131629.6,
+          "per_thread_ops_s": 131629.6,
+          "p50_us": 0.7,
+          "p99_us": 1.7,
+          "tail_ratio": 2.428571428571429,
+          "max_wait_ms": 0.989,
+          "wait_fraction": 0.030302259999999998,
+          "cv": 0.0,
+          "mean_hold_us": 0.40722876921300377
+        },
+        "read": {
+          "threads": 1,
+          "operations": 1316296,
+          "duration_samples": 1316296,
+          "duration_sum_ns": 3646568100,
+          "wait_sum_ns": 301710400,
+          "hold_sum_ns": 3105458700,
+          "throughput_ops_s": 131629.6,
+          "per_thread_ops_s": 131629.6,
+          "p50_us": 2.7,
+          "p99_us": 5.4,
+          "tail_ratio": 2.0,
+          "max_wait_ms": 0.2053,
+          "wait_fraction": 0.03017104,
+          "cv": 0.0,
+          "mean_hold_us": 2.359240398816072
+        }
+      },
+      "total": {
+        "operations": 2632592,
+        "throughput_ops_s": 263259.2
+      },
+      "invariants": {
+        "capacity": 1024,
+        "size": 1024,
+        "total_appends_including_warmup": 1479752,
+        "latest_count": 16,
+        "latest_strictly_descending": true,
+        "read_is_pure": true,
+        "valid": true
+      }
+    },
+    {
+      "kind": "baseline_x1",
+      "mode": "global",
+      "lock_policy": "single global mutex",
+      "repeat": 2,
+      "warmup_s": 1.0,
+      "duration_s": 10.0,
+      "scheduled_wall_s": 11.0,
+      "observed_wall_s": 11.0000037,
+      "pattern": [
+        "write",
+        "read",
+        "write",
+        "read",
+        "write",
+        "read"
+      ],
+      "roles": {
+        "write": {
+          "threads": 1,
+          "operations": 1368047,
+          "duration_samples": 1368047,
+          "duration_sum_ns": 1081391000,
+          "wait_sum_ns": 306516400,
+          "hold_sum_ns": 541317600,
+          "throughput_ops_s": 136804.7,
+          "per_thread_ops_s": 136804.7,
+          "p50_us": 0.7,
+          "p99_us": 1.6,
+          "tail_ratio": 2.285714285714286,
+          "max_wait_ms": 0.1367,
+          "wait_fraction": 0.03065164,
+          "cv": 0.0,
+          "mean_hold_us": 0.39568640551092177
+        },
+        "read": {
+          "threads": 1,
+          "operations": 1368047,
+          "duration_samples": 1368047,
+          "duration_sum_ns": 3618656100,
+          "wait_sum_ns": 304112300,
+          "hold_sum_ns": 3068047700,
+          "throughput_ops_s": 136804.7,
+          "per_thread_ops_s": 136804.7,
+          "p50_us": 2.6,
+          "p99_us": 5.3,
+          "tail_ratio": 2.0384615384615383,
+          "max_wait_ms": 0.0721,
+          "wait_fraction": 0.03041123,
+          "cv": 0.0,
+          "mean_hold_us": 2.24264787686388
+        }
+      },
+      "total": {
+        "operations": 2736094,
+        "throughput_ops_s": 273609.4
+      },
+      "invariants": {
+        "capacity": 1024,
+        "size": 1024,
+        "total_appends_including_warmup": 1532872,
+        "latest_count": 16,
+        "latest_strictly_descending": true,
+        "read_is_pure": true,
+        "valid": true
+      }
+    },
+    {
+      "kind": "baseline_x1",
+      "mode": "global",
+      "lock_policy": "single global mutex",
+      "repeat": 3,
+      "warmup_s": 1.0,
+      "duration_s": 10.0,
+      "scheduled_wall_s": 11.0,
+      "observed_wall_s": 11.0000013,
+      "pattern": [
+        "write",
+        "read",
+        "write",
+        "read",
+        "write",
+        "read"
+      ],
+      "roles": {
+        "write": {
+          "threads": 1,
+          "operations": 1350341,
+          "duration_samples": 1350341,
+          "duration_sum_ns": 1086927300,
+          "wait_sum_ns": 307096800,
+          "hold_sum_ns": 546240600,
+          "throughput_ops_s": 135034.1,
+          "per_thread_ops_s": 135034.1,
+          "p50_us": 0.7,
+          "p99_us": 1.7,
+          "tail_ratio": 2.428571428571429,
+          "max_wait_ms": 0.8091,
+          "wait_fraction": 0.03070968,
+          "cv": 0.0,
+          "mean_hold_us": 0.4045204877878995
+        },
+        "read": {
+          "threads": 1,
+          "operations": 1350341,
+          "duration_samples": 1350341,
+          "duration_sum_ns": 3626206100,
+          "wait_sum_ns": 305518900,
+          "hold_sum_ns": 3079039000,
+          "throughput_ops_s": 135034.1,
+          "per_thread_ops_s": 135034.1,
+          "p50_us": 2.6,
+          "p99_us": 5.3,
+          "tail_ratio": 2.0384615384615383,
+          "max_wait_ms": 0.2507,
+          "wait_fraction": 0.030551889999999998,
+          "cv": 0.0,
+          "mean_hold_us": 2.2801936695990124
+        }
+      },
+      "total": {
+        "operations": 2700682,
+        "throughput_ops_s": 270068.2
+      },
+      "invariants": {
+        "capacity": 1024,
+        "size": 1024,
+        "total_appends_including_warmup": 1514872,
+        "latest_count": 16,
+        "latest_strictly_descending": true,
+        "read_is_pure": true,
+        "valid": true
+      }
+    },
+    {
+      "kind": "baseline_x1",
+      "mode": "rwlock",
+      "lock_policy": "FIFO tickets; consecutive readers share a phase; no barging",
+      "repeat": 1,
+      "warmup_s": 1.0,
+      "duration_s": 10.0,
+      "scheduled_wall_s": 11.0,
+      "observed_wall_s": 11.0000058,
+      "pattern": [
+        "write",
+        "read",
+        "write",
+        "read",
+        "write",
+        "read"
+      ],
+      "roles": {
+        "write": {
+          "threads": 1,
+          "operations": 953907,
+          "duration_samples": 953907,
+          "duration_sum_ns": 2163243200,
+          "wait_sum_ns": 990025800,
+          "hold_sum_ns": 401417200,
+          "throughput_ops_s": 95390.7,
+          "per_thread_ops_s": 95390.7,
+          "p50_us": 2.1,
+          "p99_us": 4.8,
+          "tail_ratio": 2.2857142857142856,
+          "max_wait_ms": 0.805,
+          "wait_fraction": 0.09900257999999999,
+          "cv": 0.0,
+          "mean_hold_us": 0.4208137690571513
+        },
+        "read": {
+          "threads": 1,
+          "operations": 953907,
+          "duration_samples": 953907,
+          "duration_sum_ns": 4002729000,
+          "wait_sum_ns": 994351600,
+          "hold_sum_ns": 2147875000,
+          "throughput_ops_s": 95390.7,
+          "per_thread_ops_s": 95390.7,
+          "p50_us": 4.1,
+          "p99_us": 9.0,
+          "tail_ratio": 2.1951219512195124,
+          "max_wait_ms": 0.5314,
+          "wait_fraction": 0.09943516,
+          "cv": 0.0,
+          "mean_hold_us": 2.2516608013150132
+        }
+      },
+      "total": {
+        "operations": 1907814,
+        "throughput_ops_s": 190781.4
+      },
+      "invariants": {
+        "capacity": 1024,
+        "size": 1024,
+        "total_appends_including_warmup": 1063934,
+        "latest_count": 16,
+        "latest_strictly_descending": true,
+        "read_is_pure": true,
+        "valid": true
+      }
+    },
+    {
+      "kind": "baseline_x1",
+      "mode": "rwlock",
+      "lock_policy": "FIFO tickets; consecutive readers share a phase; no barging",
+      "repeat": 2,
+      "warmup_s": 1.0,
+      "duration_s": 10.0,
+      "scheduled_wall_s": 11.0,
+      "observed_wall_s": 11.0000036,
+      "pattern": [
+        "write",
+        "read",
+        "write",
+        "read",
+        "write",
+        "read"
+      ],
+      "roles": {
+        "write": {
+          "threads": 1,
+          "operations": 968130,
+          "duration_samples": 968130,
+          "duration_sum_ns": 2169267800,
+          "wait_sum_ns": 991757200,
+          "hold_sum_ns": 395383400,
+          "throughput_ops_s": 96813.0,
+          "per_thread_ops_s": 96813.0,
+          "p50_us": 2.1,
+          "p99_us": 4.7,
+          "tail_ratio": 2.238095238095238,
+          "max_wait_ms": 0.9275,
+          "wait_fraction": 0.09917572,
+          "cv": 0.0,
+          "mean_hold_us": 0.4083990786361336
+        },
+        "read": {
+          "threads": 1,
+          "operations": 968131,
+          "duration_samples": 968131,
+          "duration_sum_ns": 4017811200,
+          "wait_sum_ns": 991730200,
+          "hold_sum_ns": 2161293400,
+          "throughput_ops_s": 96813.1,
+          "per_thread_ops_s": 96813.1,
+          "p50_us": 4.0,
+          "p99_us": 8.9,
+          "tail_ratio": 2.225,
+          "max_wait_ms": 0.1951,
+          "wait_fraction": 0.09917302,
+          "cv": 0.0,
+          "mean_hold_us": 2.2324389984413266
+        }
+      },
+      "total": {
+        "operations": 1936261,
+        "throughput_ops_s": 193626.1
+      },
+      "invariants": {
+        "capacity": 1024,
+        "size": 1024,
+        "total_appends_including_warmup": 1079065,
+        "latest_count": 16,
+        "latest_strictly_descending": true,
+        "read_is_pure": true,
+        "valid": true
+      }
+    },
+    {
+      "kind": "baseline_x1",
+      "mode": "rwlock",
+      "lock_policy": "FIFO tickets; consecutive readers share a phase; no barging",
+      "repeat": 3,
+      "warmup_s": 1.0,
+      "duration_s": 10.0,
+      "scheduled_wall_s": 11.0,
+      "observed_wall_s": 11.0000003,
+      "pattern": [
+        "write",
+        "read",
+        "write",
+        "read",
+        "write",
+        "read"
+      ],
+      "roles": {
+        "write": {
+          "threads": 1,
+          "operations": 958781,
+          "duration_samples": 958781,
+          "duration_sum_ns": 2168310400,
+          "wait_sum_ns": 989230800,
+          "hold_sum_ns": 397972000,
+          "throughput_ops_s": 95878.1,
+          "per_thread_ops_s": 95878.1,
+          "p50_us": 2.1,
+          "p99_us": 4.6,
+          "tail_ratio": 2.1904761904761902,
+          "max_wait_ms": 3.4658,
+          "wait_fraction": 0.09892308,
+          "cv": 0.0,
+          "mean_hold_us": 0.4150812333577741
+        },
+        "read": {
+          "threads": 1,
+          "operations": 958781,
+          "duration_samples": 958781,
+          "duration_sum_ns": 4013209600,
+          "wait_sum_ns": 993777000,
+          "hold_sum_ns": 2152356700,
+          "throughput_ops_s": 95878.1,
+          "per_thread_ops_s": 95878.1,
+          "p50_us": 4.0,
+          "p99_us": 8.8,
+          "tail_ratio": 2.2,
+          "max_wait_ms": 3.2354,
+          "wait_fraction": 0.0993777,
+          "cv": 0.0,
+          "mean_hold_us": 2.2448887702196854
+        }
+      },
+      "total": {
+        "operations": 1917562,
+        "throughput_ops_s": 191756.2
+      },
+      "invariants": {
+        "capacity": 1024,
+        "size": 1024,
+        "total_appends_including_warmup": 1069811,
+        "latest_count": 16,
+        "latest_strictly_descending": true,
+        "read_is_pure": true,
+        "valid": true
+      }
+    }
+  ],
+  "threaded_runs": [
+    {
+      "kind": "threaded",
+      "mode": "global",
+      "lock_policy": "single global mutex",
+      "repeat": 1,
+      "warmup_s": 1.0,
+      "duration_s": 10.0,
+      "scheduled_wall_s": 11.0,
+      "observed_wall_s": 11.0003739,
+      "thread_count": 6,
+      "writer_threads": 3,
+      "reader_threads": 3,
+      "roles": {
+        "write": {
+          "threads": 3,
+          "operations": 254622,
+          "duration_samples": 254622,
+          "duration_sum_ns": 28346648500,
+          "wait_sum_ns": 27087180700,
+          "hold_sum_ns": 439256500,
+          "throughput_ops_s": 25462.2,
+          "per_thread_ops_s": 8487.4,
+          "p50_us": 104.3,
+          "p99_us": 281.0,
+          "tail_ratio": 2.694151486097795,
+          "max_wait_ms": 4.1064,
+          "wait_fraction": 0.9029060233333334,
+          "cv": 0.0019828615901454683,
+          "mean_hold_us": 1.725131763948127
+        },
+        "read": {
+          "threads": 3,
+          "operations": 259204,
+          "duration_samples": 259204,
+          "duration_sum_ns": 28425330600,
+          "wait_sum_ns": 26243932700,
+          "hold_sum_ns": 1341754300,
+          "throughput_ops_s": 25920.4,
+          "per_thread_ops_s": 8640.133333333333,
+          "p50_us": 104.4,
+          "p99_us": 276.2,
+          "tail_ratio": 2.6455938697318007,
+          "max_wait_ms": 4.0926,
+          "wait_fraction": 0.8747977566666666,
+          "cv": 0.010517465421085788,
+          "mean_hold_us": 5.176441335781854
+        }
+      },
+      "total": {
+        "operations": 513826,
+        "throughput_ops_s": 51382.6
+      },
+      "thread_counts": [
+        {
+          "thread_id": 1,
+          "role": "write",
+          "operations": 85076
+        },
+        {
+          "thread_id": 2,
+          "role": "read",
+          "operations": 87480
+        },
+        {
+          "thread_id": 3,
+          "role": "write",
+          "operations": 84882
+        },
+        {
+          "thread_id": 4,
+          "role": "read",
+          "operations": 85257
+        },
+        {
+          "thread_id": 5,
+          "role": "write",
+          "operations": 84664
+        },
+        {
+          "thread_id": 6,
+          "role": "read",
+          "operations": 86467
+        }
+      ],
+      "invariants": {
+        "capacity": 1024,
+        "size": 1024,
+        "total_appends_including_warmup": 324136,
+        "latest_count": 16,
+        "latest_strictly_descending": true,
+        "read_is_pure": true,
+        "valid": true
+      }
+    },
+    {
+      "kind": "threaded",
+      "mode": "global",
+      "lock_policy": "single global mutex",
+      "repeat": 2,
+      "warmup_s": 1.0,
+      "duration_s": 10.0,
+      "scheduled_wall_s": 11.0,
+      "observed_wall_s": 11.0004132,
+      "thread_count": 6,
+      "writer_threads": 3,
+      "reader_threads": 3,
+      "roles": {
+        "write": {
+          "threads": 3,
+          "operations": 230624,
+          "duration_samples": 230624,
+          "duration_sum_ns": 28339351000,
+          "wait_sum_ns": 27112178100,
+          "hold_sum_ns": 453670900,
+          "throughput_ops_s": 23062.4,
+          "per_thread_ops_s": 7687.466666666667,
+          "p50_us": 111.9,
+          "p99_us": 423.1,
+          "tail_ratio": 3.7810545129579984,
+          "max_wait_ms": 19.3222,
+          "wait_fraction": 0.9037392700000001,
+          "cv": 0.005548814547332359,
+          "mean_hold_us": 1.9671452233939226
+        },
+        "read": {
+          "threads": 3,
+          "operations": 233270,
+          "duration_samples": 233270,
+          "duration_sum_ns": 28416745500,
+          "wait_sum_ns": 26251138900,
+          "hold_sum_ns": 1360017000,
+          "throughput_ops_s": 23327.0,
+          "per_thread_ops_s": 7775.666666666667,
+          "p50_us": 111.8,
+          "p99_us": 412.6,
+          "tail_ratio": 3.6905187835420397,
+          "max_wait_ms": 18.6659,
+          "wait_fraction": 0.8750379633333334,
+          "cv": 0.003717684690604902,
+          "mean_hold_us": 5.830226775839156
+        }
+      },
+      "total": {
+        "operations": 463894,
+        "throughput_ops_s": 46389.4
+      },
+      "thread_counts": [
+        {
+          "thread_id": 1,
+          "role": "write",
+          "operations": 77199
+        },
+        {
+          "thread_id": 2,
+          "role": "read",
+          "operations": 77987
+        },
+        {
+          "thread_id": 3,
+          "role": "write",
+          "operations": 77153
+        },
+        {
+          "thread_id": 4,
+          "role": "read",
+          "operations": 77349
+        },
+        {
+          "thread_id": 5,
+          "role": "write",
+          "operations": 76272
+        },
+        {
+          "thread_id": 6,
+          "role": "read",
+          "operations": 77934
+        }
+      ],
+      "invariants": {
+        "capacity": 1024,
+        "size": 1024,
+        "total_appends_including_warmup": 298687,
+        "latest_count": 16,
+        "latest_strictly_descending": true,
+        "read_is_pure": true,
+        "valid": true
+      }
+    },
+    {
+      "kind": "threaded",
+      "mode": "global",
+      "lock_policy": "single global mutex",
+      "repeat": 3,
+      "warmup_s": 1.0,
+      "duration_s": 10.0,
+      "scheduled_wall_s": 11.0,
+      "observed_wall_s": 11.000484,
+      "thread_count": 6,
+      "writer_threads": 3,
+      "reader_threads": 3,
+      "roles": {
+        "write": {
+          "threads": 3,
+          "operations": 241828,
+          "duration_samples": 241828,
+          "duration_sum_ns": 28354497500,
+          "wait_sum_ns": 27122924300,
+          "hold_sum_ns": 448104000,
+          "throughput_ops_s": 24182.8,
+          "per_thread_ops_s": 8060.933333333333,
+          "p50_us": 106.7,
+          "p99_us": 367.2,
+          "tail_ratio": 3.4414245548266167,
+          "max_wait_ms": 14.5133,
+          "wait_fraction": 0.9040974766666667,
+          "cv": 0.001938685043871023,
+          "mean_hold_us": 1.8529864201002364
+        },
+        "read": {
+          "threads": 3,
+          "operations": 247889,
+          "duration_samples": 247889,
+          "duration_sum_ns": 28402113700,
+          "wait_sum_ns": 26218773900,
+          "hold_sum_ns": 1366284800,
+          "throughput_ops_s": 24788.9,
+          "per_thread_ops_s": 8262.966666666667,
+          "p50_us": 106.5,
+          "p99_us": 355.9,
+          "tail_ratio": 3.341784037558685,
+          "max_wait_ms": 13.7282,
+          "wait_fraction": 0.8739591299999999,
+          "cv": 0.0037078597247638266,
+          "mean_hold_us": 5.51167982443755
+        }
+      },
+      "total": {
+        "operations": 489717,
+        "throughput_ops_s": 48971.7
+      },
+      "thread_counts": [
+        {
+          "thread_id": 1,
+          "role": "write",
+          "operations": 80396
+        },
+        {
+          "thread_id": 2,
+          "role": "read",
+          "operations": 82300
+        },
+        {
+          "thread_id": 3,
+          "role": "write",
+          "operations": 80766
+        },
+        {
+          "thread_id": 4,
+          "role": "read",
+          "operations": 82551
+        },
+        {
+          "thread_id": 5,
+          "role": "write",
+          "operations": 80666
+        },
+        {
+          "thread_id": 6,
+          "role": "read",
+          "operations": 83038
+        }
+      ],
+      "invariants": {
+        "capacity": 1024,
+        "size": 1024,
+        "total_appends_including_warmup": 279387,
+        "latest_count": 16,
+        "latest_strictly_descending": true,
+        "read_is_pure": true,
+        "valid": true
+      }
+    },
+    {
+      "kind": "threaded",
+      "mode": "rwlock",
+      "lock_policy": "FIFO tickets; consecutive readers share a phase; no barging",
+      "repeat": 1,
+      "warmup_s": 1.0,
+      "duration_s": 10.0,
+      "scheduled_wall_s": 11.0,
+      "observed_wall_s": 11.000441,
+      "thread_count": 6,
+      "writer_threads": 3,
+      "reader_threads": 3,
+      "roles": {
+        "write": {
+          "threads": 3,
+          "operations": 72235,
+          "duration_samples": 72235,
+          "duration_sum_ns": 29507830300,
+          "wait_sum_ns": 29245900400,
+          "hold_sum_ns": 117761200,
+          "throughput_ops_s": 7223.5,
+          "per_thread_ops_s": 2407.8333333333335,
+          "p50_us": 408.6,
+          "p99_us": 735.9,
+          "tail_ratio": 1.8010279001468428,
+          "max_wait_ms": 11.1536,
+          "wait_fraction": 0.9748633466666666,
+          "cv": 1.9577954763938465e-05,
+          "mean_hold_us": 1.6302512632380426
+        },
+        "read": {
+          "threads": 3,
+          "operations": 72234,
+          "duration_samples": 72234,
+          "duration_sum_ns": 29540875100,
+          "wait_sum_ns": 28962504500,
+          "hold_sum_ns": 399663200,
+          "throughput_ops_s": 7223.4,
+          "per_thread_ops_s": 2407.7999999999997,
+          "p50_us": 408.8,
+          "p99_us": 732.7,
+          "tail_ratio": 1.7923189823874757,
+          "max_wait_ms": 10.9996,
+          "wait_fraction": 0.9654168166666667,
+          "cv": 0.0,
+          "mean_hold_us": 5.532895866212587
+        }
+      },
+      "total": {
+        "operations": 144469,
+        "throughput_ops_s": 14446.9
+      },
+      "thread_counts": [
+        {
+          "thread_id": 1,
+          "role": "write",
+          "operations": 24078
+        },
+        {
+          "thread_id": 2,
+          "role": "read",
+          "operations": 24078
+        },
+        {
+          "thread_id": 3,
+          "role": "write",
+          "operations": 24079
+        },
+        {
+          "thread_id": 4,
+          "role": "read",
+          "operations": 24078
+        },
+        {
+          "thread_id": 5,
+          "role": "write",
+          "operations": 24078
+        },
+        {
+          "thread_id": 6,
+          "role": "read",
+          "operations": 24078
+        }
+      ],
+      "invariants": {
+        "capacity": 1024,
+        "size": 1024,
+        "total_appends_including_warmup": 83847,
+        "latest_count": 16,
+        "latest_strictly_descending": true,
+        "read_is_pure": true,
+        "valid": true
+      }
+    },
+    {
+      "kind": "threaded",
+      "mode": "rwlock",
+      "lock_policy": "FIFO tickets; consecutive readers share a phase; no barging",
+      "repeat": 2,
+      "warmup_s": 1.0,
+      "duration_s": 10.0,
+      "scheduled_wall_s": 11.0,
+      "observed_wall_s": 11.0003721,
+      "thread_count": 6,
+      "writer_threads": 3,
+      "reader_threads": 3,
+      "roles": {
+        "write": {
+          "threads": 3,
+          "operations": 72589,
+          "duration_samples": 72589,
+          "duration_sum_ns": 29499707900,
+          "wait_sum_ns": 29229640900,
+          "hold_sum_ns": 120672700,
+          "throughput_ops_s": 7258.9,
+          "per_thread_ops_s": 2419.633333333333,
+          "p50_us": 407.2,
+          "p99_us": 730.8,
+          "tail_ratio": 1.7946954813359528,
+          "max_wait_ms": 4.5639,
+          "wait_fraction": 0.9743213633333333,
+          "cv": 1.9482477543058798e-05,
+          "mean_hold_us": 1.6624102825496976
+        },
+        "read": {
+          "threads": 3,
+          "operations": 72588,
+          "duration_samples": 72588,
+          "duration_sum_ns": 29535128100,
+          "wait_sum_ns": 28941739200,
+          "hold_sum_ns": 410794900,
+          "throughput_ops_s": 7258.8,
+          "per_thread_ops_s": 2419.6,
+          "p50_us": 407.6,
+          "p99_us": 730.3,
+          "tail_ratio": 1.7917075564278702,
+          "max_wait_ms": 4.4365,
+          "wait_fraction": 0.96472464,
+          "cv": 0.0,
+          "mean_hold_us": 5.659267372017413
+        }
+      },
+      "total": {
+        "operations": 145177,
+        "throughput_ops_s": 14517.7
+      },
+      "thread_counts": [
+        {
+          "thread_id": 1,
+          "role": "write",
+          "operations": 24197
+        },
+        {
+          "thread_id": 2,
+          "role": "read",
+          "operations": 24196
+        },
+        {
+          "thread_id": 3,
+          "role": "write",
+          "operations": 24196
+        },
+        {
+          "thread_id": 4,
+          "role": "read",
+          "operations": 24196
+        },
+        {
+          "thread_id": 5,
+          "role": "write",
+          "operations": 24196
+        },
+        {
+          "thread_id": 6,
+          "role": "read",
+          "operations": 24196
+        }
+      ],
+      "invariants": {
+        "capacity": 1024,
+        "size": 1024,
+        "total_appends_including_warmup": 83643,
+        "latest_count": 16,
+        "latest_strictly_descending": true,
+        "read_is_pure": true,
+        "valid": true
+      }
+    },
+    {
+      "kind": "threaded",
+      "mode": "rwlock",
+      "lock_policy": "FIFO tickets; consecutive readers share a phase; no barging",
+      "repeat": 3,
+      "warmup_s": 1.0,
+      "duration_s": 10.0,
+      "scheduled_wall_s": 11.0,
+      "observed_wall_s": 11.0004358,
+      "thread_count": 6,
+      "writer_threads": 3,
+      "reader_threads": 3,
+      "roles": {
+        "write": {
+          "threads": 3,
+          "operations": 72822,
+          "duration_samples": 72822,
+          "duration_sum_ns": 29505390700,
+          "wait_sum_ns": 29238032300,
+          "hold_sum_ns": 121458500,
+          "throughput_ops_s": 7282.2,
+          "per_thread_ops_s": 2427.4,
+          "p50_us": 406.7,
+          "p99_us": 727.1,
+          "tail_ratio": 1.7878042783378412,
+          "max_wait_ms": 11.0422,
+          "wait_fraction": 0.9746010766666667,
+          "cv": 0.0,
+          "mean_hold_us": 1.66788195874873
+        },
+        "read": {
+          "threads": 3,
+          "operations": 72821,
+          "duration_samples": 72821,
+          "duration_sum_ns": 29533346700,
+          "wait_sum_ns": 28947388400,
+          "hold_sum_ns": 407426600,
+          "throughput_ops_s": 7282.1,
+          "per_thread_ops_s": 2427.366666666667,
+          "p50_us": 406.9,
+          "p99_us": 723.6,
+          "tail_ratio": 1.7783239125092163,
+          "max_wait_ms": 11.0201,
+          "wait_fraction": 0.9649129466666667,
+          "cv": 1.9420408431264263e-05,
+          "mean_hold_us": 5.594905315774295
+        }
+      },
+      "total": {
+        "operations": 145643,
+        "throughput_ops_s": 14564.3
+      },
+      "thread_counts": [
+        {
+          "thread_id": 1,
+          "role": "write",
+          "operations": 24274
+        },
+        {
+          "thread_id": 2,
+          "role": "read",
+          "operations": 24274
+        },
+        {
+          "thread_id": 3,
+          "role": "write",
+          "operations": 24274
+        },
+        {
+          "thread_id": 4,
+          "role": "read",
+          "operations": 24274
+        },
+        {
+          "thread_id": 5,
+          "role": "write",
+          "operations": 24274
+        },
+        {
+          "thread_id": 6,
+          "role": "read",
+          "operations": 24273
+        }
+      ],
+      "invariants": {
+        "capacity": 1024,
+        "size": 1024,
+        "total_appends_including_warmup": 84253,
+        "latest_count": 16,
+        "latest_strictly_descending": true,
+        "read_is_pure": true,
+        "valid": true
+      }
+    }
+  ]
+}

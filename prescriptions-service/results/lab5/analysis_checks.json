@@ -1,0 +1,21 @@
+{
+  "baseline_run_count": 6,
+  "threaded_run_count": 6,
+  "expected_each_kind": 6,
+  "schema_version": 2,
+  "baseline_runs_per_mode": {
+    "global": 3,
+    "rwlock": 3
+  },
+  "threaded_runs_per_mode": {
+    "global": 3,
+    "rwlock": 3
+  },
+  "run_identities_valid": true,
+  "all_run_formulas_valid": true,
+  "all_invariants_valid": true,
+  "all_reads_pure": true,
+  "all_roles_nonempty": true,
+  "parameters_match_variant": true,
+  "passed": true
+}

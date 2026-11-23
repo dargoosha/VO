@@ -1,0 +1,13 @@
+mode,thread_id,role,median_operations,run_1_operations,run_2_operations,run_3_operations
+global,1,write,80396.0,85076,77199,80396
+global,2,read,82300.0,87480,77987,82300
+global,3,write,80766.0,84882,77153,80766
+global,4,read,82551.0,85257,77349,82551
+global,5,write,80666.0,84664,76272,80666
+global,6,read,83038.0,86467,77934,83038
+rwlock,1,write,24197.0,24078,24197,24274
+rwlock,2,read,24196.0,24078,24196,24274
+rwlock,3,write,24196.0,24079,24196,24274
+rwlock,4,read,24196.0,24078,24196,24274
+rwlock,5,write,24196.0,24078,24196,24274
+rwlock,6,read,24196.0,24078,24196,24273
