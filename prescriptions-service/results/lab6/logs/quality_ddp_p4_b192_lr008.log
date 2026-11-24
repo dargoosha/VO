@@ -1,0 +1,8 @@
+command: /usr/local/bin/python -m torch.distributed.run --standalone --nproc_per_node=4 lab6/train.py --action train --mode ddp --data /workspace/lab6/data/octmnist.npz --output /workspace/results/lab6/raw/quality_ddp_p4_b192_lr008.json --global-batch 192 --lr 0.08 --epochs 3 --threads 1
+[Gloo] Rank 1 is connected to 3 peer ranks. Expected number of connected peer ranks is : 3
+[Gloo] Rank 2 is connected to 3 peer ranks. Expected number of connected peer ranks is : 3
+[Gloo] Rank 0 is connected to 3 peer ranks. Expected number of connected peer ranks is : 3
+[Gloo] Rank 3 is connected to 3 peer ranks. Expected number of connected peer ranks is : 3
+{"kind": "quality", "mode": "ddp", "world_size": 4, "global_batch": 192, "local_batch": 48, "learning_rate": 0.08, "epochs": 3, "optimizer_steps": 108, "training_duration_s": 21.10770036500253, "acc": 0.456, "auc": 0.791172, "max_loss_last_epoch": 1.0375378280878067, "model": {"parameter_tensors": 8, "n_params": 3288324, "gradient_bytes": 13153296, "gradient_mib": 12.543960571289062}, "runtime": {"python": "3.12.15", "python_implementation": "CPython", "pytorch": "2.9.1+cpu", "numpy": "2.5.4", "platform": "Linux-6.18.58.1-microsoft-standard-WSL2-x86_64-with-glibc2.41", "processor": "", "logical_cpus_visible": 12, "torch_threads": 1, "torch_interop_threads": 1, "gloo_socket_ifname": "lo"}}
+return_code: 0
+duration_s: 32.379305

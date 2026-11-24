@@ -1,0 +1,16 @@
+command: /usr/local/bin/python -m torch.distributed.run --nnodes=1 --nproc_per_node=4 --max-restarts=1 --rdzv-backend=static --master-addr=127.0.0.1 --master-port=29650 --node-rank=0 lab6/train.py --action fault --mode ddp --data /workspace/lab6/data/octmnist.npz --output /workspace/results/lab6/raw/fault_ddp_p4_b192.json --global-batch 192 --lr 0.02 --epochs 3 --threads 1 --work-dir /tmp/prescriptions-lab6-fault --restart-delay-s 5
+[Gloo] Rank 2 is connected to 3 peer ranks. Expected number of connected peer ranks is : 3
+[Gloo] Rank 0 is connected to 3 peer ranks. Expected number of connected peer ranks is : 3
+[Gloo] Rank 1 is connected to 3 peer ranks. Expected number of connected peer ranks is : 3
+[Gloo] Rank 3 is connected to 3 peer ranks. Expected number of connected peer ranks is : 3
+W1123 21:17:27.956000 237 site-packages/torch/distributed/elastic/multiprocessing/api.py:908] Sending process 239 closing signal SIGTERM
+W1123 21:17:27.957000 237 site-packages/torch/distributed/elastic/multiprocessing/api.py:908] Sending process 240 closing signal SIGTERM
+W1123 21:17:27.958000 237 site-packages/torch/distributed/elastic/multiprocessing/api.py:908] Sending process 241 closing signal SIGTERM
+E1123 21:17:28.023000 237 site-packages/torch/distributed/elastic/multiprocessing/api.py:882] failed (exitcode: 1) local_rank: 3 (pid: 242) of binary: /usr/local/bin/python
+[Gloo] Rank 0 is connected to 3 peer ranks. Expected number of connected peer ranks is : 3
+[Gloo] Rank 1 is connected to 3 peer ranks. Expected number of connected peer ranks is : 3
+[Gloo] Rank [Gloo] Rank 3 is connected to 3 peer ranks. Expected number of connected peer ranks is : 3
+2 is connected to 3 peer ranks. Expected number of connected peer ranks is : 3
+{"kind": "fault_recovery", "mode": "ddp", "world_size": 4, "global_batch": 192, "local_batch": 48, "learning_rate": 0.02, "epochs": 3, "optimizer_steps": 108, "checkpoint_interval": 20, "failure_step": 50, "failure_rank": 3, "last_checkpoint_step": 40, "repeated_steps": 9, "restart_count": 1, "restart_delay_s": 5.0, "first_recovered_step": 41, "checkpoint_to_failure_s": 1.7733781280003313, "failure_to_first_recovered_step_s": 11.581726907999837, "t_lost_s": 13.355105036000168, "training_duration_after_final_start_s": 13.642037404999428, "acc": 0.297, "auc": 0.6860013333333334, "model": {"parameter_tensors": 8, "n_params": 3288324, "gradient_bytes": 13153296, "gradient_mib": 12.543960571289062}, "runtime": {"python": "3.12.15", "python_implementation": "CPython", "pytorch": "2.9.1+cpu", "numpy": "2.5.4", "platform": "Linux-6.18.58.1-microsoft-standard-WSL2-x86_64-with-glibc2.41", "processor": "", "logical_cpus_visible": 12, "torch_threads": 1, "torch_interop_threads": 1, "gloo_socket_ifname": "lo"}}
+return_code: 0
+duration_s: 46.241990

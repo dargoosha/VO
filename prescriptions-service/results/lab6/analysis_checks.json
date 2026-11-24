@@ -1,0 +1,56 @@
+{
+  "passed": true,
+  "checks": [
+    {
+      "name": "parameter_count",
+      "passed": true,
+      "value": 3288324
+    },
+    {
+      "name": "gradient_equivalence",
+      "passed": true,
+      "value": 5.40402495264941e-06
+    },
+    {
+      "name": "manual_weight_identity",
+      "passed": true,
+      "value": 0.0
+    },
+    {
+      "name": "quality_step_counts",
+      "passed": true,
+      "value": [
+        435,
+        108,
+        108
+      ]
+    },
+    {
+      "name": "fault_checkpoint",
+      "passed": true,
+      "value": {
+        "last_checkpoint_step": 40,
+        "repeated_steps": 9,
+        "restart_count": 1
+      }
+    },
+    {
+      "name": "fault_loss_reproducibility",
+      "passed": true,
+      "value": 2.9802322387695312e-08
+    },
+    {
+      "name": "fault_quality_reproducibility",
+      "passed": true,
+      "value": {
+        "acc_difference": 0.0,
+        "auc_difference": 0.000160000000000049
+      }
+    },
+    {
+      "name": "finite_scaling_metrics",
+      "passed": true,
+      "value": true
+    }
+  ]
+}

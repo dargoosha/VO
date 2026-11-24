@@ -4,5 +4,9 @@ __pycache__
 *.pyc
 .env
 results/
+images/
+.cdxlabcontext/
+lab6/data/
+lab6/work/
 REPORT.md
 README.md

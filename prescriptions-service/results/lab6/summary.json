@@ -1,0 +1,251 @@
+{
+  "synchronization": [
+    {
+      "mode": "single_B192",
+      "processes": 1,
+      "t_step_ms": 477.9300405007234,
+      "communication_ms": 0.0,
+      "communication_fraction": 0.0,
+      "throughput_examples_s": 392.12058182025027
+    },
+    {
+      "mode": "manual_all_reduce_P4",
+      "processes": 4,
+      "t_step_ms": 214.60357750038384,
+      "communication_ms": 65.11854950076668,
+      "communication_fraction": 0.303436458325818,
+      "throughput_examples_s": 883.8075320832753
+    },
+    {
+      "mode": "DDP_P4",
+      "processes": 4,
+      "t_step_ms": 195.33573250009795,
+      "communication_ms": 56.873341998652904,
+      "communication_fraction": 0.2911568778058791,
+      "throughput_examples_s": 964.9498436757551
+    },
+    {
+      "mode": "DDP_no_sync_P4",
+      "processes": 4,
+      "t_step_ms": 138.46239050144504,
+      "communication_ms": 0.0,
+      "communication_fraction": 0.0,
+      "throughput_examples_s": 1361.346633710145
+    }
+  ],
+  "strong_scaling": [
+    {
+      "processes": 1,
+      "local_batch": 192,
+      "global_batch": 192,
+      "t_step_ms": 450.7963264986756,
+      "t_step_no_sync_ms": 436.1759264993452,
+      "exposed_communication_ms": 14.620399999330402,
+      "throughput_examples_s": 420.5255460584104,
+      "speedup": 1.0,
+      "efficiency": 1.0,
+      "karp_flatt": null,
+      "communication_fraction": 0.03243238495949313
+    },
+    {
+      "processes": 2,
+      "local_batch": 96,
+      "global_batch": 192,
+      "t_step_ms": 246.62382300084573,
+      "t_step_no_sync_ms": 230.17343550054647,
+      "exposed_communication_ms": 16.450387500299257,
+      "throughput_examples_s": 765.3243983515756,
+      "speedup": 1.8199236777051189,
+      "efficiency": 0.9099618388525594,
+      "karp_flatt": 0.09894718361044297,
+      "communication_fraction": 0.06670234570260004
+    },
+    {
+      "processes": 3,
+      "local_batch": 64,
+      "global_batch": 192,
+      "t_step_ms": 205.76044950030337,
+      "t_step_no_sync_ms": 160.6337795001309,
+      "exposed_communication_ms": 45.12667000017245,
+      "throughput_examples_s": 920.1007753715346,
+      "speedup": 2.1879783142680562,
+      "efficiency": 0.7293261047560188,
+      "karp_flatt": 0.18556438161124766,
+      "communication_fraction": 0.21931654071404
+    },
+    {
+      "processes": 4,
+      "local_batch": 48,
+      "global_batch": 192,
+      "t_step_ms": 195.33573250009795,
+      "t_step_no_sync_ms": 138.46239050144504,
+      "exposed_communication_ms": 56.873341998652904,
+      "throughput_examples_s": 964.9498436757551,
+      "speedup": 2.2946283590146628,
+      "efficiency": 0.5736570897536657,
+      "karp_flatt": 0.2477338918211054,
+      "communication_fraction": 0.2911568778058791
+    }
+  ],
+  "weak_scaling": [
+    {
+      "processes": 1,
+      "local_batch": 48,
+      "global_batch": 48,
+      "t_step_ms": 107.1773644998757,
+      "throughput_examples_s": 443.2938665941368,
+      "scaled_speedup": 1.0,
+      "weak_efficiency": 1.0
+    },
+    {
+      "processes": 2,
+      "local_batch": 48,
+      "global_batch": 96,
+      "t_step_ms": 139.6763180000562,
+      "throughput_examples_s": 670.4059583223575,
+      "scaled_speedup": 1.5123285225512855,
+      "weak_efficiency": 0.7561642612756427
+    },
+    {
+      "processes": 3,
+      "local_batch": 48,
+      "global_batch": 144,
+      "t_step_ms": 163.67715950036654,
+      "throughput_examples_s": 844.8677920025914,
+      "scaled_speedup": 1.9058864912654445,
+      "weak_efficiency": 0.6352954970884815
+    },
+    {
+      "processes": 4,
+      "local_batch": 48,
+      "global_batch": 192,
+      "t_step_ms": 195.33573250009795,
+      "throughput_examples_s": 964.9498436757551,
+      "scaled_speedup": 2.176772376955143,
+      "weak_efficiency": 0.5441930942387857
+    }
+  ],
+  "quality": [
+    {
+      "mode": "P1_B48_eta0",
+      "processes": 1,
+      "global_batch": 48,
+      "learning_rate": 0.02,
+      "optimizer_steps": 435,
+      "acc": 0.456,
+      "auc": 0.8071946666666665,
+      "max_loss_last_epoch": 1.2809816598892212
+    },
+    {
+      "mode": "P4_B192_eta0",
+      "processes": 4,
+      "global_batch": 192,
+      "learning_rate": 0.02,
+      "optimizer_steps": 108,
+      "acc": 0.297,
+      "auc": 0.6858413333333333,
+      "max_loss_last_epoch": 1.253848820924759
+    },
+    {
+      "mode": "P4_B192_eta_linear",
+      "processes": 4,
+      "global_batch": 192,
+      "learning_rate": 0.08,
+      "optimizer_steps": 108,
+      "acc": 0.456,
+      "auc": 0.791172,
+      "max_loss_last_epoch": 1.0375378280878067
+    }
+  ],
+  "gradient_equivalence": {
+    "max_relative_gradient_difference": 5.40402495264941e-06,
+    "max_absolute_gradient_difference": 7.078051567077637e-08,
+    "per_tensor_relative_differences": [
+      5.40402495264941e-06,
+      4.191394280848952e-06,
+      3.4623691497806314e-06,
+      2.475912466590656e-06,
+      5.441077106918362e-07,
+      1.5634875622610063e-07,
+      4.697614992682525e-07,
+      1.4108598965331787e-07
+    ],
+    "local_indices_rank0": [
+      0,
+      4,
+      8,
+      12,
+      16,
+      20,
+      24,
+      28,
+      32,
+      36,
+      40,
+      44,
+      48,
+      52,
+      56,
+      60,
+      64,
+      68,
+      72,
+      76,
+      80,
+      84,
+      88,
+      92,
+      96,
+      100,
+      104,
+      108,
+      112,
+      116,
+      120,
+      124,
+      128,
+      132,
+      136,
+      140,
+      144,
+      148,
+      152,
+      156,
+      160,
+      164,
+      168,
+      172,
+      176,
+      180,
+      184,
+      188
+    ]
+  },
+  "manual_weight_sum_range": 0.0,
+  "single_quality_b192": {
+    "acc": 0.295,
+    "auc": 0.6765066666666666,
+    "optimizer_steps": 108
+  },
+  "ddp_quality_b192": {
+    "acc": 0.297,
+    "auc": 0.6858413333333333,
+    "optimizer_steps": 108
+  },
+  "fault": {
+    "checkpoint_interval": 20,
+    "failure_step": 50,
+    "last_checkpoint_step": 40,
+    "repeated_steps": 9,
+    "restart_count": 1,
+    "first_recovered_step": 41,
+    "checkpoint_to_failure_s": 1.7733781280003313,
+    "failure_to_first_recovered_step_s": 11.581726907999837,
+    "t_lost_s": 13.355105036000168,
+    "acc_with_failure": 0.297,
+    "acc_without_failure": 0.297,
+    "auc_with_failure": 0.6860013333333334,
+    "auc_without_failure": 0.6858413333333333,
+    "max_loss_difference_steps_48_52": 2.9802322387695312e-08
+  }
+}

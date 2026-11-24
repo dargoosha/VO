@@ -1,0 +1,4 @@
+command: /usr/local/bin/python lab6/train.py --action train --mode single --data /workspace/lab6/data/octmnist.npz --output /workspace/results/lab6/raw/quality_single_b48.json --global-batch 48 --lr 0.02 --epochs 3 --threads 1
+{"kind": "quality", "mode": "single", "world_size": 1, "global_batch": 48, "local_batch": 48, "learning_rate": 0.02, "epochs": 3, "optimizer_steps": 435, "training_duration_s": 45.27779658600048, "acc": 0.456, "auc": 0.8071946666666665, "max_loss_last_epoch": 1.2809816598892212, "model": {"parameter_tensors": 8, "n_params": 3288324, "gradient_bytes": 13153296, "gradient_mib": 12.543960571289062}, "runtime": {"python": "3.12.15", "python_implementation": "CPython", "pytorch": "2.9.1+cpu", "numpy": "2.5.4", "platform": "Linux-6.18.58.1-microsoft-standard-WSL2-x86_64-with-glibc2.41", "processor": "", "logical_cpus_visible": 12, "torch_threads": 1, "torch_interop_threads": 1, "gloo_socket_ifname": "lo"}}
+return_code: 0
+duration_s: 52.796754

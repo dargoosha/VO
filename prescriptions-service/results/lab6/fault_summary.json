@@ -1,0 +1,16 @@
+{
+  "checkpoint_interval": 20,
+  "failure_step": 50,
+  "last_checkpoint_step": 40,
+  "repeated_steps": 9,
+  "restart_count": 1,
+  "first_recovered_step": 41,
+  "checkpoint_to_failure_s": 1.7733781280003313,
+  "failure_to_first_recovered_step_s": 11.581726907999837,
+  "t_lost_s": 13.355105036000168,
+  "acc_with_failure": 0.297,
+  "acc_without_failure": 0.297,
+  "auc_with_failure": 0.6860013333333334,
+  "auc_without_failure": 0.6858413333333333,
+  "max_loss_difference_steps_48_52": 2.9802322387695312e-08
+}

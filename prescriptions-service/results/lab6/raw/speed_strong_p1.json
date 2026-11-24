@@ -1,0 +1,38 @@
+{
+  "kind": "speed",
+  "mode": "ddp",
+  "world_size": 1,
+  "global_batch": 192,
+  "local_batch": 192,
+  "learning_rate": 0.02,
+  "warmup_steps": 10,
+  "measure_steps": 50,
+  "median_step_s": 0.4507963264986756,
+  "median_step_ms": 450.7963264986756,
+  "measured_duration_s": 22.828577454998594,
+  "throughput_examples_s": 420.5255460584104,
+  "median_sync_s": 0.0,
+  "median_sync_ms": 0.0,
+  "weight_sum_range_after_50_steps": 0.0,
+  "loss_first": 1.3775705099105835,
+  "loss_last": 1.1374365091323853,
+  "gradient_equivalence": null,
+  "model": {
+    "parameter_tensors": 8,
+    "n_params": 3288324,
+    "gradient_bytes": 13153296,
+    "gradient_mib": 12.543960571289062
+  },
+  "runtime": {
+    "python": "3.12.15",
+    "python_implementation": "CPython",
+    "pytorch": "2.9.1+cpu",
+    "numpy": "2.5.4",
+    "platform": "Linux-6.18.58.1-microsoft-standard-WSL2-x86_64-with-glibc2.41",
+    "processor": "",
+    "logical_cpus_visible": 12,
+    "torch_threads": 1,
+    "torch_interop_threads": 1,
+    "gloo_socket_ifname": "lo"
+  }
+}

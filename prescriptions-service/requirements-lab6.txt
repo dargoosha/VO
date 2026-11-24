@@ -1,0 +1,6 @@
+# torch 2.9.1 and torchvision 0.24.1 are installed from the CPU wheel index.
+numpy>=2.0,<3
+scikit-learn>=1.6,<2
+medmnist>=3.0,<4
+matplotlib>=3.9,<4
+
